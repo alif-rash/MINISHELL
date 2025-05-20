@@ -6,7 +6,7 @@
 /*   By: hparveen <hparveen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 13:10:12 by hparveen          #+#    #+#             */
-/*   Updated: 2025/05/20 13:15:04 by hparveen         ###   ########.fr       */
+/*   Updated: 2025/05/20 13:49:52 by hparveen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,21 +54,22 @@ char	*add_quote(char *str)
 
 int	assign_value(t_env **env_node, char *env_variable, int *start_index)
 {
-	// char *quoted;
+	char	*quoted;
+
 	(*env_node)->value = ft_substr(env_variable, *start_index,
 			ft_strlen(env_variable) - *start_index);
 	if (!(*env_node)->value)
 		return (free_function((void **)&(*env_node)->key,
 				(void **)&(*env_node)->env, NULL, NULL), 1);
-	// quoted = add_quote((*env_node)->value);
-	// if(!quoted)
-	// {
-	//     free((*env_node)->value);
-	//     return(free_function((void **)&(*env_node)->key,
-			// (void **)&(*env_node)->env, (void **)&(*env_node), NULL), 1);
-	// }
-	// free((*env_node)->value);
-	// (*env_node)->value = quoted;
+	quoted = add_quote((*env_node)->value);
+	if (!quoted)
+	{
+		free((*env_node)->value);
+		return (free_function((void **)&(*env_node)->key,
+				(void **)&(*env_node)->env, (void **)&(*env_node), NULL), 1);
+	}
+	free((*env_node)->value);
+	(*env_node)->value = quoted;
 	return (0);
 }
 

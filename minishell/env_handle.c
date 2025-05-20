@@ -6,7 +6,7 @@
 /*   By: hparveen <hparveen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 13:10:07 by hparveen          #+#    #+#             */
-/*   Updated: 2025/05/20 13:14:06 by hparveen         ###   ########.fr       */
+/*   Updated: 2025/05/20 13:48:35 by hparveen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ char	*shlvl_value(char *value)
 	{
 		if (!((value[i] >= '0' && value[i] <= '9') || (value[0] == '-')
 				|| (value[0] == '+')))
-			return (ft_strdup("1"));
+			return (ft_strdup("\"1\""));
 		i++;
 	}
 	return (ft_return_shlvl(value));
@@ -40,7 +40,7 @@ void	update_shlvl(t_shell *shell)
 		{
 			env_node->flag = 1;
 			if (env_node->value == NULL)
-				env_node->value = ft_strdup("1");
+				env_node->value = ft_strdup("\"1\"");
 			else
 			{
 				updated_value = shlvl_value(env_node->value);
@@ -52,7 +52,7 @@ void	update_shlvl(t_shell *shell)
 		env_node = env_node->next;
 	}
 	if (!search_in_env(shell, "SHLVL"))
-		new_env(shell, ft_strdup("SHLVL"), ft_strdup("1"), 1);
+		new_env(shell, ft_strdup("SHLVL"), ft_strdup("\"1\""), 1);
 }
 
 char	*search_in_env(t_shell *shell, char *key)

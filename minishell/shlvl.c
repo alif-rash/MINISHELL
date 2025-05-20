@@ -6,7 +6,7 @@
 /*   By: hparveen <hparveen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 13:10:26 by hparveen          #+#    #+#             */
-/*   Updated: 2025/05/20 13:14:34 by hparveen         ###   ########.fr       */
+/*   Updated: 2025/05/20 13:49:27 by hparveen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,5 +50,5 @@ char	*ft_return_shlvl(char *value)
 	if ((sign == 1 && number > 9223372036854775807ULL) || (sign == -1
 			&& number > 9223372036854775808ULL))
 		return (ft_strdup("1"));
-	return (ft_itoa(sign * (int)number));
+	return (add_quote(ft_itoa(sign * (int)number)));
 }
