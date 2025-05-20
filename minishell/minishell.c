@@ -6,7 +6,7 @@
 /*   By: hparveen <hparveen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 09:44:17 by hparveen          #+#    #+#             */
-/*   Updated: 2025/05/14 12:38:18 by hparveen         ###   ########.fr       */
+/*   Updated: 2025/05/20 13:14:27 by hparveen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 int	main(int ac, char **av, char **envp)
 {
-	t_shell shell;
-    char	*input;
+	t_shell	shell;
+	char	*input;
 
 	(void)av;
 	check_args(ac, av);
