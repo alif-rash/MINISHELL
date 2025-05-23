@@ -6,7 +6,7 @@
 /*   By: hparveen <hparveen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 09:33:06 by hparveen          #+#    #+#             */
-/*   Updated: 2025/05/20 13:15:22 by hparveen         ###   ########.fr       */
+/*   Updated: 2025/05/23 11:19:55 by hparveen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,16 @@
 # define MINISHELL_H
 
 # include "libft/libft.h"
+# include <errno.h>
 # include <readline/history.h>
 # include <readline/readline.h>
+# include <signal.h>
 # include <stdio.h>
 # include <stdlib.h>
+# include <termios.h>
 # include <unistd.h>
+
+int					rl_replace_line(const char *text, int clear_undo);
 
 typedef enum e_token_type
 {
@@ -28,12 +33,13 @@ typedef enum e_token_type
 	TOKEN_REDIRECT_OUT,
 	TOKEN_APPEND,
 	TOKEN_HEREDOC,
-	TOKEN_EOF
+	TOKEN_EOF,
+	TOKEN_SPACE
 }					t_token_type;
 
 typedef struct s_token
 {
-	t_token_type	type;
+	int				type;
 	char			*value;
 	int				fd;
 	struct s_token	*next;
@@ -52,15 +58,18 @@ typedef struct s_shell
 {
 	t_env			*env_list;
 	char			**env_array;
-	char			*buffer;
+	char			*prompt;
+	int				index;
 
 }					t_shell;
 
 void				check_args(int ac, char **av);
+void				implement_minishell(t_shell *shell);
+int					tokenisation(t_shell *shell, char *str);
 
 void				init(t_shell *shell, char **envp);
-char				**create_env(char **envp);
-char				**create_new_env(void);
+char				**create_env_array(char **envp);
+char				**create_new_env_array(void);
 t_env				*envlst_new(char *env_variable, int flag);
 void				add_env_to_list(t_shell *shell);
 int					parse_key_value(char *env_variable, int flag,
@@ -81,5 +90,12 @@ void				skip_spaces(char **str, int *i, int *sign);
 
 void				free_function(void **a, void **b, void **c, void **d);
 int					ft_array_len(char **array);
+void				exit_function(t_shell *shell);
+
+void				signal_init(void);
+void				handle_signal(int signal);
+void				disable_echoctl(void);
+void				enable_echoctl(void);
+int					exit_status(char *str, int status);
 
 #endif

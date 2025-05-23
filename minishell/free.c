@@ -1,37 +1,37 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils.c                                            :+:      :+:    :+:   */
+/*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hparveen <hparveen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/20 13:10:32 by hparveen          #+#    #+#             */
-/*   Updated: 2025/05/23 11:01:41 by hparveen         ###   ########.fr       */
+/*   Created: 2025/05/23 10:57:48 by hparveen          #+#    #+#             */
+/*   Updated: 2025/05/23 10:58:13 by hparveen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	ft_array_len(char **array)
+void	free_function(void **a, void **b, void **c, void **d)
 {
-	int	i;
-
-	i = 0;
-	while (array[i])
-		i++;
-	return (i);
-}
-
-void	skip_spaces(char **str, int *i, int *sign)
-{
-	if (!(*str))
-		return ;
-	while ((*str)[*i] == ' ' || ((*str)[*i] >= 9 && (*str)[*i] <= 13))
-		(*i)++;
-	if ((*str)[*i] == '-' || (*str)[*i] == '+')
+	if (a && *a)
 	{
-		if ((*str)[*i] == '-')
-			*sign = -1;
-		(*i)++;
+		free(*a);
+		*a = NULL;
+	}
+	if (b && *b)
+	{
+		free(*b);
+		*b = NULL;
+	}
+	if (c && *c)
+	{
+		free(*c);
+		*c = NULL;
+	}
+	if (d && *d)
+	{
+		free(*d);
+		*d = NULL;
 	}
 }

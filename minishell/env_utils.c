@@ -6,35 +6,11 @@
 /*   By: hparveen <hparveen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 13:10:12 by hparveen          #+#    #+#             */
-/*   Updated: 2025/05/20 13:49:52 by hparveen         ###   ########.fr       */
+/*   Updated: 2025/05/23 10:58:07 by hparveen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-void	free_function(void **a, void **b, void **c, void **d)
-{
-	if (a && *a)
-	{
-		free(*a);
-		*a = NULL;
-	}
-	if (b && *b)
-	{
-		free(*b);
-		*b = NULL;
-	}
-	if (c && *c)
-	{
-		free(*c);
-		*c = NULL;
-	}
-	if (d && *d)
-	{
-		free(*d);
-		*d = NULL;
-	}
-}
 
 char	*add_quote(char *str)
 {
@@ -109,4 +85,32 @@ void	env_lstadd_back(t_env **env_list, t_env *new_node)
 	while (last_node->next)
 		last_node = last_node->next;
 	last_node->next = new_node;
+}
+
+t_env	*envlst_new(char *env_variable, int flag)
+{
+	t_env	*env_node;
+	int		i;
+
+	if (!env_variable)
+		return (NULL);
+	env_node = malloc(sizeof(t_env));
+	if (!env_node)
+		return (NULL);
+	env_node->env = NULL;
+	env_node->key = NULL;
+	env_node->value = NULL;
+	i = 0;
+	env_node->env = ft_strdup(env_variable);
+	if (!env_node->env)
+	{
+		free(env_node);
+		return (NULL);
+	}
+	if (parse_key_value(env_variable, flag, &env_node, &i))
+	{
+		free_function((void **)&env_node->env, (void **)&env_node, NULL, NULL);
+		return (NULL);
+	}
+	return (env_node);
 }

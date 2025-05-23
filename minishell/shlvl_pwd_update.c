@@ -6,11 +6,38 @@
 /*   By: hparveen <hparveen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 13:10:07 by hparveen          #+#    #+#             */
-/*   Updated: 2025/05/20 13:48:35 by hparveen         ###   ########.fr       */
+/*   Updated: 2025/05/23 10:56:14 by hparveen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+char	*ft_return_shlvl(char *value)
+{
+	int					index;
+	int					sign;
+	unsigned long long	number;
+
+	index = 0;
+	sign = 1;
+	number = 0;
+	skip_spaces(&value, &index, &sign);
+	while (value[index] >= '0' && value[index] <= '9')
+	{
+		number = number * 10 + (value[index] - '0');
+		if ((sign == 1 && number > 9223372036854775807ULL) || (sign == -1
+				&& number > 9223372036854775808ULL))
+			return (ft_strdup("1"));
+		index++;
+	}
+	if (sign == 1 && number == 9223372036854775807ULL)
+		return (ft_strdup("0"));
+	number++;
+	if ((sign == 1 && number > 9223372036854775807ULL) || (sign == -1
+			&& number > 9223372036854775808ULL))
+		return (ft_strdup("1"));
+	return (add_quote(ft_itoa(sign * (int)number)));
+}
 
 char	*shlvl_value(char *value)
 {
@@ -51,7 +78,7 @@ void	update_shlvl(t_shell *shell)
 		}
 		env_node = env_node->next;
 	}
-	if (!search_in_env(shell, "SHLVL"))
+	if (search_in_env(shell, "SHLVL") == NULL)
 		new_env(shell, ft_strdup("SHLVL"), ft_strdup("\"1\""), 1);
 }
 
@@ -67,29 +94,6 @@ char	*search_in_env(t_shell *shell, char *key)
 		temp = temp->next;
 	}
 	return (NULL);
-}
-
-void	new_env(t_shell *shell, char *key, char *value, int export_flag)
-{
-	char	*env_str;
-	char	*key_with_equal;
-
-	env_str = NULL;
-	key_with_equal = NULL;
-	if (export_flag)
-		key_with_equal = ft_strjoin(key, "=");
-	else
-		key_with_equal = ft_strdup(key);
-	if (export_flag && value)
-		env_str = ft_strjoin(key_with_equal, value);
-	else
-		env_str = ft_strdup(key_with_equal);
-	if (value)
-		free(value);
-	free(key);
-	free(key_with_equal);
-	env_lstadd_back(&shell->env_list, envlst_new(env_str, export_flag));
-	free(env_str);
 }
 
 void	init_pwd_oldpwd(t_shell *shell)

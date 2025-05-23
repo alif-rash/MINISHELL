@@ -2,16 +2,20 @@ NAME = minishell
 CC = cc 
 CFLAG = -Wall -Werror -Wextra
 RM = rm -f
-SRCS = minishell.c initial_check.c tokenizer.c initialise.c utils.c env_utils.c env_handle.c shlvl.c
+SRCS = minishell.c tokenizer.c initialise.c utils.c env_utils.c shlvl_pwd_update.c \
+		signals.c free.c ctrl_c.c
 OBJS = ${SRCS:.c=.o}
 LIBFT_DIR = libft
 LIBFT = ${LIBFT_DIR}/libft.a
+RLFLAGS		=	-lreadline -lhistory
+RLDIR		=	-L/opt/vagrant/embedded/lib
+RLINC		=	-I/opt/vagrant/embedded/include/readline/readline.h
 
 %.o: %.c
-	@${CC} ${CFLAG} -c -o $@ $^
+	@${CC} ${CFLAG} ${RLINC} -c -o $@ $^
 
 ${NAME}: ${OBJS} ${LIBFT}
-	@${CC} ${CFLAG} -o $@ $^ -L${LIBFT_DIR} -lft -lreadline
+	@${CC} ${CFLAG} -o $@ $^ ${RLDIR} ${RLFLAGS} -L${LIBFT_DIR} -lft
 	@echo "${GREEN}${NAME} created✅$(DEFAULT)"
 
 ${LIBFT}:

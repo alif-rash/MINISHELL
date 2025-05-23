@@ -6,38 +6,33 @@
 /*   By: hparveen <hparveen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 13:10:19 by hparveen          #+#    #+#             */
-/*   Updated: 2025/05/20 13:14:21 by hparveen         ###   ########.fr       */
+/*   Updated: 2025/05/23 11:11:43 by hparveen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-t_env	*envlst_new(char *env_variable, int flag)
+void	new_env(t_shell *shell, char *key, char *value, int export_flag)
 {
-	t_env	*env_node;
-	int		i;
+	char	*env_str;
+	char	*key_with_equal;
 
-	if (!env_variable)
-		return (NULL);
-	env_node = malloc(sizeof(t_env));
-	if (!env_node)
-		return (NULL);
-	env_node->env = NULL;
-	env_node->key = NULL;
-	env_node->value = NULL;
-	i = 0;
-	env_node->env = ft_strdup(env_variable);
-	if (!env_node->env)
-	{
-		free(env_node);
-		return (NULL);
-	}
-	if (parse_key_value(env_variable, flag, &env_node, &i))
-	{
-		free_function((void **)&env_node->env, (void **)&env_node, NULL, NULL);
-		return (NULL);
-	}
-	return (env_node);
+	env_str = NULL;
+	key_with_equal = NULL;
+	if (export_flag)
+		key_with_equal = ft_strjoin(key, "=");
+	else
+		key_with_equal = ft_strdup(key);
+	if (export_flag && value)
+		env_str = ft_strjoin(key_with_equal, value);
+	else
+		env_str = ft_strdup(key_with_equal);
+	if (value)
+		free(value);
+	free(key);
+	free(key_with_equal);
+	env_lstadd_back(&shell->env_list, envlst_new(env_str, export_flag));
+	free(env_str);
 }
 
 void	add_env_to_list(t_shell *shell)
@@ -65,7 +60,7 @@ void	add_env_to_list(t_shell *shell)
 	}
 }
 
-char	**create_new_env(void)
+char	**create_new_env_array(void)
 {
 	char	**env;
 	char	buffer[1024];
@@ -89,7 +84,7 @@ char	**create_new_env(void)
 	return (env);
 }
 
-char	**create_env(char **envp)
+char	**create_env_array(char **envp)
 {
 	int		i;
 	int		env_len;
@@ -120,12 +115,13 @@ char	**create_env(char **envp)
 
 void	init(t_shell *shell, char **envp)
 {
-	shell->buffer = NULL;
-	shell->env_array = create_env(envp);
+	shell->prompt = NULL;
+	shell->env_array = create_env_array(envp);
 	shell->env_list = NULL;
+	shell->index = 0;
 	if (!shell->env_array)
 	{
-		shell->env_array = create_new_env();
+		shell->env_array = create_new_env_array();
 		add_env_to_list(shell);
 	}
 	else if (shell->env_array)
