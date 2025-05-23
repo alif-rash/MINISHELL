@@ -25,10 +25,19 @@
 
 int					rl_replace_line(const char *text, int clear_undo);
 
+#define ERROR_GENERIC 0
+#define ERROR_PERROR  1
+#define ERROR_SYNTAX  2
+
 typedef enum e_token_type
 {
 	TOKEN_WORD,
 	TOKEN_PIPE,
+	TOKEN_OPERATOR,
+	TOKEN_BRACKETS,
+	TOKEN_ALNUM,
+	TOKEN_QUOTE,
+	TOKEN_OP,
 	TOKEN_REDIRECT_IN,
 	TOKEN_REDIRECT_OUT,
 	TOKEN_APPEND,
@@ -60,12 +69,14 @@ typedef struct s_shell
 	char			**env_array;
 	char			*prompt;
 	int				index;
-
+	t_token			*token_list;
 }					t_shell;
 
 void				check_args(int ac, char **av);
 void				implement_minishell(t_shell *shell);
 int					tokenisation(t_shell *shell, char *str);
+int 				is_token(int c, t_token_type token);
+t_token				*token_operators(char *str, t_shell *shell, int index);
 
 void				init(t_shell *shell, char **envp);
 char				**create_env_array(char **envp);
@@ -97,5 +108,7 @@ void				handle_signal(int signal);
 void				disable_echoctl(void);
 void				enable_echoctl(void);
 int					exit_status(char *str, int status);
+
+void 				handle_error(t_shell *shell, char *msg, int error_type, int quote_flag);
 
 #endif

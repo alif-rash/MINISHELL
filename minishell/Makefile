@@ -3,7 +3,7 @@ CC = cc
 CFLAG = -Wall -Werror -Wextra
 RM = rm -f
 SRCS = minishell.c tokenizer.c initialise.c utils.c env_utils.c shlvl_pwd_update.c \
-		signals.c free.c ctrl_c.c
+		signals.c free.c ctrl_c.c error.c
 OBJS = ${SRCS:.c=.o}
 LIBFT_DIR = libft
 LIBFT = ${LIBFT_DIR}/libft.a
