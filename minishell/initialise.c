@@ -6,7 +6,7 @@
 /*   By: hparveen <hparveen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 13:10:19 by hparveen          #+#    #+#             */
-/*   Updated: 2025/05/24 10:14:13 by hparveen         ###   ########.fr       */
+/*   Updated: 2025/05/24 15:56:50 by hparveen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ void	new_env(t_shell *shell, char *key, char *value, int export_flag)
 	free(env_str);
 }
 
-void	add_env_to_list(t_shell *shell)
+void	add_env_to_list(t_shell *shell, int flag)
 {
 	t_env	*new_env_node;
 	int		i;
@@ -57,7 +57,10 @@ void	add_env_to_list(t_shell *shell)
 	i = 1;
 	while (i < env_len)
 	{
-		new_env_node = envlst_new(shell->env_array[i], 1);
+		if (!flag && i == 2)
+			new_env_node = envlst_new(shell->env_array[i], 0);
+		else
+			new_env_node = envlst_new(shell->env_array[i], 1);
 		if (!new_env_node)
 			return ;
 		env_lstadd_back(&shell->env_list, new_env_node);
@@ -127,10 +130,10 @@ void	init(t_shell *shell, char **envp)
 	if (!shell->env_array)
 	{
 		shell->env_array = create_new_env_array();
-		add_env_to_list(shell);
+		add_env_to_list(shell, 0);
 	}
 	else if (shell->env_array)
-		add_env_to_list(shell);
+		add_env_to_list(shell, 1);
 	init_pwd_oldpwd(shell);
 	update_shlvl(shell);
 }

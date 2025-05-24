@@ -6,11 +6,56 @@
 /*   By: hparveen <hparveen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 09:51:06 by hparveen          #+#    #+#             */
-/*   Updated: 2025/05/24 10:17:28 by hparveen         ###   ########.fr       */
+/*   Updated: 2025/05/24 15:41:15 by hparveen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+t_token	*token_word(char *str, t_shell *shell, int index)
+{
+	char	quote;
+
+	while (str[shell->index])
+	{
+		while (str[shell->index] && ft_isspace(str[shell->index]) == 0
+			&& str[shell->index] != '\'' && str[shell->index] != '\"'
+			&& ft_isoperator(str[shell->index]) == 0 && str[shell->index] != '('
+			&& str[shell->index] != ')')
+			shell->index++;
+		if ((str[shell->index] && (ft_isoperator(str[shell->index]) == 1
+					|| ft_isspace(str[shell->index]) == 1
+					|| str[shell->index] == '(' || str[shell->index] == ')'))
+			|| str[shell->index] == '\0')
+			break ;
+		quote = str[shell->index];
+		shell->index++;
+		while (str[shell->index] && str[shell->index] != quote)
+			shell->index++;
+		if (str[shell->index] && str[shell->index] == quote)
+			shell->index++;
+		else
+			return (handle_error(shell, "newline", ERROR_SYNTAX, '\0'), NULL);
+	}
+	index = shell->index - index;
+	return (create_token(shell, index, T_WORD, str));
+}
+
+t_token	*token_brackets(char *str, t_shell *shell, int index)
+{
+	int	type;
+	int	start_index;
+	int	end_index;
+
+	type = T_BRACKET;
+	if (!brackets_closed(str, shell, &start_index, &end_index))
+	{
+		handle_error(shell, "new line", ERROR_SYNTAX, '\0');
+		return (NULL);
+	}
+	index = shell->index - index;
+	return (create_token(shell, index, type, str));
+}
 
 t_token	*token_operators(char *str, t_shell *shell, int index)
 {
@@ -28,6 +73,9 @@ t_token	*token_operators(char *str, t_shell *shell, int index)
 	}
 	if (current == '&' && !is_double)
 		return (handle_error(shell, "&", ERROR_SYNTAX, '\0'), NULL);
+	type = check_operator_type(is_double, current);
+	index = shell->index - index;
+	return (create_token(shell, index, type, str));
 }
 
 int	is_token(int c, t_token_type token)

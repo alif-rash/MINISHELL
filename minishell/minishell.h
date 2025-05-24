@@ -6,7 +6,7 @@
 /*   By: hparveen <hparveen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 09:33:06 by hparveen          #+#    #+#             */
-/*   Updated: 2025/05/24 10:16:48 by hparveen         ###   ########.fr       */
+/*   Updated: 2025/05/24 15:50:52 by hparveen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@
 # include <termios.h>
 # include <unistd.h>
 
-int					rl_replace_line(const char *text, int clear_undo);
+void				rl_replace_line(const char *text, int clear_undo);
 
 # define ERROR_GENERIC 0
 # define ERROR_PERROR 1
@@ -42,6 +42,9 @@ typedef enum e_token_type
 	T_REDIRECT_OUT,
 	T_APPEND,
 	T_HEREDOC,
+	T_LOGICAND,
+	T_LOGICOR,
+	T_BRACKET,
 	T_EOF,
 	T_SPACE
 }					t_token_type;
@@ -77,12 +80,24 @@ void				implement_minishell(t_shell *shell);
 int					tokenisation(t_shell *shell, char *str);
 int					is_token(int c, t_token_type token);
 t_token				*token_operators(char *str, t_shell *shell, int index);
+t_token				*token_brackets(char *str, t_shell *shell, int index);
+t_token				*token_word(char *str, t_shell *shell, int index);
+int					check_operator_type(int is_double, char current);
+int					brackets_closed(char *str, t_shell *shell, int *start,
+						int *end);
+t_token				*create_token(t_shell *shell, int index, int type,
+						char *str);
+void				token_add_back(t_token **list, t_token *new);
+t_token				*ft_token_last(t_token *list);
+void				ft_free_tokenlist(t_token **token_list);
+
+int					ft_parsing(t_shell *shell);
 
 void				init(t_shell *shell, char **envp);
 char				**create_env_array(char **envp);
 char				**create_new_env_array(void);
 t_env				*envlst_new(char *env_variable, int flag);
-void				add_env_to_list(t_shell *shell);
+void				add_env_to_list(t_shell *shell, int flag);
 int					parse_key_value(char *env_variable, int flag,
 						t_env **env_node, int *index);
 char				*add_quote(char *str);
@@ -97,6 +112,9 @@ void				new_env(t_shell *shell, char *key, char *value,
 void				update_shlvl(t_shell *shell);
 char				*shlvl_value(char *value);
 char				*ft_return_shlvl(char *value);
+
+int					ft_isspace(int c);
+int					ft_isoperator(int c);
 void				skip_spaces(char **str, int *i, int *sign);
 
 void				free_function(void **a, void **b, void **c, void **d);
@@ -111,5 +129,6 @@ int					exit_status(char *str, int status);
 
 void				handle_error(t_shell *shell, char *msg, int error_type,
 						int quote_flag);
+void				ft_print_error(char *args, int flag, int fd);
 
 #endif

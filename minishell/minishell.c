@@ -6,7 +6,7 @@
 /*   By: hparveen <hparveen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 09:44:17 by hparveen          #+#    #+#             */
-/*   Updated: 2025/05/23 10:51:14 by hparveen         ###   ########.fr       */
+/*   Updated: 2025/05/24 15:42:28 by hparveen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,8 +36,8 @@ void	implement_minishell(t_shell *shell)
 		if (shell->prompt)
 		{
 			add_history(shell->prompt);
-			// if(ft_parsing(shell))
-			// 	continue ;
+			if (ft_parsing(shell))
+				continue ;
 			free(shell->prompt);
 			shell->prompt = NULL;
 		}
