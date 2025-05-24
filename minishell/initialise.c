@@ -6,7 +6,7 @@
 /*   By: hparveen <hparveen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 13:10:19 by hparveen          #+#    #+#             */
-/*   Updated: 2025/05/23 11:11:43 by hparveen         ###   ########.fr       */
+/*   Updated: 2025/05/24 10:14:13 by hparveen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,13 @@ void	new_env(t_shell *shell, char *key, char *value, int export_flag)
 		key_with_equal = ft_strjoin(key, "=");
 	else
 		key_with_equal = ft_strdup(key);
-	if (export_flag && value)
-		env_str = ft_strjoin(key_with_equal, value);
+	if (export_flag)
+	{
+		if (value)
+			env_str = ft_strjoin(key_with_equal, value);
+		else
+			env_str = ft_strdup(key_with_equal);
+	}
 	else
 		env_str = ft_strdup(key_with_equal);
 	if (value)

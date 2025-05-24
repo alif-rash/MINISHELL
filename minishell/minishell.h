@@ -6,7 +6,7 @@
 /*   By: hparveen <hparveen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 09:33:06 by hparveen          #+#    #+#             */
-/*   Updated: 2025/05/23 11:19:55 by hparveen         ###   ########.fr       */
+/*   Updated: 2025/05/24 10:16:48 by hparveen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,25 +25,25 @@
 
 int					rl_replace_line(const char *text, int clear_undo);
 
-#define ERROR_GENERIC 0
-#define ERROR_PERROR  1
-#define ERROR_SYNTAX  2
+# define ERROR_GENERIC 0
+# define ERROR_PERROR 1
+# define ERROR_SYNTAX 2
 
 typedef enum e_token_type
 {
-	TOKEN_WORD,
-	TOKEN_PIPE,
-	TOKEN_OPERATOR,
-	TOKEN_BRACKETS,
-	TOKEN_ALNUM,
-	TOKEN_QUOTE,
-	TOKEN_OP,
-	TOKEN_REDIRECT_IN,
-	TOKEN_REDIRECT_OUT,
-	TOKEN_APPEND,
-	TOKEN_HEREDOC,
-	TOKEN_EOF,
-	TOKEN_SPACE
+	T_WORD,
+	T_PIPE,
+	T_OPERATOR,
+	T_BRACKETS,
+	T_ALNUM,
+	T_QUOTE,
+	T_OP,
+	T_REDIRECT_IN,
+	T_REDIRECT_OUT,
+	T_APPEND,
+	T_HEREDOC,
+	T_EOF,
+	T_SPACE
 }					t_token_type;
 
 typedef struct s_token
@@ -75,7 +75,7 @@ typedef struct s_shell
 void				check_args(int ac, char **av);
 void				implement_minishell(t_shell *shell);
 int					tokenisation(t_shell *shell, char *str);
-int 				is_token(int c, t_token_type token);
+int					is_token(int c, t_token_type token);
 t_token				*token_operators(char *str, t_shell *shell, int index);
 
 void				init(t_shell *shell, char **envp);
@@ -109,6 +109,7 @@ void				disable_echoctl(void);
 void				enable_echoctl(void);
 int					exit_status(char *str, int status);
 
-void 				handle_error(t_shell *shell, char *msg, int error_type, int quote_flag);
+void				handle_error(t_shell *shell, char *msg, int error_type,
+						int quote_flag);
 
 #endif

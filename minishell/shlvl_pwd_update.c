@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   env_handle.c                                       :+:      :+:    :+:   */
+/*   shlvl_pwd_update.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hparveen <hparveen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 13:10:07 by hparveen          #+#    #+#             */
-/*   Updated: 2025/05/23 10:56:14 by hparveen         ###   ########.fr       */
+/*   Updated: 2025/05/24 10:20:17 by hparveen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,7 +112,7 @@ void	init_pwd_oldpwd(t_shell *shell)
 		new_env(shell, ft_strdup("OLDPWD"), NULL, 0);
 	while (env_node)
 	{
-		if (ft_strcmp(env_node->value, "OLDPWD") == 0)
+		if (ft_strcmp(env_node->key, "OLDPWD") == 0)
 		{
 			env_node->flag = 0;
 			if (env_node->value)
