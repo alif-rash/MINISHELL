@@ -6,7 +6,7 @@
 /*   By: hparveen <hparveen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 09:33:06 by hparveen          #+#    #+#             */
-/*   Updated: 2025/05/24 15:50:52 by hparveen         ###   ########.fr       */
+/*   Updated: 2025/05/26 09:08:52 by hparveen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,6 +101,7 @@ void				add_env_to_list(t_shell *shell, int flag);
 int					parse_key_value(char *env_variable, int flag,
 						t_env **env_node, int *index);
 char				*add_quote(char *str);
+char				*remove_quotes(char *str);
 int					assign_value(t_env **env_node, char *env_variable,
 						int *start_index);
 void				env_lstadd_back(t_env **env_list, t_env *new_node);

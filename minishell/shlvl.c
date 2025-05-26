@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   shlvl_pwd_update.c                                 :+:      :+:    :+:   */
+/*   shlvl.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hparveen <hparveen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 13:10:07 by hparveen          #+#    #+#             */
-/*   Updated: 2025/05/24 10:20:17 by hparveen         ###   ########.fr       */
+/*   Updated: 2025/05/26 09:14:31 by hparveen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,26 +54,35 @@ char	*shlvl_value(char *value)
 	return (ft_return_shlvl(value));
 }
 
+static void	update_existing_value(t_env *env_node)
+{
+	char	*updated_value;
+	char	*unquoted;
+
+	env_node->flag = 1;
+	if (env_node->value == NULL)
+		env_node->value = ft_strdup("\"1\"");
+	else
+	{
+		unquoted = remove_quotes(env_node->value);
+		updated_value = shlvl_value(unquoted);
+		free(unquoted);
+		free(env_node->value);
+		env_node->value = updated_value;
+		free(updated_value);
+	}
+}
+
 void	update_shlvl(t_shell *shell)
 {
 	t_env	*env_node;
-	char	*updated_value;
 
 	env_node = shell->env_list;
-	updated_value = NULL;
 	while (env_node)
 	{
 		if (ft_strcmp(env_node->key, "SHLVL") == 0)
 		{
-			env_node->flag = 1;
-			if (env_node->value == NULL)
-				env_node->value = ft_strdup("\"1\"");
-			else
-			{
-				updated_value = shlvl_value(env_node->value);
-				free(env_node->value);
-				env_node->value = updated_value;
-			}
+			update_existing_value(env_node);
 			break ;
 		}
 		env_node = env_node->next;
@@ -82,43 +91,12 @@ void	update_shlvl(t_shell *shell)
 		new_env(shell, ft_strdup("SHLVL"), ft_strdup("\"1\""), 1);
 }
 
-char	*search_in_env(t_shell *shell, char *key)
+char	*remove_quotes(char *str)
 {
-	t_env	*temp;
+	size_t	len;
 
-	temp = shell->env_list;
-	while (temp)
-	{
-		if (ft_strcmp(temp->key, key) == 0)
-			return (temp->value);
-		temp = temp->next;
-	}
-	return (NULL);
-}
-
-void	init_pwd_oldpwd(t_shell *shell)
-{
-	t_env	*env_node;
-	char	cwd[1024];
-
-	env_node = shell->env_list;
-	if (search_in_env(shell, "PWD") == NULL)
-	{
-		if (getcwd(cwd, sizeof(cwd)) == NULL)
-			return ;
-		new_env(shell, ft_strdup("PWD"), ft_strdup(cwd), 1);
-	}
-	if (search_in_env(shell, "OLDPWD") == NULL)
-		new_env(shell, ft_strdup("OLDPWD"), NULL, 0);
-	while (env_node)
-	{
-		if (ft_strcmp(env_node->key, "OLDPWD") == 0)
-		{
-			env_node->flag = 0;
-			if (env_node->value)
-				free(env_node->value);
-			env_node->value = NULL;
-		}
-		env_node = env_node->next;
-	}
+	len = ft_strlen(str);
+	if (len >= 2 && str[0] == '"' && str[len - 1] == '"')
+		return (ft_substr(str, 1, len - 2));
+	return (ft_strdup(str));
 }
