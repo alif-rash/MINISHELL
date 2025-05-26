@@ -6,7 +6,7 @@
 /*   By: hparveen <hparveen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 09:33:06 by hparveen          #+#    #+#             */
-/*   Updated: 2025/05/26 10:27:27 by hparveen         ###   ########.fr       */
+/*   Updated: 2025/05/26 11:13:51 by hparveen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,9 @@ void				rl_replace_line(const char *text, int clear_undo);
 # define ERROR_GENERIC 0
 # define ERROR_PERROR 1
 # define ERROR_SYNTAX 2
+# define ERR_OP_SYNTAX 101
+# define ERR_OP_START 102
+# define ERR_REDIR_SYNTAX 103
 
 typedef enum e_token_type
 {
@@ -99,6 +102,7 @@ t_token				*ft_token_last(t_token *list);
 void				ft_free_tokenlist(t_token **token_list);
 
 int					ft_parsing(t_shell *shell);
+int					check_syntax(t_shell *shell);
 
 void				init(t_shell *shell, char **envp);
 char				**create_env_array(char **envp);

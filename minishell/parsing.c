@@ -6,7 +6,7 @@
 /*   By: hparveen <hparveen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 13:39:18 by hparveen          #+#    #+#             */
-/*   Updated: 2025/05/26 10:12:10 by hparveen         ###   ########.fr       */
+/*   Updated: 2025/05/26 10:48:23 by hparveen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,8 @@ int	ft_parsing(t_shell *shell)
 		printf("Token: %-10s | Type: %d\n", list->value, list->type);
 		list = list->next;
 	}
+	if (check_syntax(shell))
+		return (1);
 	free(shell->prompt);
 	shell->prompt = NULL;
 	ft_free_tokenlist(&shell->token_list);
