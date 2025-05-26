@@ -6,7 +6,7 @@
 /*   By: hparveen <hparveen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 09:44:17 by hparveen          #+#    #+#             */
-/*   Updated: 2025/05/26 09:18:23 by hparveen         ###   ########.fr       */
+/*   Updated: 2025/05/26 10:16:40 by hparveen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ void	implement_minishell(t_shell *shell)
 			shell->prompt = readline("minishell$ ");
 		else
 			shell->prompt = ft_strdup("");
-		if (!shell->prompt)
+		if (!shell->prompt || prompt_is_big(shell))
 			exit_function(shell);
 		if (shell->prompt)
 		{

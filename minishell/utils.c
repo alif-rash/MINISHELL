@@ -6,7 +6,7 @@
 /*   By: hparveen <hparveen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 13:10:32 by hparveen          #+#    #+#             */
-/*   Updated: 2025/05/24 13:38:44 by hparveen         ###   ########.fr       */
+/*   Updated: 2025/05/26 10:29:47 by hparveen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,5 +47,28 @@ int	ft_isoperator(int c)
 {
 	if (c == '|' || c == '>' || c == '<' || c == '&')
 		return (1);
+	return (0);
+}
+
+int	prompt_is_big(t_shell *shell)
+{
+	t_env	*temp;
+	int		len;
+	int		quote_len;
+
+	temp = shell->env_list;
+	len = 0;
+	quote_len = 2;
+	while (temp)
+	{
+		len += ft_strlen(temp->env) - quote_len;
+		temp = temp->next;
+	}
+	len += ft_strlen(shell->prompt);
+	if (len > ARG_MAX)
+	{
+		printf("minishell: Argument list is too long\n");
+		return (1);
+	}
 	return (0);
 }

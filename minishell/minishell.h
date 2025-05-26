@@ -6,7 +6,7 @@
 /*   By: hparveen <hparveen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 09:33:06 by hparveen          #+#    #+#             */
-/*   Updated: 2025/05/26 09:08:52 by hparveen         ###   ########.fr       */
+/*   Updated: 2025/05/26 10:27:27 by hparveen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 # include "libft/libft.h"
 # include <errno.h>
+# include <limits.h>
 # include <readline/history.h>
 # include <readline/readline.h>
 # include <signal.h>
@@ -38,6 +39,10 @@ typedef enum e_token_type
 	T_ALNUM,
 	T_QUOTE,
 	T_OP,
+	T_COMMAND,
+	T_ARGUMENT,
+	T_FILENAME,
+	T_DELIMITER,
 	T_REDIRECT_IN,
 	T_REDIRECT_OUT,
 	T_APPEND,
@@ -76,6 +81,7 @@ typedef struct s_shell
 }					t_shell;
 
 void				check_args(int ac, char **av);
+int					prompt_is_big(t_shell *shell);
 void				implement_minishell(t_shell *shell);
 int					tokenisation(t_shell *shell, char *str);
 int					is_token(int c, t_token_type token);
@@ -87,6 +93,7 @@ int					brackets_closed(char *str, t_shell *shell, int *start,
 						int *end);
 t_token				*create_token(t_shell *shell, int index, int type,
 						char *str);
+int					categorise_tokens(t_shell *shell);
 void				token_add_back(t_token **list, t_token *new);
 t_token				*ft_token_last(t_token *list);
 void				ft_free_tokenlist(t_token **token_list);
