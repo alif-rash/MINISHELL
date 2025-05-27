@@ -6,7 +6,7 @@
 /*   By: hparveen <hparveen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 09:33:06 by hparveen          #+#    #+#             */
-/*   Updated: 2025/05/26 11:13:51 by hparveen         ###   ########.fr       */
+/*   Updated: 2025/05/27 10:14:45 by hparveen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,8 @@ void				rl_replace_line(const char *text, int clear_undo);
 # define ERR_OP_SYNTAX 101
 # define ERR_OP_START 102
 # define ERR_REDIR_SYNTAX 103
+# define ERR_DOUBLEBRACKET 104
+# define ERR_INVALIDSUBSHELL 105
 
 typedef enum e_token_type
 {
@@ -103,6 +105,9 @@ void				ft_free_tokenlist(t_token **token_list);
 
 int					ft_parsing(t_shell *shell);
 int					check_syntax(t_shell *shell);
+int					syntax_check_brackets(t_token *current);
+int					syntax_check_redirections(t_token *current);
+int					syntax_check_operators(t_token *current, int index);
 
 void				init(t_shell *shell, char **envp);
 char				**create_env_array(char **envp);
@@ -129,7 +134,10 @@ int					ft_isspace(int c);
 int					ft_isoperator(int c);
 void				skip_spaces(char **str, int *i, int *sign);
 
-void				free_function(void **a, void **b, void **c, void **d);
+void				free_function(void **a, void **b, void **c);
+void				ft_free_array(char **array);
+void				ft_free_envlist(t_env **env_list);
+void				ft_clear(t_shell *shell);
 int					ft_array_len(char **array);
 void				exit_function(t_shell *shell);
 
@@ -142,5 +150,7 @@ int					exit_status(char *str, int status);
 void				handle_error(t_shell *shell, char *msg, int error_type,
 						int quote_flag);
 void				ft_print_error(char *args, int flag, int fd);
+int					print_error(t_shell *shell, int error_code,
+						t_token *current);
 
 #endif

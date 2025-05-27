@@ -6,7 +6,7 @@
 /*   By: hparveen <hparveen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 13:10:12 by hparveen          #+#    #+#             */
-/*   Updated: 2025/05/23 10:58:07 by hparveen         ###   ########.fr       */
+/*   Updated: 2025/05/27 08:07:31 by hparveen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,13 +36,13 @@ int	assign_value(t_env **env_node, char *env_variable, int *start_index)
 			ft_strlen(env_variable) - *start_index);
 	if (!(*env_node)->value)
 		return (free_function((void **)&(*env_node)->key,
-				(void **)&(*env_node)->env, NULL, NULL), 1);
+				(void **)&(*env_node)->env, NULL), 1);
 	quoted = add_quote((*env_node)->value);
 	if (!quoted)
 	{
 		free((*env_node)->value);
 		return (free_function((void **)&(*env_node)->key,
-				(void **)&(*env_node)->env, (void **)&(*env_node), NULL), 1);
+				(void **)&(*env_node)->env, (void **)&(*env_node)), 1);
 	}
 	free((*env_node)->value);
 	(*env_node)->value = quoted;
@@ -56,7 +56,7 @@ int	parse_key_value(char *env_variable, int flag, t_env **env_node, int *index)
 	(*env_node)->key = ft_substr(env_variable, 0, *index);
 	if (!(*env_node)->key)
 		return (free_function((void **)&((*env_node)->env), (void **)env_node,
-				NULL, NULL), 1);
+				NULL), 1);
 	if (env_variable[(*index)])
 		(*index)++;
 	if (env_variable[(*index)])
@@ -109,7 +109,7 @@ t_env	*envlst_new(char *env_variable, int flag)
 	}
 	if (parse_key_value(env_variable, flag, &env_node, &i))
 	{
-		free_function((void **)&env_node->env, (void **)&env_node, NULL, NULL);
+		free_function((void **)&env_node->env, (void **)&env_node, NULL);
 		return (NULL);
 	}
 	return (env_node);

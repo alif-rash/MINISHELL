@@ -6,7 +6,7 @@
 /*   By: hparveen <hparveen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 10:13:16 by hparveen          #+#    #+#             */
-/*   Updated: 2025/05/24 15:42:19 by hparveen         ###   ########.fr       */
+/*   Updated: 2025/05/27 10:50:38 by hparveen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,4 +37,29 @@ void	ft_print_error(char *args, int flag, int fd)
 	ft_putstr_fd("minishell: ", fd);
 	if (args)
 		ft_putstr_fd(args, fd);
+}
+
+int	print_error(t_shell *shell, int error_code, t_token *current)
+{
+	if (error_code == ERR_OP_SYNTAX || error_code == ERR_OP_START)
+	{
+		if (current->next && error_code != ERR_OP_START)
+			return (handle_error(shell, current->next->value, ERROR_SYNTAX,
+					'\0'), 1);
+		return (handle_error(shell, current->value, ERROR_SYNTAX, '\0'), 1);
+	}
+	if (error_code == ERR_REDIR_SYNTAX)
+	{
+		if (current->next && current->next->type == T_PIPE)
+			return (handle_error(shell, current->next->value, ERROR_SYNTAX,
+					'\0'), 1);
+		return (handle_error(shell, current->next->value, ERROR_SYNTAX, '\0'),
+			1);
+	}
+	if (error_code == ERR_DOUBLEBRACKET)
+		return (handle_error(shell, "(", ERROR_SYNTAX, '\0'), 1);
+	if (error_code == ERR_INVALIDSUBSHELL)
+		return (handle_error(shell, current->next->value, ERROR_SYNTAX, '\0'),
+			1);
+	return (0);
 }

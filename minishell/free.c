@@ -6,13 +6,13 @@
 /*   By: hparveen <hparveen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/23 10:57:48 by hparveen          #+#    #+#             */
-/*   Updated: 2025/05/23 10:58:13 by hparveen         ###   ########.fr       */
+/*   Updated: 2025/05/27 10:48:19 by hparveen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	free_function(void **a, void **b, void **c, void **d)
+void	free_function(void **a, void **b, void **c)
 {
 	if (a && *a)
 	{
@@ -29,9 +29,31 @@ void	free_function(void **a, void **b, void **c, void **d)
 		free(*c);
 		*c = NULL;
 	}
-	if (d && *d)
+}
+
+void	ft_free_array(char **array)
+{
+	int	i;
+
+	i = 0;
+	if (!array || !array[i])
+		return ;
+	while (array[i])
 	{
-		free(*d);
-		*d = NULL;
+		free(array[i]);
+		i++;
 	}
+	if (array)
+		free(array);
+	array = NULL;
+}
+
+void	ft_clear(t_shell *shell)
+{
+	if (shell->token_list)
+		ft_free_tokenlist(&(shell->token_list));
+	if (shell->env_array)
+		ft_free_array(shell->env_array);
+	if (shell->env_list)
+		ft_free_envlist(&(shell->env_list));
 }

@@ -6,7 +6,7 @@
 /*   By: hparveen <hparveen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 09:44:17 by hparveen          #+#    #+#             */
-/*   Updated: 2025/05/26 10:16:40 by hparveen         ###   ########.fr       */
+/*   Updated: 2025/05/27 10:49:37 by hparveen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ void	implement_minishell(t_shell *shell)
 	while (1)
 	{
 		signal_init();
+		ft_free_tokenlist(&shell->token_list);
 		if (isatty(0))
 			shell->prompt = readline("minishell$ ");
 		else
@@ -52,6 +53,7 @@ int	main(int ac, char **av, char **envp)
 	check_args(ac, av);
 	init(&shell, envp);
 	implement_minishell(&shell);
+	ft_clear(&shell);
 	enable_echoctl();
 	return (0);
 }

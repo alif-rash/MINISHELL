@@ -6,7 +6,7 @@
 /*   By: hparveen <hparveen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 11:02:28 by hparveen          #+#    #+#             */
-/*   Updated: 2025/05/24 15:42:39 by hparveen         ###   ########.fr       */
+/*   Updated: 2025/05/27 08:22:23 by hparveen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,4 +69,26 @@ void	ft_free_tokenlist(t_token **token_list)
 		current = next;
 	}
 	*token_list = NULL;
+}
+
+void	ft_free_envlist(t_env **env_list)
+{
+	t_env	*current;
+	t_env	*next;
+
+	if (!env_list || !*env_list)
+		return ;
+	current = *env_list;
+	while (current)
+	{
+		if (current->next)
+			next = current->next;
+		else
+			next = NULL;
+		if (current->value)
+			free(current->value);
+		free(current);
+		current = next;
+	}
+	*env_list = NULL;
 }
