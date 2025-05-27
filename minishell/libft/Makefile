@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: hparveen <hparveen@student.42.fr>          +#+  +:+       +#+         #
+#    By: raalifa <raalifa@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/12/21 12:45:57 by hparveen          #+#    #+#              #
-#    Updated: 2025/05/14 12:25:36 by hparveen         ###   ########.fr        #
+#    Updated: 2025/05/27 11:37:02 by raalifa          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,7 +23,7 @@ RM = rm -f
 CFLAG = -Wall -Wextra -Werror
 
 .c.o:
-	@${CC} ${CFLAG} -c $< -o ${<:.c=.o} -I ${INCS}
+	@${CC} ${CFLAG} -c $< -o ${<:.c=.o}
 
 ${NAME}: ${OBJS}
 		@${LIBC} ${NAME} ${OBJS}
