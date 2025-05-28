@@ -1,0 +1,9 @@
+*.o
+*.a
+minishell
+*.out
+*.log
+*.tmp
+*.swp
+.DS_Store
+.vscode/
