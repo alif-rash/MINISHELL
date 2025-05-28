@@ -6,7 +6,7 @@
 /*   By: hparveen <hparveen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 10:50:00 by hparveen          #+#    #+#             */
-/*   Updated: 2025/05/24 12:09:43 by hparveen         ###   ########.fr       */
+/*   Updated: 2025/05/28 11:39:27 by hparveen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,5 +62,27 @@ int	brackets_closed(char *str, t_shell *shell, int *start, int *end)
 		}
 		shell->index++;
 	}
+	return (0);
+}
+
+int	check_nesting(const char *s)
+{
+	int	i;
+	int	nesting;
+
+	i = 0;
+	nesting = 0;
+	while (s[i])
+	{
+		if (s[i] == '(')
+			nesting++;
+		else if (s[i] == ')')
+			nesting--;
+		if (nesting < 0)
+			return (ERR_DOUBLEBRACKET);
+		i++;
+	}
+	if (nesting != 0)
+		return (ERR_DOUBLEBRACKET);
 	return (0);
 }

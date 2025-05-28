@@ -6,7 +6,7 @@
 /*   By: hparveen <hparveen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 09:33:06 by hparveen          #+#    #+#             */
-/*   Updated: 2025/05/28 07:59:53 by hparveen         ###   ########.fr       */
+/*   Updated: 2025/05/28 11:40:28 by hparveen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,6 +100,7 @@ t_token				*token_word(char *str, t_shell *shell, int index);
 int					check_operator_type(int is_double, char current);
 int					brackets_closed(char *str, t_shell *shell, int *start,
 						int *end);
+int					check_nesting(const char *s);
 t_token				*create_token(t_shell *shell, int index, int type,
 						char *str);
 int					categorise_tokens(t_shell *shell);
@@ -109,7 +110,7 @@ void				ft_free_tokenlist(t_token **token_list);
 
 int					ft_parsing(t_shell *shell);
 int					check_syntax(t_shell *shell);
-int					syntax_check_brackets(t_token *current);
+int					syntax_check_brackets(t_token *current, t_token *prev);
 int					syntax_check_redirections(t_token *current);
 int					syntax_check_operators(t_token *current, int index);
 
