@@ -1,29 +1,38 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_pwd.c                                           :+:      :+:    :+:   */
+/*   shlvlutils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hparveen <hparveen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/27 15:43:57 by raalifa           #+#    #+#             */
-/*   Updated: 2025/05/28 08:02:00 by hparveen         ###   ########.fr       */
+/*   Created: 2025/05/28 08:03:47 by hparveen          #+#    #+#             */
+/*   Updated: 2025/05/28 08:07:06 by hparveen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	ft_pwd(void)
+char	*remove_quotes(char *str)
 {
-	char	cwd[1024];
+	size_t	len;
 
-	if (getcwd(cwd, sizeof(cwd)) != NULL)
+	len = ft_strlen(str);
+	if (len >= 2 && str[0] == '"' && str[len - 1] == '"')
+		return (ft_substr(str, 1, len - 2));
+	return (ft_strdup(str));
+}
+
+char	*shlvl_value(char *value)
+{
+	int	i;
+
+	i = 0;
+	while (value[i])
 	{
-		printf("%s\n", cwd);
-		return (0);
+		if (!((value[i] >= '0' && value[i] <= '9') || (value[0] == '-')
+				|| (value[0] == '+')))
+			return (ft_strdup("\"1\""));
+		i++;
 	}
-	else
-	{
-		perror("pwd");
-		return (-1);
-	}
+	return (ft_return_shlvl(value));
 }

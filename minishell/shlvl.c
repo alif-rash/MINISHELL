@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   shlvl.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: raalifa <raalifa@student.42.fr>            +#+  +:+       +#+        */
+/*   By: hparveen <hparveen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 13:10:07 by hparveen          #+#    #+#             */
-/*   Updated: 2025/05/27 12:42:32 by raalifa          ###   ########.fr       */
+/*   Updated: 2025/05/28 08:07:00 by hparveen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,61 +14,46 @@
 
 static int	shlvl_overflow(int sign, unsigned long long number)
 {
-    if ((sign == 1 && number > 9223372036854775807ULL) ||
-        (sign == -1 && number > 9223372036854775808ULL))
-        return (1);
-    return (0);
+	if ((sign == 1 && number > 9223372036854775807ULL) || (sign == -1
+			&& number > 9223372036854775808ULL))
+		return (1);
+	return (0);
 }
 
 static char	*shlvl_str(int sign, unsigned long long number)
 {
-    char	*str;
-    char	*temp;
+	char	*str;
+	char	*temp;
 
-    str = ft_itoa(sign * (int)number);
-    temp = add_quote(str);
-    free(str);
-    return (temp);
+	str = ft_itoa(sign * (int)number);
+	temp = add_quote(str);
+	free(str);
+	return (temp);
 }
 
 char	*ft_return_shlvl(char *value)
 {
-    int					index;
-    int					sign;
-    unsigned long long	number;
+	int					index;
+	int					sign;
+	unsigned long long	number;
 
-    index = 0;
-    sign = 1;
-    number = 0;
-    skip_spaces(&value, &index, &sign);
-    while (value[index] >= '0' && value[index] <= '9')
-    {
-        number = number * 10 + (value[index] - '0');
-        if (shlvl_overflow(sign, number))
-            return (ft_strdup("1"));
-        index++;
-    }
-    if (sign == 1 && number == 9223372036854775807ULL)
-        return (ft_strdup("0"));
-    number++;
-    if (shlvl_overflow(sign, number))
-        return (ft_strdup("1"));
-    return (shlvl_str(sign, number));
-}
-
-char	*shlvl_value(char *value)
-{
-	int	i;
-
-	i = 0;
-	while (value[i])
+	index = 0;
+	sign = 1;
+	number = 0;
+	skip_spaces(&value, &index, &sign);
+	while (value[index] >= '0' && value[index] <= '9')
 	{
-		if (!((value[i] >= '0' && value[i] <= '9') || (value[0] == '-')
-				|| (value[0] == '+')))
-			return (ft_strdup("\"1\""));
-		i++;
+		number = number * 10 + (value[index] - '0');
+		if (shlvl_overflow(sign, number))
+			return (ft_strdup("1"));
+		index++;
 	}
-	return (ft_return_shlvl(value));
+	if (sign == 1 && number == 9223372036854775807ULL)
+		return (ft_strdup("0"));
+	number++;
+	if (shlvl_overflow(sign, number))
+		return (ft_strdup("1"));
+	return (shlvl_str(sign, number));
 }
 
 static void	update_existing_value(t_env *env_node)
@@ -106,14 +91,4 @@ void	update_shlvl(t_shell *shell)
 	}
 	if (search_in_env(shell, "SHLVL") == NULL)
 		new_env(shell, ft_strdup("SHLVL"), ft_strdup("\"1\""), 1);
-}
-
-char	*remove_quotes(char *str)
-{
-	size_t	len;
-
-	len = ft_strlen(str);
-	if (len >= 2 && str[0] == '"' && str[len - 1] == '"')
-		return (ft_substr(str, 1, len - 2));
-	return (ft_strdup(str));
 }

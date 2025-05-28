@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: raalifa <raalifa@student.42.fr>            +#+  +:+       +#+        */
+/*   By: hparveen <hparveen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 09:33:06 by hparveen          #+#    #+#             */
-/*   Updated: 2025/05/27 11:25:07 by raalifa          ###   ########.fr       */
+/*   Updated: 2025/05/28 07:59:53 by hparveen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,9 +26,9 @@
 
 void				rl_replace_line(const char *text, int clear_undo);
 
-#ifndef ARG_MAX
-#define ARG_MAX 4096
-#endif
+# ifndef ARG_MAX
+#  define ARG_MAX 4096
+# endif
 
 # define ERROR_GENERIC 0
 # define ERROR_PERROR 1
