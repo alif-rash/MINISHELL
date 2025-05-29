@@ -6,11 +6,40 @@
 /*   By: hparveen <hparveen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 10:49:04 by hparveen          #+#    #+#             */
-/*   Updated: 2025/05/28 12:45:43 by hparveen         ###   ########.fr       */
+/*   Updated: 2025/05/29 11:05:23 by hparveen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+static int	check_syntax_in_brackets(const char *subshell_str)
+{
+	t_shell	temp_shell;
+	char	*inner;
+	int		error;
+
+	ft_bzero(&temp_shell, sizeof(t_shell));
+	inner = ft_strndup(subshell_str + 1, ft_strlen(subshell_str) - 2);
+	if (!inner)
+		return (ERROR_MALLOC);
+	if (tokenisation(&temp_shell, inner))
+	{
+		free(inner);
+		return (1);
+	}
+	if (categorise_tokens(&temp_shell))
+	{
+		free(inner);
+		ft_free_tokenlist(&temp_shell.token_list);
+		return (1);
+	}
+	error = check_syntax(&temp_shell);
+	free(inner);
+	ft_free_tokenlist(&temp_shell.token_list);
+	if (error)
+		return (error);
+	return (0);
+}
 
 int	syntax_check_brackets(t_token *current, t_token *prev)
 {
@@ -27,11 +56,13 @@ int	syntax_check_brackets(t_token *current, t_token *prev)
 	if (current->next && (current->next->type == T_COMMAND
 			|| current->next->type == T_ARGUMENT))
 		return (ERR_INVALIDSUBSHELL);
-	if (ft_strlen(s) <= 2)
+	if (ft_strlen(s) <= 2 || is_all_space(s + 1))
 		return (ERR_DOUBLEBRACKET);
 	error = check_nesting(s);
 	if (error)
 		return (error);
+	if (ft_strchr(s + 1, '('))
+		return (check_syntax_in_brackets(s));
 	return (0);
 }
 

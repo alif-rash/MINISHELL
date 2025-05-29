@@ -6,7 +6,7 @@
 /*   By: hparveen <hparveen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 09:33:06 by hparveen          #+#    #+#             */
-/*   Updated: 2025/05/28 11:40:28 by hparveen         ###   ########.fr       */
+/*   Updated: 2025/05/29 13:04:08 by hparveen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,12 +27,13 @@
 void				rl_replace_line(const char *text, int clear_undo);
 
 # ifndef ARG_MAX
-#  define ARG_MAX 4096
+#  define ARG_MAX 262144
 # endif
 
 # define ERROR_GENERIC 0
 # define ERROR_PERROR 1
 # define ERROR_SYNTAX 2
+# define ERROR_MALLOC 3
 # define ERR_OP_SYNTAX 101
 # define ERR_OP_START 102
 # define ERR_REDIR_SYNTAX 103
@@ -80,6 +81,16 @@ typedef struct s_env
 	int				flag;
 }					t_env;
 
+typedef struct s_tree
+{
+	int				type;
+	int				fd;
+	char			*file;
+	char			**args;
+	struct s_tree	*left;
+	struct s_tree	*right;
+}					t_tree;
+
 typedef struct s_shell
 {
 	t_env			*env_list;
@@ -87,6 +98,7 @@ typedef struct s_shell
 	char			*prompt;
 	int				index;
 	t_token			*token_list;
+	t_tree			*ast;
 }					t_shell;
 
 void				check_args(int ac, char **av);
@@ -136,6 +148,7 @@ char				*shlvl_value(char *value);
 char				*ft_return_shlvl(char *value);
 
 int					ft_isspace(int c);
+int					is_all_space(const char *s);
 int					ft_isoperator(int c);
 void				skip_spaces(char **str, int *i, int *sign);
 
