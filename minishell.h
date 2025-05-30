@@ -6,7 +6,7 @@
 /*   By: hparveen <hparveen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 09:33:06 by hparveen          #+#    #+#             */
-/*   Updated: 2025/05/29 13:04:08 by hparveen         ###   ########.fr       */
+/*   Updated: 2025/05/30 07:57:23 by hparveen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,8 +87,8 @@ typedef struct s_tree
 	int				fd;
 	char			*file;
 	char			**args;
-	struct s_tree	*left;
-	struct s_tree	*right;
+	struct s_tree	*lhs;
+	struct s_tree	*rhs;
 }					t_tree;
 
 typedef struct s_shell

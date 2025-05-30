@@ -6,79 +6,108 @@
 /*   By: hparveen <hparveen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/29 13:10:18 by hparveen          #+#    #+#             */
-/*   Updated: 2025/05/29 13:39:41 by hparveen         ###   ########.fr       */
+/*   Updated: 2025/05/30 08:55:32 by hparveen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-t_tree	*create_tree(t_token **tokens)
+t_tree	*build_ast(t_token **tokens)
 {
-	return (create_tree_and(tokens));
+	return (build_ast_and(tokens));
 }
 
-t_tree	*create_tree_and(t_token **tokens)
+t_tree	*build_ast_and(t_token **tokens)
 {
-	t_tree	*new_node;
-	t_tree	*left;
+	t_tree	*branch;
+	t_tree	*lhs;
 
-	left = create_tree_or(tokens);
+	lhs = build_ast_or(tokens);
 	if (!(*tokens) || (*tokens)->type != T_LOGICAND)
-		return (left);
-	new_node = malloc(sizeof(t_tree));
-	if (!new_node)
+		return (lhs);
+	branch = malloc(sizeof(t_tree));
+	if (!branch)
 		return (NULL);
-	new_node->type = T_LOGICAND;
-	new_node->left = left;
-	new_node->right = NULL;
-	new_node->args = NULL;
-	new_node->fd = -1;
-	new_node->file = NULL;
+	branch->type = T_LOGICAND;
+	branch->lhs = lhs;
+	branch->rhs = NULL;
+	branch->args = NULL;
+	branch->fd = -1;
+	branch->file = NULL;
 	*tokens = (*tokens)->next;
-	new_node->right = create_tree_and(tokens);
-	return (new_node);
+	branch->rhs = build_ast_and(tokens);
+	return (branch);
 }
 
-t_tree	*create_tree_or(t_token **tokens)
+t_tree	*build_ast_or(t_token **tokens)
 {
-	t_tree	*new_node;
-	t_tree	*left;
+	t_tree	*branch;
+	t_tree	*lhs;
 
-	left = create_tree_pipe(tokens);
+	lhs = build_ast_pipe(tokens);
 	if (!(*tokens) || (*tokens)->type != T_LOGICOR)
-		return (left);
-	new_node = malloc(sizeof(t_tree));
-	if (!new_node)
+		return (lhs);
+	branch = malloc(sizeof(t_tree));
+	if (!branch)
 		return (NULL);
-	new_node->args = NULL;
-	new_node->fd = -1;
-	new_node->file = NULL;
-	new_node->left = left;
-	new_node->right = NULL;
-	new_node->type = T_LOGICOR;
+	branch->args = NULL;
+	branch->fd = -1;
+	branch->file = NULL;
+	branch->lhs = lhs;
+	branch->rhs = NULL;
+	branch->type = T_LOGICOR;
 	*tokens = (*tokens)->next;
-	new_node->right = create_tree_or(tokens);
-	return (new_node);
+	branch->rhs = build_ast_or(tokens);
+	return (branch);
 }
 
-t_tree	*create_tree_pipe(t_token **tokens)
+t_tree	*build_ast_pipe(t_token **tokens)
 {
-	t_tree	*new_node;
-	t_tree	*left;
+	t_tree	*branch;
+	t_tree	*lhs;
 
-	left = create_tree_redirections(tokens);
+	lhs = build_ast_redirections(tokens);
 	if (!(*tokens) || (*tokens)->type != T_PIPE)
-		return (left);
-	new_node = malloc(sizeof(t_tree));
-	if (!new_node)
+		return (lhs);
+	branch = malloc(sizeof(t_tree));
+	if (!branch)
 		return (NULL);
-	new_node->args = NULL;
-	new_node->fd = -1;
-	new_node->file = NULL;
-	new_node->left = left;
-	new_node->right = NULL;
-	new_node->type = T_PIPE;
+	branch->args = NULL;
+	branch->fd = -1;
+	branch->file = NULL;
+	branch->lhs = lhs;
+	branch->rhs = NULL;
+	branch->type = T_PIPE;
 	*tokens = (*tokens)->next;
-	new_node->right = create_tree_pipe(tokens);
-	return (new_node);
+	branch->rhs = build_ast_pipe(tokens);
+	return (branch);
+}
+
+t_tree	*build_ast_redirections(t_token **tokens)
+{
+	t_tree	*command_node;
+	t_tree	*redir_node;
+	t_tree	*prev_redir;
+	t_tree	*first_redir;
+	int		redir_count;
+	int		has_prev_redir;
+
+	redir_count = 0;
+	has_prev_redir = 0;
+	prev_redir = NULL;
+	first_redir = NULL;
+	command_node = build_ast_command(tokens);
+	while (*tokens && (*tokens)->type >= T_REDIRECT_IN
+		&& (*tokens) <= T_HEREDOC)
+	{
+		build_redirection_node(&redir_node, tokens, &has_prev_redir);
+		append_redirection_to_chain(&prev_redir, &redir_node, &first_redir);
+		skip_filename_and_args(&command_node, tokens, &redir_node);
+		redir_count++;
+	}
+	if (has_prev_redir)
+		redir_node->lhs = command_node;
+	if (redir_count == 0)
+		return (command_node);
+	return (first_redir);
 }
