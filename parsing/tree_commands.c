@@ -6,7 +6,7 @@
 /*   By: raalifa <raalifa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 10:11:57 by hparveen          #+#    #+#             */
-/*   Updated: 2025/05/30 15:49:00 by raalifa          ###   ########.fr       */
+/*   Updated: 2025/05/30 15:58:03 by raalifa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ static int	count_command_args(t_token *token)
 	{
 		if (token->type == T_COMMAND || token->type == T_ARGUMENT)
 			count++;
-		token = token->next
+		token = token->next;
 	}
 	return (count);
 }
