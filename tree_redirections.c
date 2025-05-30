@@ -6,13 +6,13 @@
 /*   By: hparveen <hparveen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 09:05:08 by hparveen          #+#    #+#             */
-/*   Updated: 2025/05/30 09:23:12 by hparveen         ###   ########.fr       */
+/*   Updated: 2025/05/30 10:11:25 by hparveen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	build_redirection_node(t_tree **redir_node, t_token **tokens,
+static void	build_redirection_node(t_tree **redir_node, t_token **tokens,
 		int *has_prev_redir)
 {
 	*has_prev_redir = 1;
@@ -28,7 +28,7 @@ void	build_redirection_node(t_tree **redir_node, t_token **tokens,
 		(*redir_node)->file = ft_strdup((*tokens)->value);
 }
 
-void	append_redirection_to_chain(t_tree **prev_redir, t_tree **new_node,
+static void	append_redirection_to_chain(t_tree **prev_redir, t_tree **new_node,
 		t_tree **head)
 {
 	if (*prev_redir)
@@ -38,7 +38,7 @@ void	append_redirection_to_chain(t_tree **prev_redir, t_tree **new_node,
 	*prev_redir = *new_node;
 }
 
-void	skip_filename_and_args(t_tree **cmd_node, t_token **tokens,
+static void	skip_filename_and_args(t_tree **cmd_node, t_token **tokens,
 		t_tree **redir_node)
 {
 	if (*tokens && ((*tokens)->type == T_FILENAME
@@ -55,4 +55,33 @@ void	skip_filename_and_args(t_tree **cmd_node, t_token **tokens,
 		*tokens = (*tokens)->next;
 	}
 	(*redir_node)->rhs = NULL;
+}
+
+t_tree	*build_ast_redirections(t_token **tokens)
+{
+	t_tree	*command_node;
+	t_tree	*redir_node;
+	t_tree	*prev_redir;
+	t_tree	*first_redir;
+	int		redir_count;
+	int		has_prev_redir;
+
+	redir_count = 0;
+	has_prev_redir = 0;
+	prev_redir = NULL;
+	first_redir = NULL;
+	command_node = build_ast_command(tokens);
+	while (*tokens && (*tokens)->type >= T_REDIRECT_IN
+		&& (*tokens) <= T_HEREDOC)
+	{
+		build_redirection_node(&redir_node, tokens, &has_prev_redir);
+		append_redirection_to_chain(&prev_redir, &redir_node, &first_redir);
+		skip_filename_and_args(&command_node, tokens, &redir_node);
+		redir_count++;
+	}
+	if (has_prev_redir)
+		redir_node->lhs = command_node;
+	if (redir_count == 0)
+		return (command_node);
+	return (first_redir);
 }
