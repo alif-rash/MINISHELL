@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hparveen <hparveen@student.42.fr>          +#+  +:+       +#+        */
+/*   By: raalifa <raalifa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 09:33:06 by hparveen          #+#    #+#             */
-/*   Updated: 2025/05/30 07:57:23 by hparveen         ###   ########.fr       */
+/*   Updated: 2025/05/30 16:09:17 by raalifa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -171,4 +171,8 @@ void				ft_print_error(char *args, int flag, int fd);
 int					print_error(t_shell *shell, int error_code,
 						t_token *current);
 
+int					ft_echo(char **args)
+
+						
+						
 #endif
