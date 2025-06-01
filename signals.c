@@ -49,3 +49,9 @@ void	exit_function(t_shell *shell)
 	write(2, "exit\n", 5);
 	exit(1);
 }
+
+void signal_heredoc(void)
+{
+	signal(SIGINT, SIG_IGN);
+	signal(SIGQUIT, SIG_IGN);
+}

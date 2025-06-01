@@ -28,6 +28,7 @@ void	implement_minishell(t_shell *shell)
 	{
 		signal_init();
 		ft_free_tokenlist(&shell->token_list);
+		ft_free_treelist(shell->ast);
 		if (isatty(0))
 			shell->prompt = readline("minishell$ ");
 		else

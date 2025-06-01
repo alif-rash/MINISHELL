@@ -16,7 +16,7 @@ int	ft_parsing(t_shell *shell)
 {
 	t_token	*list;
 
-	// t_token	*tokens;
+	t_token	*tokens;
 	shell->index = 0;
 	if (tokenisation(shell, shell->prompt) || !shell->token_list)
 	{
@@ -34,8 +34,8 @@ int	ft_parsing(t_shell *shell)
 	}
 	if (check_syntax(shell))
 		return (1);
-	// tokens = shell->token_list;
-	// shell->ast = build_ast(&tokens);
+	tokens = shell->token_list;
+	shell->ast = build_ast(&tokens);
 	free(shell->prompt);
 	shell->prompt = NULL;
 	ft_free_tokenlist(&shell->token_list);
