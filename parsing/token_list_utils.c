@@ -6,11 +6,11 @@
 /*   By: raalifa <raalifa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 11:02:28 by hparveen          #+#    #+#             */
-/*   Updated: 2025/05/27 12:52:37 by raalifa          ###   ########.fr       */
+/*   Updated: 2025/06/02 16:59:47 by raalifa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
 t_token	*create_token(t_shell *shell, int index, int type, char *str)
 {

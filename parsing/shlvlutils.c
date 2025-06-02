@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   shlvlutils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hparveen <hparveen@student.42.fr>          +#+  +:+       +#+        */
+/*   By: raalifa <raalifa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 08:03:47 by hparveen          #+#    #+#             */
-/*   Updated: 2025/05/28 08:07:06 by hparveen         ###   ########.fr       */
+/*   Updated: 2025/06/02 16:59:47 by raalifa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
 char	*remove_quotes(char *str)
 {

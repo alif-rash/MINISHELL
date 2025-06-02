@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   categorise_tokens.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hparveen <hparveen@student.42.fr>          +#+  +:+       +#+        */
+/*   By: raalifa <raalifa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 09:23:06 by hparveen          #+#    #+#             */
-/*   Updated: 2025/05/26 13:30:04 by hparveen         ###   ########.fr       */
+/*   Updated: 2025/06/02 16:59:47 by raalifa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
 static t_token	*tokens_after_redirection(t_shell *shell, t_token *list,
 		int *is_command)

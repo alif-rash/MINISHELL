@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   ft_pwd.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hparveen <hparveen@student.42.fr>          +#+  +:+       +#+        */
+/*   By: raalifa <raalifa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 15:43:57 by raalifa           #+#    #+#             */
-/*   Updated: 2025/05/28 08:02:00 by hparveen         ###   ########.fr       */
+/*   Updated: 2025/06/02 16:59:47 by raalifa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
 int	ft_pwd(void)
 {
@@ -23,7 +23,7 @@ int	ft_pwd(void)
 	}
 	else
 	{
-		perror("pwd");
-		return (-1);
-	}
+		perror("getcwd() error");
+		return (1);
+	}	
 }
