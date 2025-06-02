@@ -1,14 +1,18 @@
 
 #include "../minishell.h"
 
-void ft_perror(char *msg)
+void	ft_perror(char *cmd, char *msg)
 {
-    if (msg)
-    {
-        fprintf(stderr, "Error: %s\n", msg);
-    }
-    else
-    {
-        fprintf(stderr, "Error: Unknown error occurred\n");
-    }
+	if (cmd && msg)
+	{
+		ft_putstr_fd(cmd, 2);
+		ft_putstr_fd(": ", 2);
+		ft_putstr_fd(msg, 2);
+		ft_putstr_fd("\n", 2);
+	}
+	else if (cmd)
+	{
+        ft_putstr_fd(cmd, 2);
+        ft_putstr_fd(": Unknown error occurred\n", 2);
+	}
 }

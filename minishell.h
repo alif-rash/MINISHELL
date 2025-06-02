@@ -6,7 +6,7 @@
 /*   By: raalifa <raalifa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 09:33:06 by hparveen          #+#    #+#             */
-/*   Updated: 2025/06/02 17:05:42 by raalifa          ###   ########.fr       */
+/*   Updated: 2025/06/02 19:11:42 by raalifa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,9 @@
 # include <signal.h>
 # include <stdio.h>
 # include <stdlib.h>
+# include <string.h>
 # include <termios.h>
 # include <unistd.h>
-
 
 # ifndef ARG_MAX
 #  define ARG_MAX 262144
@@ -154,8 +154,8 @@ t_tree				*build_ast_pipe(t_token **tokens);
 t_tree				*build_ast_redirections(t_token **tokens);
 t_tree				*build_ast_command(t_token **tokens);
 
-void 				heredoc(t_shell *shell, t_token *tokens);
-int 				multiple_heredocs(t_token *list);
+void				heredoc(t_shell *shell, t_token *tokens);
+int					multiple_heredocs(t_token *list);
 
 int					ft_isspace(int c);
 int					is_all_space(const char *s);
@@ -171,8 +171,8 @@ void				exit_function(t_shell *shell);
 
 void				signal_init(void);
 void				handle_signal(int signal);
-void 				signal_heredoc(void);
-void 				handle_heredoc(int signal);
+void				signal_heredoc(void);
+void				handle_heredoc(int signal);
 void				disable_echoctl(void);
 void				enable_echoctl(void);
 int					exit_status(char *str, int status);
@@ -185,6 +185,6 @@ int					print_error(t_shell *shell, int error_code,
 
 int					ft_echo(char **args);
 
-void ft_free_treelist(t_tree *branch);
-						
+void				ft_free_treelist(t_tree *branch);
+
 #endif
