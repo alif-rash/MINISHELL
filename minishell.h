@@ -6,7 +6,7 @@
 /*   By: raalifa <raalifa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 09:33:06 by hparveen          #+#    #+#             */
-/*   Updated: 2025/05/30 16:09:17 by raalifa          ###   ########.fr       */
+/*   Updated: 2025/06/02 16:03:16 by raalifa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,6 @@
 # include <termios.h>
 # include <unistd.h>
 
-void				rl_replace_line(const char *text, int clear_undo);
 
 # ifndef ARG_MAX
 #  define ARG_MAX 262144
@@ -101,6 +100,7 @@ typedef struct s_shell
 	t_tree			*ast;
 }					t_shell;
 
+void				rl_replace_line(const char *text, int clear_undo);
 void				check_args(int ac, char **av);
 int					prompt_is_big(t_shell *shell);
 void				implement_minishell(t_shell *shell);
@@ -171,7 +171,7 @@ void				ft_print_error(char *args, int flag, int fd);
 int					print_error(t_shell *shell, int error_code,
 						t_token *current);
 
-int					ft_echo(char **args)
+int					ft_echo(char **args);
 
 						
 						

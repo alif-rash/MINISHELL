@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hparveen <hparveen@student.42.fr>          +#+  +:+       +#+        */
+/*   By: raalifa <raalifa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 13:10:12 by hparveen          #+#    #+#             */
-/*   Updated: 2025/05/27 08:07:31 by hparveen         ###   ########.fr       */
+/*   Updated: 2025/06/01 13:09:36 by raalifa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,4 +113,26 @@ t_env	*envlst_new(char *env_variable, int flag)
 		return (NULL);
 	}
 	return (env_node);
+}
+
+void	update_env(t_shell *shell, const char *key, const char *value)
+{
+	t_env	*current;
+
+	if (!shell || !key || !value)
+		return ;
+	current = shell->env_list;
+	while (current)
+	{
+		if (ft_strcmp(current->key, key) == 0)
+		{
+			free(current->value);
+			current->value = ft_strdup(value);
+			if (!current->value)
+				perror("Error updating environment variable");
+			return ;
+		}
+		current = current->next;
+	}
+	new_env(shell, (char *)key, (char *)value, 0);
 }

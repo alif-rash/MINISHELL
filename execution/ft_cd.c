@@ -3,32 +3,42 @@
 /*                                                        :::      ::::::::   */
 /*   ft_cd.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hparveen <hparveen@student.42.fr>          +#+  +:+       +#+        */
+/*   By: raalifa <raalifa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 15:43:03 by raalifa           #+#    #+#             */
-/*   Updated: 2025/05/28 07:58:36 by hparveen         ###   ########.fr       */
+/*   Updated: 2025/06/02 15:38:33 by raalifa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	ft_cd(char **args)
+int	ft_cd(char *args, t_env *env)
 {
-	char	*home;
+	char	*path;
+	char	*oldpwd;
+	char	*newpwd;
 
-	if (!args[1] || strcmp(args[1], "~") == 0)
+	if (!args || !*args)
 	{
-		home = getenv("HOME");
-		if (home && chdir(home) != 0)
-		{
-			perror("cd");
-			return (-1);
-		}
+		path = ft_getenv("HOME", env);
+		if (!path)
+			perror("cd: HOME not set");
 	}
-	else if (chdir(args[1]) != 0)
+	path = args;
+	oldpwd = getcwd(NULL, 0);
+	if (chdir(path) == -1)
 	{
 		perror("cd");
-		return (-1);
+		free(oldpwd);
+		return (1);
 	}
+	newpwd = getcwd(NULL, 0);
+	if (newpwd && oldpwd)
+	{
+		update_env("OLDPWD", oldpwd, env);
+		update_env("PWD", newpwd, env);
+	}
+	free(newpwd);
+	free(oldpwd);
 	return (0);
 }
