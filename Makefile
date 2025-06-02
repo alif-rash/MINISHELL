@@ -4,10 +4,10 @@ CFLAG = -Wall -Werror -Wextra
 RM = rm -f
 SRCS = minishell.c \
 	execution.c \
-	heredoc_multiple.c \
-	heredoc.c \
-	signals2.c \
-	tree_utils.c \
+	parsing/heredoc_multiple.c \
+	parsing/heredoc.c \
+	parsing/signals2.c \
+	parsing/tree_utils.c \
 	parsing/categorise_tokens.c \
 	parsing/check_syntax.c \
 	parsing/ctrl_c.c\
