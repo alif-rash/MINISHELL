@@ -24,6 +24,8 @@ int	ft_parsing(t_shell *shell)
 		shell->prompt = NULL;
 		return (1);
 	}
+	free(shell->prompt);
+	shell->prompt = NULL;
 	if (categorise_tokens(shell))
 		return (1);
 	list = shell->token_list;
@@ -35,9 +37,10 @@ int	ft_parsing(t_shell *shell)
 	if (check_syntax(shell))
 		return (1);
 	tokens = shell->token_list;
+	here_doc(shell, tokens);
 	shell->ast = build_ast(&tokens);
-	free(shell->prompt);
-	shell->prompt = NULL;
+	if(shell->ast == NULL)
+		return(handle_error(shell, "tree_create", ERROR_SYNTAX, '\0'), 1);
 	ft_free_tokenlist(&shell->token_list);
 	return (0);
 }
