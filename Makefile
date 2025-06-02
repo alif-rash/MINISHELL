@@ -3,6 +3,11 @@ CC = cc
 CFLAG = -Wall -Werror -Wextra
 RM = rm -f
 SRCS = minishell.c \
+	execution.c \
+	heredoc_multiple.c \
+	heredoc.c \
+	signals2.c \
+	tree_utils.c \
 	parsing/categorise_tokens.c \
 	parsing/check_syntax.c \
 	parsing/ctrl_c.c\
@@ -24,21 +29,19 @@ SRCS = minishell.c \
 	parsing/tree_redirections.c \
 	parsing/utils.c \
 	parsing/utils1.c \
-	execution/ft_cd.c \
-	execution/ft_echo.c \
-	execution/ft_env.c \
-	execution/ft_exit.c \
-	execution/ft_export.c \
 	execution/ft_pwd.c \
-	execution/ft_unset.c
-OBJS = ${SRCS:.c=.o}
+	execution/ft_echo.c \
+
+OBJDIR = obj
+OBJS = $(addprefix $(OBJDIR)/, ${SRCS:.c=.o})
 LIBFT_DIR = libft
 LIBFT = ${LIBFT_DIR}/libft.a
 RLFLAGS		=	-lreadline -lhistory
 RLDIR		=	-L/opt/vagrant/embedded/lib
 RLINC		=	-I/opt/vagrant/embedded/include/readline/readline.h
 
-%.o: %.c
+$(OBJDIR)/%.o: %.c
+	@mkdir -p $(OBJDIR)
 	@${CC} ${CFLAG} ${RLINC} -c -o $@ $^ -I .
 
 ${NAME}: ${OBJS} ${LIBFT}
@@ -51,7 +54,7 @@ ${LIBFT}:
 all: ${NAME}
 
 clean:
-	@${RM} ${OBJS}
+	@${RM} -r ${OBJDIR}
 	@make clean -C ${LIBFT_DIR}
 	@echo "$(YELLOW)Object files cleaned 🧹$(DEFAULT)"
 

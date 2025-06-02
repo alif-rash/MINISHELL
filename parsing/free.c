@@ -56,4 +56,7 @@ void	ft_clear(t_shell *shell)
 		ft_free_array(shell->env_array);
 	if (shell->env_list)
 		ft_free_envlist(&(shell->env_list));
+	if(shell->ast)
+		ft_free_treelist(shell->ast);
+	
 }
