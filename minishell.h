@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hparveen <hparveen@student.42.fr>          +#+  +:+       +#+        */
+/*   By: raalifa <raalifa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 09:33:06 by hparveen          #+#    #+#             */
-/*   Updated: 2025/06/03 13:48:16 by hparveen         ###   ########.fr       */
+/*   Updated: 2025/06/03 15:53:01 by raalifa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -406,14 +406,6 @@ void env_lstadd_back(t_env **env_list, t_env *new_node);
 void init_pwd_oldpwd(t_shell *shell);
 
 /**
- * @file minishell.h
- * @brief Header file for Minishell project containing function declarations and data structures.
- *
- * This file includes function prototypes for environment variable management,
- * shell level updates, and abstract syntax tree (AST) construction for token parsing.
- */
-
-/**
  * @brief Searches for a key in the shell's environment variables.
  * 
  * @param shell Pointer to the shell structure.
@@ -423,8 +415,9 @@ void init_pwd_oldpwd(t_shell *shell);
 char *search_in_env(t_shell *shell, char *key);
 
 /**
- * @brief Adds a new environment variable or updates an existing one.
- * 
+ * @brief This function constructs a new environment variable string based on 
+ * the provided key, value, and export flag, and adds it to the shell's 
+ * environment list. 
  * @param shell Pointer to the shell structure.
  * @param key The key of the environment variable.
  * @param value The value of the environment variable.
@@ -503,38 +496,183 @@ t_tree *build_ast_redirections(t_token **tokens);
  */
 t_tree *build_ast_command(t_token **tokens);
 
-void				heredoc(t_shell *shell, t_token *tokens);
-int					multiple_heredocs(t_token *list);
+/**
+ * @brief Handles the heredoc functionality in the shell.
+ * 
+ * @param shell Pointer to the shell structure.
+ * @param tokens Pointer to the list of tokens.
+ */
+void heredoc(t_shell *shell, t_token *tokens);
 
-int					ft_isspace(int c);
-int					is_all_space(const char *s);
-int					ft_isoperator(int c);
-void				skip_spaces(char **str, int *i, int *sign);
+/**
+ * @brief Processes multiple heredocs in the token list.
+ * 
+ * @param list Pointer to the token list.
+ * @return int Returns a status code indicating success or failure.
+ */
+int multiple_heredocs(t_token *list);
 
-void				free_function(void **a, void **b, void **c);
-void				ft_free_array(char **array);
-void				ft_free_envlist(t_env **env_list);
-void				ft_clear(t_shell *shell, int flag);
-int					ft_array_len(char **array);
-void				exit_function(t_shell *shell);
+/**
+ * @brief Checks if a character is a whitespace character.
+ * 
+ * @param c Character to check.
+ * @return int Returns non-zero if the character is a whitespace, otherwise 0.
+ */
+int ft_isspace(int c);
 
-void				signal_init(void);
-void				handle_signal(int signal);
-void				signal_heredoc(void);
-void				signal_dfl(void);
-void				handle_heredoc(int signal);
-void				disable_echoctl(void);
-void				enable_echoctl(void);
-int					exit_status(char *str, int status);
+/**
+ * @brief Checks if a string consists entirely of whitespace characters.
+ * 
+ * @param s Pointer to the string.
+ * @return int Returns non-zero if the string is all whitespace, otherwise 0.
+ */
+int is_all_space(const char *s);
 
-void				handle_error(t_shell *shell, char *msg, int error_type,
-						int quote_flag);
-void				ft_print_error(char *args, int flag, int fd);
-int					print_error(t_shell *shell, int error_code,
-						t_token *current);
+/**
+ * @brief Checks if a character is an operator.
+ * 
+ * @param c Character to check.
+ * @return int Returns non-zero if the character is an operator, otherwise 0.
+ */
+int ft_isoperator(int c);
 
-int					ft_echo(char **args);
+/**
+ * @brief Skips spaces in a string and updates the index and sign.
+ * 
+ * @param str Pointer to the string pointer.
+ * @param i Pointer to the index variable.
+ * @param sign Pointer to the sign variable.
+ */
+void skip_spaces(char **str, int *i, int *sign);
 
-void				ft_free_treelist(t_tree *branch);
+/**
+ * @brief Frees three pointers and sets them to NULL.
+ * 
+ * @param a Pointer to the first variable to free.
+ * @param b Pointer to the second variable to free.
+ * @param c Pointer to the third variable to free.
+ */
+void free_function(void **a, void **b, void **c);
+
+/**
+ * @brief Frees a dynamically allocated array of strings.
+ * 
+ * @param array Pointer to the array of strings.
+ */
+void ft_free_array(char **array);
+
+/**
+ * @brief Frees the environment list.
+ * 
+ * @param env_list Pointer to the environment list.
+ */
+void ft_free_envlist(t_env **env_list);
+
+/**
+ * @brief Clears the shell structure and optionally performs additional cleanup.
+ * 
+ * @param shell Pointer to the shell structure.
+ * @param flag Flag indicating the type of cleanup to perform.
+ */
+void ft_clear(t_shell *shell, int flag);
+
+/**
+ * @brief Calculates the length of a string array.
+ * 
+ * @param array Pointer to the array of strings.
+ * @return int Returns the length of the array.
+ */
+int ft_array_len(char **array);
+
+/**
+ * @brief Exits the shell and performs necessary cleanup.
+ * 
+ * @param shell Pointer to the shell structure.
+ */
+void exit_function(t_shell *shell);
+
+/**
+ * @brief Initializes signal handling for the shell.
+ */
+void signal_init(void);
+
+/**
+ * @brief Handles a specific signal.
+ * @param signal The signal to handle.
+ */
+void handle_signal(int signal);
+
+/**
+ * @brief Configures signal handling for heredoc functionality.
+ */
+void signal_heredoc(void);
+
+/**
+ * @brief Resets signal handling to default behavior.
+ */
+void signal_dfl(void);
+
+/**
+ * @brief Handles signals specifically for heredoc operations.
+ * @param signal The signal to handle.
+ */
+void handle_heredoc(int signal);
+
+/**
+ * @brief Disables echo control characters in the terminal.
+ */
+void disable_echoctl(void);
+
+/**
+ * @brief Enables echo control characters in the terminal.
+ */
+void enable_echoctl(void);
+
+/**
+ * @brief Sets or retrieves the exit status of the shell.
+ * @param str Optional string to parse for status.
+ * @param status The status to set.
+ * @return The current exit status.
+ */
+int exit_status(char *str, int status);
+
+/**
+ * @brief Handles errors in the shell.
+ * @param shell Pointer to the shell structure.
+ * @param msg Error message to display.
+ * @param error_type Type of error.
+ * @param quote_flag Flag indicating if quotes are involved.
+ */
+void handle_error(t_shell *shell, char *msg, int error_type, int quote_flag);
+
+/**
+ * @brief Prints an error message to the specified file descriptor.
+ * @param args Arguments related to the error.
+ * @param flag Flag indicating the type of error.
+ * @param fd File descriptor to print the error to.
+ */
+void ft_print_error(char *args, int flag, int fd);
+
+/**
+ * @brief Prints an error message based on the error code and token.
+ * @param shell Pointer to the shell structure.
+ * @param error_code Error code to interpret.
+ * @param current Pointer to the current token.
+ * @return Status code indicating success or failure.
+ */
+int print_error(t_shell *shell, int error_code, t_token *current);
+
+/**
+ * @brief Executes the echo command.
+ * @param args Arguments passed to the echo command.
+ * @return Status code indicating success or failure.
+ */
+int ft_echo(char **args);
+
+/**
+ * @brief Frees memory associated with a tree structure.
+ * @param branch Pointer to the tree branch to free.
+ */
+void ft_free_treelist(t_tree *branch);
 
 #endif
