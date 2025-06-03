@@ -3,7 +3,6 @@ CC = cc
 CFLAG = -Wall -Werror -Wextra
 RM = rm -f
 SRCS = minishell.c \
-	parsing/execution.c \
 	parsing/heredoc_multiple.c \
 	parsing/heredoc.c \
 	parsing/signals2.c \
