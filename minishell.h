@@ -6,7 +6,7 @@
 /*   By: raalifa <raalifa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 09:33:06 by hparveen          #+#    #+#             */
-/*   Updated: 2025/06/03 15:53:01 by raalifa          ###   ########.fr       */
+/*   Updated: 2025/06/03 16:17:58 by raalifa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -674,5 +674,8 @@ int ft_echo(char **args);
  * @param branch Pointer to the tree branch to free.
  */
 void ft_free_treelist(t_tree *branch);
+
+void	execute_command(t_shell *shell, t_tree *ast);
+
 
 #endif

@@ -29,6 +29,7 @@ SRCS = minishell.c \
 	parsing/tree_redirections.c \
 	parsing/utils.c \
 	parsing/utils1.c \
+	execution/execute.c\
 	execution/ft_pwd.c \
 	execution/ft_echo.c \
 
