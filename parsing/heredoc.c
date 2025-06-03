@@ -6,7 +6,7 @@
 /*   By: hparveen <hparveen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/03 08:12:16 by hparveen          #+#    #+#             */
-/*   Updated: 2025/06/03 08:12:21 by hparveen         ###   ########.fr       */
+/*   Updated: 2025/06/03 13:06:58 by hparveen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ static int	fork_heredoc(t_shell *shell, pid_t *pid, int fd[2], char *delimiter)
 		read_from_stdin(delimiter, fd[1]);
 		close(fd[0]);
 		exit(0);
-		ft_clear(shell);
+		ft_clear(shell, 2);
 		exit(0);
 	}
 	return (0);

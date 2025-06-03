@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: raalifa <raalifa@student.42.fr>            +#+  +:+       +#+        */
+/*   By: hparveen <hparveen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 09:44:17 by hparveen          #+#    #+#             */
-/*   Updated: 2025/06/02 16:59:55 by raalifa          ###   ########.fr       */
+/*   Updated: 2025/06/03 13:05:32 by hparveen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,7 @@ void	implement_minishell(t_shell *shell)
 	while (1)
 	{
 		signal_init();
-		ft_free_tokenlist(&shell->token_list);
-		ft_free_treelist(shell->ast);
+		ft_clear(shell, 1);
 		if (isatty(0))
 			shell->prompt = readline("minishell$ ");
 		else
@@ -54,7 +53,7 @@ int	main(int ac, char **av, char **envp)
 	check_args(ac, av);
 	init(&shell, envp);
 	implement_minishell(&shell);
-	ft_clear(&shell);
+	ft_clear(&shell, 2);
 	enable_echoctl();
 	return (0);
 }

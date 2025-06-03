@@ -6,7 +6,7 @@
 /*   By: hparveen <hparveen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 09:33:06 by hparveen          #+#    #+#             */
-/*   Updated: 2025/06/03 10:37:13 by hparveen         ###   ########.fr       */
+/*   Updated: 2025/06/03 13:19:56 by hparveen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,9 +101,12 @@ typedef struct s_shell
 }					t_shell;
 
 /**
- * @brief Replaces the current line in the readline buffer with the specified text.
- * @param text The new text to replace the current line. Must be a null-terminated string.
- * @param clear_undo If non-zero, the undo information for the current line is cleared.
+
+	* @brief Replaces the current line in the readline buffer with the specified text.
+
+	* @param text The new text to replace the current line. Must be a null-terminated string.
+ * @param clear_undo If non-zero,
+	the undo information for the current line is cleared.
  */
 void				rl_replace_line(const char *text, int clear_undo);
 void				check_args(int ac, char **av);
@@ -170,13 +173,14 @@ void				skip_spaces(char **str, int *i, int *sign);
 void				free_function(void **a, void **b, void **c);
 void				ft_free_array(char **array);
 void				ft_free_envlist(t_env **env_list);
-void				ft_clear(t_shell *shell);
+void				ft_clear(t_shell *shell, int flag);
 int					ft_array_len(char **array);
 void				exit_function(t_shell *shell);
 
 void				signal_init(void);
 void				handle_signal(int signal);
 void				signal_heredoc(void);
+void				signal_dfl(void);
 void				handle_heredoc(int signal);
 void				disable_echoctl(void);
 void				enable_echoctl(void);
