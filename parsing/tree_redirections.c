@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tree_redirections.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: raalifa <raalifa@student.42.fr>            +#+  +:+       +#+        */
+/*   By: hparveen <hparveen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 09:05:08 by hparveen          #+#    #+#             */
-/*   Updated: 2025/06/02 16:59:47 by raalifa          ###   ########.fr       */
+/*   Updated: 2025/06/03 08:19:01 by hparveen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,25 +63,24 @@ t_tree	*build_ast_redirections(t_token **tokens)
 	t_tree	*redir_node;
 	t_tree	*prev_redir;
 	t_tree	*first_redir;
-	int		redir_count;
-	int		has_prev_redir;
+	int		redir[2];
 
-	redir_count = 0;
-	has_prev_redir = 0;
+	redir[0] = 0;
+	redir[1] = 0;
 	prev_redir = NULL;
 	first_redir = NULL;
 	command_node = build_ast_command(tokens);
-	while (*tokens && (*tokens)->type >= T_REDIRECT_IN
-		&& (*tokens) <= T_HEREDOC)
+	while (*tokens && ((*tokens)->type >= T_REDIRECT_IN
+			&& (*tokens)->type <= T_HEREDOC))
 	{
-		build_redirection_node(&redir_node, tokens, &has_prev_redir);
+		build_redirection_node(&redir_node, tokens, &redir[1]);
 		append_redirection_to_chain(&prev_redir, &redir_node, &first_redir);
 		skip_filename_and_args(&command_node, tokens, &redir_node);
-		redir_count++;
+		redir[0]++;
 	}
-	if (has_prev_redir)
+	if (redir[1])
 		redir_node->lhs = command_node;
-	if (redir_count == 0)
+	if (redir[0] == 0)
 		return (command_node);
 	return (first_redir);
 }

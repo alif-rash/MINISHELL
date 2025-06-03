@@ -3,7 +3,7 @@ CC = cc
 CFLAG = -Wall -Werror -Wextra
 RM = rm -f
 SRCS = minishell.c \
-	execution.c \
+	parsing/execution.c \
 	parsing/heredoc_multiple.c \
 	parsing/heredoc.c \
 	parsing/signals2.c \
@@ -12,6 +12,7 @@ SRCS = minishell.c \
 	parsing/check_syntax.c \
 	parsing/ctrl_c.c\
 	parsing/env_utils.c\
+	parsing/env_update.c\
 	parsing/error.c\
 	parsing/free.c\
 	parsing/initialise.c\
@@ -41,7 +42,7 @@ RLDIR		=	-L/opt/vagrant/embedded/lib
 RLINC		=	-I/opt/vagrant/embedded/include/readline/readline.h
 
 $(OBJDIR)/%.o: %.c
-	@mkdir -p $(OBJDIR)
+	@mkdir -p $(dir $@)
 	@${CC} ${CFLAG} ${RLINC} -c -o $@ $^ -I .
 
 ${NAME}: ${OBJS} ${LIBFT}
