@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: raalifa <raalifa@student.42.fr>            +#+  +:+       +#+        */
+/*   By: hparveen <hparveen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 09:33:06 by hparveen          #+#    #+#             */
-/*   Updated: 2025/06/02 19:11:42 by raalifa          ###   ########.fr       */
+/*   Updated: 2025/06/03 10:37:13 by hparveen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,6 +100,11 @@ typedef struct s_shell
 	t_tree			*ast;
 }					t_shell;
 
+/**
+ * @brief Replaces the current line in the readline buffer with the specified text.
+ * @param text The new text to replace the current line. Must be a null-terminated string.
+ * @param clear_undo If non-zero, the undo information for the current line is cleared.
+ */
 void				rl_replace_line(const char *text, int clear_undo);
 void				check_args(int ac, char **av);
 int					prompt_is_big(t_shell *shell);
