@@ -6,7 +6,7 @@
 /*   By: hparveen <hparveen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 10:56:11 by hparveen          #+#    #+#             */
-/*   Updated: 2025/06/03 08:13:18 by hparveen         ###   ########.fr       */
+/*   Updated: 2025/06/03 10:03:07 by hparveen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,8 +45,8 @@ void	signal_init(void)
 
 void	exit_function(t_shell *shell)
 {
+	(void)shell;
 	write(2, "exit\n", 5);
-	ft_clear(shell);
 	exit(1);
 }
 

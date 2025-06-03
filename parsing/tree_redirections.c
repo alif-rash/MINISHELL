@@ -6,7 +6,7 @@
 /*   By: hparveen <hparveen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 09:05:08 by hparveen          #+#    #+#             */
-/*   Updated: 2025/06/03 08:19:01 by hparveen         ###   ########.fr       */
+/*   Updated: 2025/06/03 09:05:09 by hparveen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,9 @@
 static void	build_redirection_node(t_tree **redir_node, t_token **tokens,
 		int *has_prev_redir)
 {
-	*has_prev_redir = 1;
-	*redir_node = malloc(sizeof(t_tree));
-	if (!*redir_node)
+	(*has_prev_redir) = 1;
+	(*redir_node) = malloc(sizeof(t_tree));
+	if (!(*redir_node))
 		return ;
 	(*redir_node)->args = NULL;
 	(*redir_node)->fd = (*tokens)->fd;
@@ -34,7 +34,10 @@ static void	append_redirection_to_chain(t_tree **prev_redir, t_tree **new_node,
 	if (*prev_redir)
 		(*prev_redir)->lhs = *new_node;
 	else
+	{
 		*head = *new_node;
+		(*new_node)->lhs = NULL;
+	}
 	*prev_redir = *new_node;
 }
 
@@ -82,5 +85,6 @@ t_tree	*build_ast_redirections(t_token **tokens)
 		redir_node->lhs = command_node;
 	if (redir[0] == 0)
 		return (command_node);
-	return (first_redir);
+	else
+		return (first_redir);
 }
