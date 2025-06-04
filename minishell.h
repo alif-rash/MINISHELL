@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hparveen <hparveen@student.42.fr>          +#+  +:+       +#+        */
+/*   By: raalifa <raalifa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 09:33:06 by hparveen          #+#    #+#             */
-/*   Updated: 2025/06/04 09:34:20 by hparveen         ###   ########.fr       */
+/*   Updated: 2025/06/04 12:02:06 by raalifa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -693,5 +693,13 @@ int					ft_echo(char **args);
 void				ft_free_treelist(t_tree *branch);
 
 void				execute_command(t_shell *shell, t_tree *ast);
+int					ft_cd(char **args, t_shell *shell);
+
+void				ft_perror(char *cmd, char *msg);
+void				update_env(t_shell *shell, char *key, char *value);
+
+int					ft_pwd(void);
+
+int	ft_env(t_env *env_list);
 
 #endif

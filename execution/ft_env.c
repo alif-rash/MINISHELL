@@ -6,26 +6,28 @@
 /*   By: raalifa <raalifa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 15:46:54 by raalifa           #+#    #+#             */
-/*   Updated: 2025/06/02 16:59:47 by raalifa          ###   ########.fr       */
+/*   Updated: 2025/06/04 12:31:19 by raalifa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-int	ft_env(char **envp)
+int	ft_env(t_env *env_list)
 {
-	int	i;
+	t_env	*current;
+	char	*value;
 
-	i = 0;
-	if (!envp || !*envp)
+	if (!env_list)
+		return (0);
+	current = env_list;
+	while (current)
 	{
-		printf("env: No environment variables set.\n");
-		return (1);
-	}
-	while (envp[i])
-	{
-		printf("%s\n", envp[i]);
-		i++;
+		if (current->value && current->flag == 1)
+		{
+			value = remove_quotes(current->value);	
+			printf("%s=%s\n", current->key,value);
+		}
+		current = current->next;
 	}
 	return (0);
 }

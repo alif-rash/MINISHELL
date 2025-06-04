@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_pwd.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hparveen <hparveen@student.42.fr>          +#+  +:+       +#+        */
+/*   By: raalifa <raalifa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 15:43:57 by raalifa           #+#    #+#             */
-/*   Updated: 2025/06/03 09:13:09 by hparveen         ###   ########.fr       */
+/*   Updated: 2025/06/04 11:53:20 by raalifa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,8 @@ int	ft_pwd(void)
 	}
 	else
 	{
-		// ft_perror("pwd",
-		// 	"error retrieving current directory: getcwd: cannot access parent directories: No such file or directory");
+		ft_perror("pwd",
+			"error retrieving current directory: getcwd: cannot access parent directories: No such file or directory");
 		return (1);
 	}
 }

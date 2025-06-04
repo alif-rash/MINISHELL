@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_cd.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hparveen <hparveen@student.42.fr>          +#+  +:+       +#+        */
+/*   By: raalifa <raalifa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 15:43:03 by raalifa           #+#    #+#             */
-/*   Updated: 2025/06/03 08:09:31 by hparveen         ###   ########.fr       */
+/*   Updated: 2025/06/04 10:31:27 by raalifa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ static int	handle_cd_args(char **args, t_shell *shell, char **path)
 		ft_perror("cd", "too many arguments");
 		return (1);
 	}
-	if (!args || !*args)
+	if (!args[1])
 	{
 		*path = search_in_env(shell, "HOME");
 		if (!*path)
@@ -45,28 +45,32 @@ static int	update_pwd_vars(t_shell *shell, char *oldpwd, char *newpwd)
 	return (0);
 }
 
-int	ft_cd(char **args, t_shell *shell, t_env **env)
+int	ft_cd(char **args, t_shell *shell)
 {
 	char	*path;
+	char	*new_path;
 	char	*oldpwd;
 	char	*newpwd;
 
 	if (handle_cd_args(args, shell, &path))
 		return (1);
+	new_path = ft_strtrim(path, "\"");
+	free(path);
 	oldpwd = getcwd(NULL, 0);
 	if (!oldpwd)
 	{
 		ft_perror("cd", strerror(errno));
 		return (1);
 	}
-	if (chdir(path) == -1)
+	if (chdir(new_path) == -1)
 	{
-		ft_perror("cd", strerror(errno));
+		ft_perror("cd", strerror(errno)); 
 		free(oldpwd);
 		return (1);
 	}
 	newpwd = getcwd(NULL, 0);
 	if (!newpwd)
 		ft_perror("cd", "getcwd failed");
+	free(new_path);
 	return (update_pwd_vars(shell, oldpwd, newpwd));
 }
