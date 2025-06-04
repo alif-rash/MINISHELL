@@ -6,7 +6,7 @@
 /*   By: hparveen <hparveen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 09:44:17 by hparveen          #+#    #+#             */
-/*   Updated: 2025/06/03 13:05:32 by hparveen         ###   ########.fr       */
+/*   Updated: 2025/06/04 12:38:35 by hparveen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,7 @@ int	main(int ac, char **av, char **envp)
 	init(&shell, envp);
 	implement_minishell(&shell);
 	ft_clear(&shell, 2);
+	ft_clear_envlist(&shell.env_list);
 	enable_echoctl();
 	return (0);
 }

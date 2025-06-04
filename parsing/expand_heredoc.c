@@ -6,10 +6,103 @@
 /*   By: hparveen <hparveen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/04 09:14:49 by hparveen          #+#    #+#             */
-/*   Updated: 2025/06/04 09:34:14 by hparveen         ###   ########.fr       */
+/*   Updated: 2025/06/04 12:49:58 by hparveen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	expand_heredoc_to_file(t_shell *shell, int input_fd, int out)
+char *handle_variable_heredoc(char *line, int index[2], char *result, t_shell *shell)
+{
+    char *text_before_variable;
+    char *variable_value;
+    char *temp;
+
+    text_before_variable = ft_substr(line, index[1], index[0] - index[1]);
+    variable_value = get_variable_value(line, index, shell);
+    temp = ft_strjoin(result, text_before_variable);
+    free(result);
+    result = ft_strjoin(temp, variable_value);
+    free(temp);
+    
+}
+
+char *expand_quotes_heredoc(char *str, int *cursor, t_shell *shell)
+{
+    char *result;
+    char quote_char;
+    int index[2];
+
+    quote_char = str[*cursor];
+    index[0] = *cursor + 1;
+    index[1] = *cursor;
+    result = ft_strdup("");
+    while(str[index[0]] && str[index[0]] != result)
+    {
+        if(str[index[0]] == '$')
+        {
+            result = handle_variable_heredoc(str, index, result, shell);
+            index[1] = index[0];
+        }
+        else
+            index[0]++;
+    }
+    if(index[1] < index[0])
+        result = append_data(str, index, result, 1);
+    *cursor = index[0] + 1;
+    return(result);
+}
+
+char	*expansion_heredoc(char *line, t_shell *shell, char **temp)
+{
+	int		i;
+	char	*result;
+	char	*segment;
+	char	*old_result;
+
+	i = 0;
+	result = ft_strdup("");
+	if (!result)
+		return (NULL);
+	while (line[i])
+	{
+		if (line[i] == '\"' || line[i] == '\'')
+			segment = expand_quotes_heredoc(line, &i, shell);
+		else
+			segment = expand_variables_heredoc(line, &i, shell);
+		old_result = result;
+		result = ft_strjoin(old_result, segment);
+		free(old_result);
+		free(segment);
+	}
+	free(*temp);
+	return (result);
+}
+
+void	expand_heredoc_to_file(t_shell *shell, int input_fd, int output_fd,
+		t_tree *tree)
+{
+	char	*line;
+	char	*temp;
+	int		quote_flag;
+
+	quote_flag = (tree->file[0] == '\"' || tree->file[0] == '\'');
+	line = get_next_line(input_fd);
+	while (line)
+	{
+		if (!quote_flag)
+		{
+			temp = line;
+			line = expansion_heredoc(line, shell, &temp);
+		}
+		if (*line == '\0')
+		{
+			temp = ft_strdup("\n");
+			free(line);
+			line = temp;
+		}
+		ft_putstr_fd(line, output_fd);
+		free(line);
+		line = get_next_line(input_fd);
+	}
+}
