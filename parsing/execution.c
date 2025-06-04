@@ -6,7 +6,7 @@
 /*   By: hparveen <hparveen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/03 08:11:44 by hparveen          #+#    #+#             */
-/*   Updated: 2025/06/03 12:25:00 by hparveen         ###   ########.fr       */
+/*   Updated: 2025/06/04 09:34:07 by hparveen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,4 +30,6 @@ void	execute(t_shell *shell, t_tree *tree)
 	}
 	else if (tree->type == T_PIPE)
 		execute_pipe(shell, tree);
+	else if (tree->type >= T_REDIRECT_IN && tree->type <= T_HEREDOC)
+		execute_redirections(shell, tree);
 }

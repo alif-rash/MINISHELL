@@ -6,7 +6,7 @@
 /*   By: hparveen <hparveen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 09:33:06 by hparveen          #+#    #+#             */
-/*   Updated: 2025/06/04 07:58:33 by hparveen         ###   ########.fr       */
+/*   Updated: 2025/06/04 09:34:20 by hparveen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 # include "libft/libft.h"
 # include <errno.h>
+# include <fcntl.h>
 # include <limits.h>
 # include <readline/history.h>
 # include <readline/readline.h>
@@ -258,7 +259,6 @@ t_token				*ft_token_last(t_token *list);
  */
 void				ft_free_tokenlist(t_token **token_list);
 
-
 /**
  * @brief Parses the shell input and prepares the abstract syntax tree (AST).
  * This function performs the following steps:
@@ -268,365 +268,380 @@ void				ft_free_tokenlist(t_token **token_list);
  * - Handles heredoc functionality.
  * - Builds the abstract syntax tree (AST) from the tokens.
  * - Frees the token list after AST creation.
- * @param shell A pointer to the shell structure containing the input prompt and other data.
- * @return Returns 0 on success, or 1 on failure due to tokenization, syntax errors, or AST creation issues.
+
+	* @param shell A pointer to the shell structure containing the input prompt and other data.
+ * @return Returns 0 on success, or 1 on failure due to tokenization,
+	syntax errors, or AST creation issues.
  */
-int ft_parsing(t_shell *shell);
+int					ft_parsing(t_shell *shell);
 
 /**
  * @brief Checks the syntax of the shell input for errors.
- * 
- * @param shell Pointer to the shell structure containing input and state information.
+ *
+
+	* @param shell Pointer to the shell structure containing input and state information.
  * @return int Returns 0 if the syntax is valid, or an error code if invalid.
  */
-int check_syntax(t_shell *shell);
+int					check_syntax(t_shell *shell);
 
 /**
  * @brief Validates the syntax of brackets in the shell input.
- * 
+ *
  * @param current Pointer to the current token being analyzed.
  * @param prev Pointer to the previous token in the sequence.
- * @return int Returns 0 if the brackets syntax is valid, or an error code if invalid.
+ * @return int Returns 0 if the brackets syntax is valid,
+	or an error code if invalid.
  */
-int syntax_check_brackets(t_token *current, t_token *prev);
+int					syntax_check_brackets(t_token *current, t_token *prev);
 
 /**
  * @brief Validates the syntax of redirection operators in the shell input.
- * 
+ *
  * @param current Pointer to the current token being analyzed.
- * @return int Returns 0 if the redirection syntax is valid, or an error code if invalid.
+ * @return int Returns 0 if the redirection syntax is valid,
+	or an error code if invalid.
  */
-int syntax_check_redirections(t_token *current);
+int					syntax_check_redirections(t_token *current);
 
 /**
  * @brief Validates the syntax of operators in the shell input.
- * 
+ *
  * @param current Pointer to the current token being analyzed.
  * @param index Index of the operator in the token sequence.
- * @return int Returns 0 if the operator syntax is valid, or an error code if invalid.
+ * @return int Returns 0 if the operator syntax is valid,
+	or an error code if invalid.
  */
-int syntax_check_operators(t_token *current, int index);
+int					syntax_check_operators(t_token *current, int index);
 
 /**
  * @brief Initializes the shell structure and environment variables.
- * 
+ *
  * @param shell Pointer to the shell structure to initialize.
  * @param envp Array of environment variables passed to the program.
  */
-void init(t_shell *shell, char **envp);
+void				init(t_shell *shell, char **envp);
 
 /**
  * @brief Copies the environment variables to an array.
- * 
+ *
  * @param envp Array of environment variables passed to the program.
  * @return A newly allocated array of environment variables.
  */
-char **create_env_array(char **envp);
+char				**create_env_array(char **envp);
 
 /**
  * @brief Creates a new environment variable array with default values.
  *
- * This function allocates memory for a new environment variable array and 
- * initializes it with default values for `PWD`, `SHLVL`, and `OLDPWD`. 
+ * This function allocates memory for a new environment variable array and
+ * initializes it with default values for `PWD`, `SHLVL`, and `OLDPWD`.
  * It uses the current working directory to set the `PWD` variable.
  *
  * @return A newly allocated array of environment variables.
  */
-char **create_new_env_array(void);
+char				**create_new_env_array(void);
 
 /**
- * @brief This function allocates memory for a new `t_env` node and initializes its fields.
- * It duplicates the provided environment variable string and parses its key-value pair
- * based on the given flag. 
+
+	* @brief This function allocates memory for a new `t_env` node and initializes its fields.
+
+	* It duplicates the provided environment variable string and parses its key-value pair
+ * based on the given flag.
  * @param env_variable The environment variable string (key=value format).
  * @param flag Flag indicating specific behavior or properties of the node.
  * @return A pointer to the newly created environment variable node.
  */
-t_env *envlst_new(char *env_variable, int flag);
+t_env				*envlst_new(char *env_variable, int flag);
 
 /**
  * @brief Adds environment variables to the shell's linked list.
- * 
+ *
  * @param shell Pointer to the shell structure.
  * @param flag Flag indicating specific behavior or properties of the addition.
  */
-void add_env_to_list(t_shell *shell, int flag);
+void				add_env_to_list(t_shell *shell, int flag);
 
 /**
  * @brief Parses an environment variable string into key-value pairs.
- * 
+ *
  * @param env_variable The environment variable string (key=value format).
  * @param flag Flag indicating specific behavior or properties of the parsing.
  * @param env_node Pointer to the environment variable node to populate.
  * @param index Pointer to the index used during parsing.
  * @return Integer indicating success or failure of the parsing.
  */
-int parse_key_value(char *env_variable, int flag, t_env **env_node, int *index);
+int					parse_key_value(char *env_variable, int flag,
+						t_env **env_node, int *index);
 
 /**
  * @brief Adds quotes around a given string.
- * 
+ *
  * @param str The input string.
  * @return A newly allocated string with quotes added.
  */
-char *add_quote(char *str);
+char				*add_quote(char *str);
 
 /**
  * @brief Removes quotes from a given string.
- * 
+ *
  * @param str The input string with quotes.
  * @return A newly allocated string with quotes removed.
  */
-char *remove_quotes(char *str);
+char				*remove_quotes(char *str);
 
 /**
  * @brief Assigns a value to an environment variable node.
- * 
+ *
  * @param env_node Pointer to the environment variable node.
  * @param env_variable The environment variable string (key=value format).
  * @param start_index Pointer to the index used during assignment.
  * @return Integer indicating success or failure of the assignment.
  */
-int assign_value(t_env **env_node, char *env_variable, int *start_index);
+int					assign_value(t_env **env_node, char *env_variable,
+						int *start_index);
 
 /**
  * @brief Adds a new node to the end of the environment variables linked list.
- * 
+ *
  * @param env_list Pointer to the head of the environment variables linked list.
  * @param new_node Pointer to the new node to add.
  */
-void env_lstadd_back(t_env **env_list, t_env *new_node);
+void				env_lstadd_back(t_env **env_list, t_env *new_node);
 
 /**
- * @brief This function ensures that the PWD and OLDPWD environment variables are properly initialized
- * and updated in the shell's environment list. If PWD is not found, it is created with the 
- * current working directory. If OLDPWD is not found, it is created with a NULL value.
+
+	* @brief This function ensures that the PWD and OLDPWD environment variables are properly initialized
+ * and updated in the shell's environment list. If PWD is not found,
+	it is created with the
+ * current working directory. If OLDPWD is not found,
+	it is created with a NULL value.
  * @param shell Pointer to the shell structure.
  */
-void init_pwd_oldpwd(t_shell *shell);
+void				init_pwd_oldpwd(t_shell *shell);
 
 /**
  * @brief Searches for a key in the shell's environment variables.
- * 
+ *
  * @param shell Pointer to the shell structure.
  * @param key The key to search for in the environment.
  * @return Pointer to the value associated with the key, or NULL if not found.
  */
-char *search_in_env(t_shell *shell, char *key);
+char				*search_in_env(t_shell *shell, char *key);
 
 /**
- * @brief This function constructs a new environment variable string based on 
- * the provided key, value, and export flag, and adds it to the shell's 
- * environment list. 
+ * @brief This function constructs a new environment variable string based on
+ * the provided key, value, and export flag, and adds it to the shell's
+ * environment list.
  * @param shell Pointer to the shell structure.
  * @param key The key of the environment variable.
  * @param value The value of the environment variable.
  * @param export_flag Flag indicating whether the variable should be exported.
  */
-void new_env(t_shell *shell, char *key, char *value, int export_flag);
+void				new_env(t_shell *shell, char *key, char *value,
+						int export_flag);
 
 /**
  * @brief Updates the shell level (SHLVL) environment variable.
- * 
+ *
  * @param shell Pointer to the shell structure.
  */
-void update_shlvl(t_shell *shell);
+void				update_shlvl(t_shell *shell);
 
 /**
  * @brief Computes the new value for the shell level (SHLVL).
- * 
+ *
  * @param value Current value of SHLVL.
  * @return Pointer to the new SHLVL value as a string.
  */
-char *shlvl_value(char *value);
+char				*shlvl_value(char *value);
 
 /**
  * @brief Returns the updated shell level (SHLVL) value.
- * 
+ *
  * @param value Current value of SHLVL.
  * @return Pointer to the updated SHLVL value as a string.
  */
-char *ft_return_shlvl(char *value);
+char				*ft_return_shlvl(char *value);
 
 /**
  * @brief Builds an abstract syntax tree (AST) from a list of tokens.
- * 
+ *
  * @param tokens Pointer to the list of tokens.
  * @return Pointer to the root of the constructed AST.
  */
-t_tree *build_ast(t_token **tokens);
+t_tree				*build_ast(t_token **tokens);
 
 /**
  * @brief Builds an AST for logical AND operations from a list of tokens.
- * 
+ *
  * @param tokens Pointer to the list of tokens.
  * @return Pointer to the root of the constructed AST for AND operations.
  */
-t_tree *build_ast_and(t_token **tokens);
+t_tree				*build_ast_and(t_token **tokens);
 
 /**
  * @brief Builds an AST for logical OR operations from a list of tokens.
- * 
+ *
  * @param tokens Pointer to the list of tokens.
  * @return Pointer to the root of the constructed AST for OR operations.
  */
-t_tree *build_ast_or(t_token **tokens);
+t_tree				*build_ast_or(t_token **tokens);
 
 /**
  * @brief Builds an AST for pipe operations from a list of tokens.
- * 
+ *
  * @param tokens Pointer to the list of tokens.
  * @return Pointer to the root of the constructed AST for pipe operations.
  */
-t_tree *build_ast_pipe(t_token **tokens);
+t_tree				*build_ast_pipe(t_token **tokens);
 
 /**
  * @brief Builds an AST for redirection operations from a list of tokens.
- * 
+ *
  * @param tokens Pointer to the list of tokens.
- * @return Pointer to the root of the constructed AST for redirection operations.
+
+	* @return Pointer to the root of the constructed AST for redirection operations.
  */
-t_tree *build_ast_redirections(t_token **tokens);
+t_tree				*build_ast_redirections(t_token **tokens);
 
 /**
  * @brief Builds an AST for command execution from a list of tokens.
- * 
+ *
  * @param tokens Pointer to the list of tokens.
  * @return Pointer to the root of the constructed AST for command execution.
  */
-t_tree *build_ast_command(t_token **tokens);
+t_tree				*build_ast_command(t_token **tokens);
 
 /**
  * @brief Handles the heredoc functionality in the shell.
- * 
+ *
  * @param shell Pointer to the shell structure.
  * @param tokens Pointer to the list of tokens.
  */
-void heredoc(t_shell *shell, t_token *tokens);
+void				heredoc(t_shell *shell, t_token *tokens);
 
 /**
  * @brief Processes multiple heredocs in the token list.
- * 
+ *
  * @param list Pointer to the token list.
  * @return int Returns a status code indicating success or failure.
  */
-int multiple_heredocs(t_token *list);
+int					multiple_heredocs(t_token *list);
 
 /**
  * @brief Checks if a character is a whitespace character.
- * 
+ *
  * @param c Character to check.
  * @return int Returns non-zero if the character is a whitespace, otherwise 0.
  */
-int ft_isspace(int c);
+int					ft_isspace(int c);
 
 /**
  * @brief Checks if a string consists entirely of whitespace characters.
- * 
+ *
  * @param s Pointer to the string.
  * @return int Returns non-zero if the string is all whitespace, otherwise 0.
  */
-int is_all_space(const char *s);
+int					is_all_space(const char *s);
 
 /**
  * @brief Checks if a character is an operator.
- * 
+ *
  * @param c Character to check.
  * @return int Returns non-zero if the character is an operator, otherwise 0.
  */
-int ft_isoperator(int c);
+int					ft_isoperator(int c);
 
 /**
  * @brief Skips spaces in a string and updates the index and sign.
- * 
+ *
  * @param str Pointer to the string pointer.
  * @param i Pointer to the index variable.
  * @param sign Pointer to the sign variable.
  */
-void skip_spaces(char **str, int *i, int *sign);
+void				skip_spaces(char **str, int *i, int *sign);
 
 /**
  * @brief Frees three pointers and sets them to NULL.
- * 
+ *
  * @param a Pointer to the first variable to free.
  * @param b Pointer to the second variable to free.
  * @param c Pointer to the third variable to free.
  */
-void free_function(void **a, void **b, void **c);
+void				free_function(void **a, void **b, void **c);
 
 /**
  * @brief Frees a dynamically allocated array of strings.
- * 
+ *
  * @param array Pointer to the array of strings.
  */
-void ft_free_array(char **array);
+void				ft_free_array(char **array);
 
 /**
  * @brief Frees the environment list.
- * 
+ *
  * @param env_list Pointer to the environment list.
  */
-void ft_free_envlist(t_env **env_list);
+void				ft_free_envlist(t_env **env_list);
 
 /**
  * @brief Clears the shell structure and optionally performs additional cleanup.
- * 
+ *
  * @param shell Pointer to the shell structure.
  * @param flag Flag indicating the type of cleanup to perform.
  */
-void ft_clear(t_shell *shell, int flag);
+void				ft_clear(t_shell *shell, int flag);
 
 /**
  * @brief Calculates the length of a string array.
- * 
+ *
  * @param array Pointer to the array of strings.
  * @return int Returns the length of the array.
  */
-int ft_array_len(char **array);
+int					ft_array_len(char **array);
 
 /**
  * @brief Exits the shell and performs necessary cleanup.
- * 
+ *
  * @param shell Pointer to the shell structure.
  */
-void exit_function(t_shell *shell);
+void				exit_function(t_shell *shell);
 
 /**
  * @brief Initializes signal handling for the shell.
  */
-void signal_init(void);
+void				signal_init(void);
 
 /**
  * @brief Handles a specific signal.
  * @param signal The signal to handle.
  */
-void handle_signal(int signal);
+void				handle_signal(int signal);
 
 /**
  * @brief Configures signal handling for heredoc functionality.
  */
-void signal_heredoc(void);
+void				signal_heredoc(void);
 
 /**
  * @brief Resets signal handling to default behavior.
  */
-void signal_dfl(void);
+void				signal_dfl(void);
 
 /**
  * @brief Handles signals specifically for heredoc operations.
  * @param signal The signal to handle.
  */
-void handle_heredoc(int signal);
+void				handle_heredoc(int signal);
 
 /**
  * @brief Disables echo control characters in the terminal.
  */
-void disable_echoctl(void);
+void				disable_echoctl(void);
 
 /**
  * @brief Enables echo control characters in the terminal.
  */
-void enable_echoctl(void);
+void				enable_echoctl(void);
 
 /**
  * @brief Sets or retrieves the exit status of the shell.
@@ -634,7 +649,7 @@ void enable_echoctl(void);
  * @param status The status to set.
  * @return The current exit status.
  */
-int exit_status(char *str, int status);
+int					exit_status(char *str, int status);
 
 /**
  * @brief Handles errors in the shell.
@@ -643,7 +658,8 @@ int exit_status(char *str, int status);
  * @param error_type Type of error.
  * @param quote_flag Flag indicating if quotes are involved.
  */
-void handle_error(t_shell *shell, char *msg, int error_type, int quote_flag);
+void				handle_error(t_shell *shell, char *msg, int error_type,
+						int quote_flag);
 
 /**
  * @brief Prints an error message to the specified file descriptor.
@@ -651,7 +667,7 @@ void handle_error(t_shell *shell, char *msg, int error_type, int quote_flag);
  * @param flag Flag indicating the type of error.
  * @param fd File descriptor to print the error to.
  */
-void ft_print_error(char *args, int flag, int fd);
+void				ft_print_error(char *args, int flag, int fd);
 
 /**
  * @brief Prints an error message based on the error code and token.
@@ -660,22 +676,22 @@ void ft_print_error(char *args, int flag, int fd);
  * @param current Pointer to the current token.
  * @return Status code indicating success or failure.
  */
-int print_error(t_shell *shell, int error_code, t_token *current);
+int					print_error(t_shell *shell, int error_code,
+						t_token *current);
 
 /**
  * @brief Executes the echo command.
  * @param args Arguments passed to the echo command.
  * @return Status code indicating success or failure.
  */
-int ft_echo(char **args);
+int					ft_echo(char **args);
 
 /**
  * @brief Frees memory associated with a tree structure.
  * @param branch Pointer to the tree branch to free.
  */
-void ft_free_treelist(t_tree *branch);
+void				ft_free_treelist(t_tree *branch);
 
-void	execute_command(t_shell *shell, t_tree *ast);
-
+void				execute_command(t_shell *shell, t_tree *ast);
 
 #endif
