@@ -3,37 +3,38 @@
 /*                                                        :::      ::::::::   */
 /*   env_update.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hparveen <hparveen@student.42.fr>          +#+  +:+       +#+        */
+/*   By: raalifa <raalifa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/03 08:20:52 by hparveen          #+#    #+#             */
-/*   Updated: 2025/06/03 08:21:03 by hparveen         ###   ########.fr       */
+/*   Updated: 2025/06/04 12:23:41 by raalifa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	update_env(t_shell *shell, const char *key, const char *value)
+void	update_env(t_shell *shell, char *key, char *value)
 {
 	t_env	*current;
-	int		found;
+	char	*new_val;
 
 	if (!shell || !key || !value)
 		return ;
-	found = 0;
 	current = shell->env_list;
 	while (current)
 	{
 		if (ft_strcmp(current->key, key) == 0)
 		{
-			found = 1;
+			current->flag = 1;
+			new_val = add_quote(value);
 			free(current->value);
-			current->value = ft_strdup(value);
+			current->value = ft_strdup(new_val);
 			if (!current->value)
 				perror("Error updating environment variable");
+			free(new_val);
 			return ;
 		}
 		current = current->next;
 	}
-	if (!found)
-		new_env(shell, ft_strdup(key), ft_strdup(value), 1);
+	if (current->flag == 0)
+		new_env(shell, ft_strdup(key), ft_strdup(value), current->flag == 1);
 }

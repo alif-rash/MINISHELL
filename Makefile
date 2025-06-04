@@ -29,10 +29,12 @@ SRCS = minishell.c \
 	parsing/tree_redirections.c \
 	parsing/utils.c \
 	parsing/utils1.c \
+	execution/exec_error.c \
 	execution/execute.c\
+	execution/ft_cd.c \
 	execution/ft_pwd.c \
 	execution/ft_echo.c \
-
+	execution/ft_env.c 
 OBJDIR = obj
 OBJS = $(addprefix $(OBJDIR)/, ${SRCS:.c=.o})
 LIBFT_DIR = libft
