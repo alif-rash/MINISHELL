@@ -6,7 +6,7 @@
 /*   By: raalifa <raalifa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 16:05:03 by raalifa           #+#    #+#             */
-/*   Updated: 2025/06/04 12:02:40 by raalifa          ###   ########.fr       */
+/*   Updated: 2025/06/04 13:16:54 by raalifa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,8 +35,8 @@ void	execute_command(t_shell *shell, t_tree *ast)
 		// 	ft_unset(shell, ast->args);
 		else if (ft_strcmp(cmd, "env") == 0)
 			ft_env(shell->env_list);
-		// else if (ft_strcmp(cmd, "exit") == 0)
-		// 	ft_exit(ast->args);
+		else if (ft_strcmp(cmd, "exit") == 0)
+			ft_exit(ast->args);
 	}
 	// else if (ast->type == T_PIPE)
 	// {

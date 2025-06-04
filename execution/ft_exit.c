@@ -6,7 +6,7 @@
 /*   By: raalifa <raalifa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 15:47:55 by raalifa           #+#    #+#             */
-/*   Updated: 2025/06/02 16:59:47 by raalifa          ###   ########.fr       */
+/*   Updated: 2025/06/04 15:13:35 by raalifa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,18 +14,28 @@
 
 int	ft_exit(char **args)
 {
-	int	exit_code;
+	int	num;
 
-	exit_code = 0;
+	if (!args[1])
+	{
+		printf("exit\n");
+		exit(exit_status("exit status", 0));
+	}
+	if (args[1] && args[2])
+	{
+		ft_perror("exit", "too many arguments");
+		return (1);
+	}
 	if (args[1])
 	{
-		if (args[2])
+		if (!ft_isnumeric(args[1]))
 		{
-			fprintf(stderr, "exit: too many arguments\n");
-			return (1);
+			ft_perror("exit", "numeric argument required");
+			exit(255);
 		}
-		exit_code = ft_atoi(args[1]);
 	}
+	num = ft_atoi(args[1]);
 	printf("exit\n");
-	exit(exit_code);
+	exit((unsigned char)num);
+	return (1);
 }
