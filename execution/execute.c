@@ -23,9 +23,9 @@ void	execute_command(t_shell *shell, t_tree *ast)
 	if (ast->type == T_COMMAND)
 	{
 		cmd = ast->args[0];
-		if (ft_strcmp(ast->args[0], "echo") == 0)
+		if (ft_strcmp(cmd, "echo") == 0)
 			ft_echo(ast->args);
-		else if (ft_strcmp(ast->args[0], "cd") == 0)
+		else if (ft_strcmp(cmd, "cd") == 0)
 			ft_cd(ast->args, shell);
 		else if (ft_strcmp(cmd, "pwd") == 0)
 			ft_pwd();
