@@ -25,6 +25,7 @@
 # include <string.h>
 # include <termios.h>
 # include <unistd.h>
+# include <sys/wait.h>
 
 # ifndef ARG_MAX
 #  define ARG_MAX 262144
@@ -704,4 +705,5 @@ int					ft_pwd(void);
 
 int					ft_env(t_env *env_list);
 int					ft_exit(char **args);
+int					ft_unset(char **args, t_shell *shell);
 #endif
