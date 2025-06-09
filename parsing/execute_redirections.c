@@ -6,7 +6,7 @@
 /*   By: hparveen <hparveen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/04 08:16:18 by hparveen          #+#    #+#             */
-/*   Updated: 2025/06/04 09:09:27 by hparveen         ###   ########.fr       */
+/*   Updated: 2025/06/09 09:43:49 by hparveen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,6 +101,14 @@ void	execute_redirections(t_shell *shell, t_tree *tree)
 	int	flag;
 
 	flag = 0;
+	if (tree->type != T_HEREDOC)
+	{
+		if (expand_redirection(shell, tree))
+		{
+			exit_status("exit status", 1);
+			return ;
+		}
+	}
 	if (!shell->ast || !tree)
 		return ;
 	if (tree->type == T_REDIRECT_IN)

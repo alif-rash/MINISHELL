@@ -6,61 +6,24 @@
 /*   By: hparveen <hparveen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/04 09:14:49 by hparveen          #+#    #+#             */
-/*   Updated: 2025/06/04 13:42:19 by hparveen         ###   ########.fr       */
+/*   Updated: 2025/06/09 09:38:23 by hparveen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	*get_variable_value(char *line, int pos[2], t_shell *shell)
+char	*append_data(char *line, int index[2], char *result, int flag)
 {
-	char	*raw_variable_name;
-	char	*clean_variable_name;
+	char	*expansion;
+	char	*new_result;
 
-	pos[0]++;
-	if (line[pos[0]] == '$')
-	{
-		pos[0]++;
-		return (ft_strdup(""));
-	}
-	if (ft_isalnum(line[pos[0]]) || line[pos[0]] == '_')
-	{
-		raw_variable_name = get_var(line, &pos[0], shell->env_list);
-		clean_variable_name = ft_substr(raw_variable_name, 1,
-				ft_strlen(raw_variable_name) - 2);
-		free(raw_variable_name);
-		return (clean_variable_name);
-	}
-	else if (line[pos[0]] == '?')
-		return (handle_exit_status(line, index));
-	return (ft_strdup("$"));
-}
-
-char	*handle_variable_heredoc(char *line, int index[2], char *result,
-		t_shell *shell)
-{
-	char	*text_before_variable;
-	char	*variable_value;
-	char	*temp;
-
-	text_before_variable = ft_substr(line, index[1], index[0] - index[1]);
-	variable_value = get_variable_value(line, index, shell);
-	temp = ft_strjoin(result, text_before_variable);
+	expansion = ft_substr(line, index[1], index[0] - index[1] + flag);
+	if (!expansion)
+		expansion = ft_strdup("");
+	new_result = ft_strjoin(result, expansion);
 	free(result);
-	result = ft_strjoin(temp, variable_value);
-	free(temp);
-	if (line[index[0]] == '\"' || line[index[0]] == '\'')
-	{
-		if (line[index[0]] == '\"')
-			temp = ft_strjoin(result, "\"");
-		else
-			temp = ft_strjoin(result, "\'");
-		free(result);
-		result = temp;
-	}
-	free(text_before_variable);
-	free(variable_value);
-	return (result);
+	free(expansion);
+	return (new_result);
 }
 
 char	*expand_quotes_heredoc(char *str, int *cursor, t_shell *shell)
@@ -87,6 +50,30 @@ char	*expand_quotes_heredoc(char *str, int *cursor, t_shell *shell)
 		result = append_data(str, index, result, 1);
 	*cursor = index[0] + 1;
 	return (result);
+}
+
+char	*expand_variables_heredoc(char *line, int *index, t_shell *shell)
+{
+	char	*expanded;
+	int		index[2];
+
+	index[0] = *index;
+	index[1] = *index;
+	expanded = ft_strdup("");
+	while (line[index[0]] && line[index[0]] != '\'' && line[index[0]] != '\"')
+	{
+		if (line[index[0]] == '$')
+		{
+			expanded = handle_variable_heredoc(line, index, expanded, shell);
+			index[1] = index[0];
+		}
+		else
+			index[0]++;
+	}
+	if (index[1] < index[0])
+		expanded = append_data(line, index, expanded, 0);
+	*index = index[0];
+	return (expanded);
 }
 
 char	*expansion_heredoc(char *line, t_shell *shell, char **temp)
