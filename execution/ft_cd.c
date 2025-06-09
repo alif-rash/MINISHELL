@@ -6,7 +6,7 @@
 /*   By: raalifa <raalifa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 15:43:03 by raalifa           #+#    #+#             */
-/*   Updated: 2025/06/04 10:31:27 by raalifa          ###   ########.fr       */
+/*   Updated: 2025/06/04 13:08:02 by raalifa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,6 @@ int	ft_cd(char **args, t_shell *shell)
 	if (handle_cd_args(args, shell, &path))
 		return (1);
 	new_path = ft_strtrim(path, "\"");
-	free(path);
 	oldpwd = getcwd(NULL, 0);
 	if (!oldpwd)
 	{

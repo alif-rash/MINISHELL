@@ -9,5 +9,103 @@
 /*   Updated: 2025/06/03 08:10:00 by hparveen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 #include "../minishell.h"
+
+char *ft_get_key(const char *arg)
+{
+    int i = 0;
+    while (arg[i] && arg[i] != '=')
+        i++;
+    return ft_strndup(arg, i); 
+}
+
+char *ft_get_value(const char *arg)
+{
+    const char *eq = ft_strchr(arg, '=');
+    if (!eq)
+        return NULL;
+    return ft_strdup(eq + 1); 
+}
+
+static void	ft_print_env(t_env *env_list, int export_flag)
+{
+    t_env *current = env_list;
+    while (current)
+    {
+        if (export_flag || current->flag)
+        {
+            if (current->value)
+                printf("declare -x %s=\"%s\"\n", current->key, current->value);
+            else
+                printf("declare -x %s\n", current->key);
+        }
+        current = current->next;
+    }
+}
+
+static void	ft_add_or_update_env(t_shell *shell, char *arg, int export_flag)
+{
+    char *key = ft_get_key(arg);
+    char *value = ft_get_value(arg);
+    t_env *curr = shell->env_list;
+
+    while (curr)
+    {
+        if (strcmp(curr->key, key) == 0)
+        {
+            free(curr->value);
+            curr->value = value;
+            curr->flag = export_flag;
+            free(key);
+            return;
+        }
+        curr = curr->next;
+    }
+    t_env *new_env = (t_env *)malloc(sizeof(t_env));
+    if (!new_env)
+    {
+        free(key);
+        free(value);
+        return;
+    }
+    new_env->key = key;
+    new_env->value = value;
+    new_env->flag = export_flag;
+    new_env->next = shell->env_list;
+    shell->env_list = new_env;
+}
+
+static int	ft_is_valid_identifier(const char *str)
+{
+    int i = 0;
+
+    if (!str || (!ft_isalpha(str[0]) && str[0] != '_'))
+        return (0);
+    while (str[i] && str[i] != '=')
+    {
+        if (!ft_isalnum(str[i]) && str[i] != '_')
+            return (0);
+        i++;
+    }
+    return (1);
+}
+
+int	ft_export(char **args, t_shell *shell, int export_flag)
+{
+    int	i = 1;
+
+    if (!args[1])
+    {
+        ft_print_env(shell->env_list, export_flag);
+        return (0);
+    }
+    while (args[i])
+    {
+        if (ft_is_valid_identifier(args[i]))
+            ft_add_or_update_env(shell, args[i], export_flag);
+        else
+            ft_perror("export", "not a valid identifier");
+        i++;
+    }
+    return (0);
+}

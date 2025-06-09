@@ -6,7 +6,7 @@
 /*   By: raalifa <raalifa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 09:33:06 by hparveen          #+#    #+#             */
-/*   Updated: 2025/06/04 12:02:06 by raalifa          ###   ########.fr       */
+/*   Updated: 2025/06/04 15:24:33 by raalifa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@
 # include <string.h>
 # include <termios.h>
 # include <unistd.h>
+# include <sys/wait.h>
 
 # ifndef ARG_MAX
 #  define ARG_MAX 262144
@@ -692,14 +693,84 @@ int					ft_echo(char **args);
  */
 void				ft_free_treelist(t_tree *branch);
 
+/**
+ * @brief Checks if a string consists only of numeric characters.
+ *
+ * @param str The string to check.
+ * @return int Non-zero if the string is numeric, 0 otherwise.
+ */
+int					ft_isnumeric(const char *str);
+
+/**
+ * @brief Executes a command represented by the AST node within the given shell context.
+ *
+ * @param shell Pointer to the shell context structure.
+ * @param ast Pointer to the abstract syntax tree node representing the command.
+ */
 void				execute_command(t_shell *shell, t_tree *ast);
+ 
+/**
+ * @brief Changes the current working directory of the shell.
+ *
+ * @param args Array of arguments, where args[1] is typically the target directory.
+ * @param shell Pointer to the shell context structure.
+ * @return int Returns 0 on success, or a non-zero value on failure.
+ */
 int					ft_cd(char **args, t_shell *shell);
 
+/**
+ * @brief Prints an error message to standard error.
+ * 
+ * @param cmd The command or context where the error occurred.
+ * @param msg The error message to display.
+ */
 void				ft_perror(char *cmd, char *msg);
+
+/**
+ * @brief Updates or adds an environment variable in the shell.
+ * 
+ * @param shell Pointer to the shell structure.
+ * @param key The environment variable name.
+ * @param value The value to set for the environment variable.
+ */
 void				update_env(t_shell *shell, char *key, char *value);
 
+/**
+ * @brief Prints the current working directory to standard output.
+ * 
+ * @return int Returns 0 on success, or a non-zero value on failure.
+ */
 int					ft_pwd(void);
 
-int	ft_env(t_env *env_list);
+/**
+ * @brief Prints the environment variables.
+ * 
+ * @param env_list Pointer to the list of environment variables.
+ * @return int Returns 0 on success, or a non-zero value on failure.
+ */
+int					ft_env(t_env *env_list);
+
+/**
+ * @brief Exits the shell with the specified arguments.
+ * 
+ * @param args Array of arguments passed to the exit command.
+ * @return int Returns the exit status.
+ */
+int					ft_exit(char **args);
+
+/**
+ * @brief Removes environment variables from the shell.
+ * 
+ * @param args Array of environment variable names to unset.
+ * @param shell Pointer to the shell structure.
+ * @return int Returns 0 on success, or a non-zero value on failure.
+ */
+int					ft_unset(char **args, t_shell *shell);
+
+int					is_valid_identifier(const char *str);
+
+char *ft_get_key(const char *arg);
+char *ft_get_value(const char *arg);
+int	ft_export(char **args, t_shell *shell, int export_flag);
 
 #endif
