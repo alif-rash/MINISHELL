@@ -30,14 +30,24 @@ SRCS = minishell.c \
 	parsing/utils.c \
 	parsing/utils1.c \
 	execution/exec_error.c \
-	execution/execute.c\
+	execution/execute_command.c\
 	execution/ft_cd.c \
 	execution/ft_echo.c \
 	execution/ft_env.c \
 	execution/ft_exit.c \
 	execution/ft_export.c \
 	execution/ft_pwd.c \
-	execution/ft_unset.c 
+	execution/ft_unset.c \
+	execution/execution.c \
+	execution/execute_pipe.c \
+	execution/execute_redirections.c \
+	execution/expansion.c \
+	execution/expand_heredoc_variables.c \
+	execution/expand_heredoc.c \
+	execution/expand_redirections.c \
+	execution/expansion_special_characters.c \
+	execution/expansion_utils.c \
+	execution/expand_command.c
 OBJDIR = obj
 OBJS = $(addprefix $(OBJDIR)/, ${SRCS:.c=.o})
 LIBFT_DIR = libft

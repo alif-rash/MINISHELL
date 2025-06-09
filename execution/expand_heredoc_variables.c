@@ -6,13 +6,13 @@
 /*   By: hparveen <hparveen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/09 09:36:07 by hparveen          #+#    #+#             */
-/*   Updated: 2025/06/09 09:38:11 by hparveen         ###   ########.fr       */
+/*   Updated: 2025/06/09 17:55:52 by hparveen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	*expand_exit_status(const char *line, int index[2])
+char	*expand_exit_status(char *line, int index[2])
 {
 	char	*exit_str;
 
@@ -89,7 +89,7 @@ char	*get_variable_value(char *line, int pos[2], t_shell *shell)
 		return (clean_variable_name);
 	}
 	else if (line[pos[0]] == '?')
-		return (expand_exit_status(line, index));
+		return (expand_exit_status(line, pos));
 	return (ft_strdup("$"));
 }
 

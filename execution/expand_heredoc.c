@@ -6,7 +6,7 @@
 /*   By: hparveen <hparveen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/04 09:14:49 by hparveen          #+#    #+#             */
-/*   Updated: 2025/06/09 09:38:23 by hparveen         ###   ########.fr       */
+/*   Updated: 2025/06/09 18:01:43 by hparveen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ char	*expand_quotes_heredoc(char *str, int *cursor, t_shell *shell)
 	index[0] = *cursor + 1;
 	index[1] = *cursor;
 	result = ft_strdup("");
-	while (str[index[0]] && str[index[0]] != result)
+	while (str[index[0]] && str[index[0]] != quote_char)
 	{
 		if (str[index[0]] == '$')
 		{
@@ -55,24 +55,24 @@ char	*expand_quotes_heredoc(char *str, int *cursor, t_shell *shell)
 char	*expand_variables_heredoc(char *line, int *index, t_shell *shell)
 {
 	char	*expanded;
-	int		index[2];
+	int		pos[2];
 
-	index[0] = *index;
-	index[1] = *index;
+	pos[0] = *index;
+	pos[1] = *index;
 	expanded = ft_strdup("");
-	while (line[index[0]] && line[index[0]] != '\'' && line[index[0]] != '\"')
+	while (line[pos[0]] && line[pos[0]] != '\'' && line[pos[0]] != '\"')
 	{
-		if (line[index[0]] == '$')
+		if (line[pos[0]] == '$')
 		{
-			expanded = handle_variable_heredoc(line, index, expanded, shell);
-			index[1] = index[0];
+			expanded = handle_double_variable(line, pos, expanded, shell);
+			pos[1] = pos[0];
 		}
 		else
-			index[0]++;
+			pos[0]++;
 	}
-	if (index[1] < index[0])
-		expanded = append_data(line, index, expanded, 0);
-	*index = index[0];
+	if (pos[1] < pos[0])
+		expanded = append_data(line, pos, expanded, 0);
+	*index = pos[0];
 	return (expanded);
 }
 

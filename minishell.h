@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: raalifa <raalifa@student.42.fr>            +#+  +:+       +#+        */
+/*   By: hparveen <hparveen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 09:33:06 by hparveen          #+#    #+#             */
-/*   Updated: 2025/06/04 15:24:33 by raalifa          ###   ########.fr       */
+/*   Updated: 2025/06/09 20:32:18 by hparveen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,9 +23,10 @@
 # include <stdio.h>
 # include <stdlib.h>
 # include <string.h>
+# include <sys/stat.h>
+# include <sys/wait.h>
 # include <termios.h>
 # include <unistd.h>
-# include <sys/wait.h>
 
 # ifndef ARG_MAX
 #  define ARG_MAX 262144
@@ -702,17 +703,19 @@ void				ft_free_treelist(t_tree *branch);
 int					ft_isnumeric(const char *str);
 
 /**
- * @brief Executes a command represented by the AST node within the given shell context.
+
+	* @brief Executes a command represented by the AST node within the given shell context.
  *
  * @param shell Pointer to the shell context structure.
  * @param ast Pointer to the abstract syntax tree node representing the command.
  */
 void				execute_command(t_shell *shell, t_tree *ast);
- 
+
 /**
  * @brief Changes the current working directory of the shell.
  *
- * @param args Array of arguments, where args[1] is typically the target directory.
+ * @param args Array of arguments,
+	where args[1] is typically the target directory.
  * @param shell Pointer to the shell context structure.
  * @return int Returns 0 on success, or a non-zero value on failure.
  */
@@ -720,7 +723,7 @@ int					ft_cd(char **args, t_shell *shell);
 
 /**
  * @brief Prints an error message to standard error.
- * 
+ *
  * @param cmd The command or context where the error occurred.
  * @param msg The error message to display.
  */
@@ -728,7 +731,7 @@ void				ft_perror(char *cmd, char *msg);
 
 /**
  * @brief Updates or adds an environment variable in the shell.
- * 
+ *
  * @param shell Pointer to the shell structure.
  * @param key The environment variable name.
  * @param value The value to set for the environment variable.
@@ -737,14 +740,14 @@ void				update_env(t_shell *shell, char *key, char *value);
 
 /**
  * @brief Prints the current working directory to standard output.
- * 
+ *
  * @return int Returns 0 on success, or a non-zero value on failure.
  */
 int					ft_pwd(void);
 
 /**
  * @brief Prints the environment variables.
- * 
+ *
  * @param env_list Pointer to the list of environment variables.
  * @return int Returns 0 on success, or a non-zero value on failure.
  */
@@ -752,7 +755,7 @@ int					ft_env(t_env *env_list);
 
 /**
  * @brief Exits the shell with the specified arguments.
- * 
+ *
  * @param args Array of arguments passed to the exit command.
  * @return int Returns the exit status.
  */
@@ -760,7 +763,7 @@ int					ft_exit(char **args);
 
 /**
  * @brief Removes environment variables from the shell.
- * 
+ *
  * @param args Array of environment variable names to unset.
  * @param shell Pointer to the shell structure.
  * @return int Returns 0 on success, or a non-zero value on failure.
@@ -769,8 +772,47 @@ int					ft_unset(char **args, t_shell *shell);
 
 int					is_valid_identifier(const char *str);
 
-char *ft_get_key(const char *arg);
-char *ft_get_value(const char *arg);
-int	ft_export(char **args, t_shell *shell, int export_flag);
+char				*ft_get_key(const char *arg);
+char				*ft_get_value(const char *arg);
+int					ft_export(char **args, t_shell *shell, int export_flag);
+void				execute(t_shell *shell, t_tree *tree);
+void				execute_pipe(t_shell *shell, t_tree *tree);
+void				execute_redirections(t_shell *shell, t_tree *tree);
+int					expand_redirection(t_shell *shell, t_tree *tree);
+char				*expand_special_characters(char *input, int pos[2],
+						char *result, t_shell *shell);
+char				*handle_tilda(char *input, int pos[2], char *result,
+						t_shell *shell);
+char				*get_username(char *input, int pos[2]);
+char				*ft_get_variable_value(char *input, int pos[2],
+						t_shell *shell);
+char				*handle_variable(char *input, int pos[2], char *result,
+						t_shell *shell);
+char				*get_quote_variable_value(char *input, int pos[2],
+						t_shell *shell);
+char				*handle_quotes_variable(char *input, int pos[2],
+						char *result, t_shell *shell);
+char				*handle_double_variable(char *input, int pos[2],
+						char *result, t_shell *shell);
+char				*expand_variables(char *input, int *pos, t_shell *shell);
+char				*process_expansion(char *input, t_shell *shell);
+char				*expand_exit_status(char *line, int index[2]);
+char				*get_env_value(t_env *env_list, const char *var_name);
+char				*get_var(char *line, int *index, t_env *env_list);
+char				*get_variable_value(char *line, int pos[2], t_shell *shell);
+char				*handle_variable_heredoc(char *line, int index[2],
+						char *result, t_shell *shell);
+char				*append_data(char *line, int index[2], char *result,
+						int flag);
+char				*expand_quotes_heredoc(char *str, int *cursor,
+						t_shell *shell);
+char				*expand_variables_heredoc(char *line, int *index,
+						t_shell *shell);
+char				*expansion_heredoc(char *line, t_shell *shell, char **temp);
+void				expand_heredoc_to_file(t_shell *shell, int input_fd,
+						int output_fd, t_tree *tree);
+void				expand_command(t_shell *shell, t_tree *tree);
+char				*clean_all_quotes(char *result);
+void				ft_tolower_str(char **str);
 
 #endif

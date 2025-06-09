@@ -6,7 +6,7 @@
 /*   By: hparveen <hparveen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/29 11:04:20 by hparveen          #+#    #+#             */
-/*   Updated: 2025/06/09 07:48:54 by hparveen         ###   ########.fr       */
+/*   Updated: 2025/06/09 20:32:00 by hparveen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ int	is_all_space(const char *s)
 	return (1);
 }
 
-int ft_isnumeric(const char *str)
+int	ft_isnumeric(const char *str)
 {
 	if (!str || !(*str))
 		return (0);
@@ -36,4 +36,17 @@ int ft_isnumeric(const char *str)
 		str++;
 	}
 	return (1);
+}
+
+void	ft_tolower_str(char **str)
+{
+	int	i;
+
+	i = 0;
+	while ((*str)[i])
+	{
+		if ((*str)[i] >= 'A' && (*str)[i] <= 'Z')
+			(*str)[i] += 32;
+		i++;
+	}
 }

@@ -6,7 +6,7 @@
 /*   By: hparveen <hparveen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/03 12:29:11 by hparveen          #+#    #+#             */
-/*   Updated: 2025/06/04 08:10:14 by hparveen         ###   ########.fr       */
+/*   Updated: 2025/06/09 18:24:03 by hparveen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,6 +87,7 @@ void	execute_pipe(t_shell *shell, t_tree *tree)
 	close(pipe_fd[1]);
 	waitpid(pid_left, &status_left, 0);
 	waitpid(pid_right, &status_right, 0);
+	signal_init();
 	if (WIFEXITED(status_left) && WEXITSTATUS(status_left) != 0)
 		exit_status("exit status", WEXITSTATUS(status_left));
 	else if (WIFEXITED(status_right) && WEXITSTATUS(status_right) != 0)

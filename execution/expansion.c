@@ -6,7 +6,7 @@
 /*   By: hparveen <hparveen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/09 10:31:42 by hparveen          #+#    #+#             */
-/*   Updated: 2025/06/09 12:52:57 by hparveen         ###   ########.fr       */
+/*   Updated: 2025/06/09 18:59:30 by hparveen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,11 +44,11 @@ static char	*expand_d_quotes(char *input, int *pos, t_shell *shell)
 	index[0] = *pos + 1;
 	index[1] = *pos;
 	result = ft_strdup("");
-	while (input[pos[0]] && input[pos[0]] != '\"')
+	while (input[index[0]] && input[index[0]] != '\"')
 	{
 		if (input[index[0]] == '$')
 		{
-			result = handle_double_variable(input, index, result, shell);
+			result = handle_quotes_variable(input, index, result, shell);
 			index[1] = index[0];
 		}
 		else
@@ -82,7 +82,8 @@ char	*expand_variables(char *input, int *pos, t_shell *shell)
 	index[0] = *pos;
 	index[1] = *pos;
 	result = ft_strdup("");
-	while (input[index[0]] && input[index[0]] != '\"' && input[index[0]] != '\'')
+	while (input[index[0]] && input[index[0]] != '\"'
+		&& input[index[0]] != '\'')
 		result = expand_special_characters(input, index, result, shell);
 	if (index[1] < index[0])
 		result = append_data(input, index, result, 0);

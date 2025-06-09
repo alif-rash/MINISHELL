@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: raalifa <raalifa@student.42.fr>            +#+  +:+       +#+        */
+/*   By: hparveen <hparveen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 13:39:18 by hparveen          #+#    #+#             */
-/*   Updated: 2025/06/03 16:18:16 by raalifa          ###   ########.fr       */
+/*   Updated: 2025/06/09 18:14:11 by hparveen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,6 @@ int	ft_parsing(t_shell *shell)
 	shell->ast = build_ast(&tokens);
 	if (shell->ast == NULL)
 		return (handle_error(shell, "tree_create", ERROR_SYNTAX, '\0'), 1);
-	execute_command(shell, shell->ast);
 	ft_free_tokenlist(&shell->token_list);
 	return (0);
 }

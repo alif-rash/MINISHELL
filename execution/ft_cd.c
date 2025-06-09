@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_cd.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: raalifa <raalifa@student.42.fr>            +#+  +:+       +#+        */
+/*   By: hparveen <hparveen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 15:43:03 by raalifa           #+#    #+#             */
-/*   Updated: 2025/06/04 13:08:02 by raalifa          ###   ########.fr       */
+/*   Updated: 2025/06/09 17:30:40 by hparveen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ int	ft_cd(char **args, t_shell *shell)
 	}
 	if (chdir(new_path) == -1)
 	{
-		ft_perror("cd", strerror(errno)); 
+		ft_perror("cd", strerror(errno));
 		free(oldpwd);
 		return (1);
 	}

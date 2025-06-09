@@ -6,7 +6,7 @@
 /*   By: hparveen <hparveen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/09 09:47:28 by hparveen          #+#    #+#             */
-/*   Updated: 2025/06/09 10:22:04 by hparveen         ###   ########.fr       */
+/*   Updated: 2025/06/09 18:44:16 by hparveen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ static void	ft_count_without_quotes(char *result, int *count)
 			quote = result[i++];
 			while (result[i] && result[i] != quote)
 			{
-				*(count)++;
+				(*count)++;
 				i++;
 			}
 			if (result[i] == quote)
@@ -61,11 +61,10 @@ static void	ft_count_without_quotes(char *result, int *count)
 		}
 		else
 		{
-			*(count)++;
+			(*count)++;
 			i++;
 		}
 	}
-	return (count);
 }
 
 char	*clean_all_quotes(char *result)
@@ -74,7 +73,7 @@ char	*clean_all_quotes(char *result)
 	int		count_without_quotes;
 
 	count_without_quotes = 0;
-	ft_count_without_quotes(result, count_without_quotes);
+	ft_count_without_quotes(result, &count_without_quotes);
 	new_result = substring_without_quotes(result, count_without_quotes);
 	free(result);
 	return (new_result);
@@ -82,7 +81,7 @@ char	*clean_all_quotes(char *result)
 
 int	expand_redirection(t_shell *shell, t_tree *tree)
 {
-	int	*result;
+	char	*result;
 
 	result = process_expansion(tree->file, shell);
 	if (*result == '\0')
