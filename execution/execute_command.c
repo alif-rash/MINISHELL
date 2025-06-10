@@ -6,7 +6,7 @@
 /*   By: hparveen <hparveen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 16:05:03 by raalifa           #+#    #+#             */
-/*   Updated: 2025/06/09 19:33:55 by hparveen         ###   ########.fr       */
+/*   Updated: 2025/06/10 09:22:51 by hparveen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,6 @@ void	execute_command(t_shell *shell, t_tree *ast)
 	command_return_type = strcmp_command(shell, ast->args[0], ast->args);
 	if (command_return_type == 0)
 		exit_status("exit status", 0);
-	// if (command_return_type == 5)
-	// 	external_execution(shell, ast);
+	if (command_return_type == 5)
+		external_execution(shell, ast);
 }

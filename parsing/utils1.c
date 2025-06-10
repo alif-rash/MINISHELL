@@ -6,7 +6,7 @@
 /*   By: hparveen <hparveen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/29 11:04:20 by hparveen          #+#    #+#             */
-/*   Updated: 2025/06/09 20:32:00 by hparveen         ###   ########.fr       */
+/*   Updated: 2025/06/10 09:13:03 by hparveen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,4 +49,27 @@ void	ft_tolower_str(char **str)
 			(*str)[i] += 32;
 		i++;
 	}
+}
+
+int	ft_envlist_size(t_env *env_list)
+{
+	int	size;
+
+	size = 0;
+	while (env_list)
+	{
+		size++;
+		env_list = env_list->next;
+	}
+	return (size);
+}
+
+char	*ft_strtrim_sides(char *str)
+{
+	char	*trimmed;
+
+	if (ft_strlen(str) == 2)
+		return (ft_strdup(""));
+	trimmed = ft_substr(str, 1, ft_strlen(str) - 2);
+	return (trimmed);
 }

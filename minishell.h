@@ -6,7 +6,7 @@
 /*   By: hparveen <hparveen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 09:33:06 by hparveen          #+#    #+#             */
-/*   Updated: 2025/06/09 20:32:18 by hparveen         ###   ########.fr       */
+/*   Updated: 2025/06/10 09:22:11 by hparveen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,26 @@ typedef enum e_token_type
 	T_EOF,
 	T_SPACE
 }					t_token_type;
+
+typedef enum e_error_flag
+{
+	NO_FILE = 0,
+	NOT_IN_PWD = 1,
+	AMBIGOUS_REDIRECT = 2,
+	BAD_ID = 3,
+	TOO_MANY_ARGS = 4,
+	NUM_REQUIRED = 5,
+	IS_DIR = 6,
+	ENV_NO_FILE = 10,
+	NO_HOME = 11,
+	NO_DIR = 12,
+	DENIED = 13,
+	NOT_FOUND = 14,
+	BAD_OPTION = 15,
+	NO_OLDPWD = 16,
+	NEED_FILE = 17,
+	IGNORE = 100
+}					t_error_flag;
 
 typedef struct s_token
 {
@@ -814,5 +834,9 @@ void				expand_heredoc_to_file(t_shell *shell, int input_fd,
 void				expand_command(t_shell *shell, t_tree *tree);
 char				*clean_all_quotes(char *result);
 void				ft_tolower_str(char **str);
-
+int					ft_envlist_size(t_env *env_list);
+char				*ft_strtrim_sides(char *str);
+void				external_execution(t_shell *shell, t_tree *tree);
+void				update_env_array(t_shell *shell, t_env *env_list,
+						int total_vars);
 #endif

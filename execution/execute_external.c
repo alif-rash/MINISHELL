@@ -6,14 +6,43 @@
 /*   By: hparveen <hparveen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/09 19:34:12 by hparveen          #+#    #+#             */
-/*   Updated: 2025/06/09 20:52:42 by hparveen         ###   ########.fr       */
+/*   Updated: 2025/06/10 09:23:10 by hparveen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static char	*find_path(char *command, t_shell *shell, int *path_found)
+static char	*find_path(char *command, t_shell *shell, int *error_flag)
 {
+	char	**path_dirs;
+	char	*full_path;
+	char	*temp_path;
+	int		i;
+
+	if (*command == '\0')
+		return (NULL);
+	path_dirs = ft_split(search_in_env(shell, "PATH"), ':');
+	if (!path_dirs)
+	{
+		*error_flag = 1;
+		return (NULL);
+	}
+	i = 0;
+	while (path_dirs[i])
+	{
+		temp_path = ft_strjoin(path_dirs[i], "/");
+		full_path = ft_strjoin(temp_path, command);
+		free(temp_path);
+		if (access(full_path, F_OK | X_OK) == 0)
+		{
+			ft_free_array(path_dirs);
+			return (full_path);
+		}
+		free(full_path);
+		i++;
+	}
+	ft_free_array(path_dirs);
+	return (NULL);
 }
 
 static char	*resolve_command_path(t_shell *shell, char first_char,
@@ -25,7 +54,7 @@ static char	*resolve_command_path(t_shell *shell, char first_char,
 		return (command);
 }
 
-int	run_binary(t_shell *shell, char *command, char **args)
+static int	run_binary(t_shell *shell, char *command, char **args)
 {
 	struct stat	file_info;
 	char		*exec_path;
@@ -38,14 +67,21 @@ int	run_binary(t_shell *shell, char *command, char **args)
 	{
 		if (!path_found && (command[0] == '/' || (command[0] == '.'
 					&& command[1] == '/')))
-			handle_error(shell, args[0], ERROR_GENERIC, 12);
+			handle_error(shell, args[0], ERROR_GENERIC, NO_DIR);
 		else
-			handle_error(shell, args[0], ERROR_GENERIC, 14);
+			handle_error(shell, args[0], ERROR_GENERIC, NOT_FOUND);
 		return (127);
 	}
+	update_env_array(shell, shell->env_list, ft_envlist_size(shell->env_list));
+	execve(exec_path, args, shell->env_array);
+	if (command[0] == '.' && command[1] == '\0')
+		return (handle_error(shell, args[0], ERROR_GENERIC, NEED_FILE), 2);
+	if (!stat(exec_path, &file_info))
+		return (handle_error(shell, exec_path, ERROR_GENERIC, IS_DIR), 126);
+	return (1);
 }
 
-void	child_process(t_shell *shell, t_tree *tree)
+static void	child_process(t_shell *shell, t_tree *tree)
 {
 	int	exit_status;
 

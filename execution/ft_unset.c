@@ -6,7 +6,7 @@
 /*   By: hparveen <hparveen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 15:45:56 by raalifa           #+#    #+#             */
-/*   Updated: 2025/06/09 17:32:15 by hparveen         ###   ########.fr       */
+/*   Updated: 2025/06/10 09:28:06 by hparveen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,8 +55,9 @@ static void	remove_env_var(t_shell *shell, const char *name)
 
 int	ft_unset(char **args, t_shell *shell)
 {
-	int i = 1;
+	int	i;
 
+	i = 1;
 	while (args[i])
 	{
 		if (is_valid_identifier(args[i]))

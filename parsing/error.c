@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   error.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: raalifa <raalifa@student.42.fr>            +#+  +:+       +#+        */
+/*   By: hparveen <hparveen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 10:13:16 by hparveen          #+#    #+#             */
-/*   Updated: 2025/06/02 16:59:47 by raalifa          ###   ########.fr       */
+/*   Updated: 2025/06/10 08:27:34 by hparveen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,12 +31,21 @@ void	handle_error(t_shell *shell, char *msg, int error_type, int quote_flag)
 	}
 }
 
+static void	print_after_args(int flag, int fd)
+{
+	if (flag == NO_DIR)
+		ft_putstr_fd(": no such file or directory", fd);
+	else if (flag == NOT_FOUND)
+		ft_putstr_fd(": command not found", fd);
+}
+
 void	ft_print_error(char *args, int flag, int fd)
 {
 	(void)flag;
 	ft_putstr_fd("minishell: ", fd);
 	if (args)
 		ft_putstr_fd(args, fd);
+	print_after_args(flag, fd);
 }
 
 int	print_error(t_shell *shell, int error_code, t_token *current)
