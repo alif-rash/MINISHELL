@@ -6,7 +6,7 @@
 /*   By: hparveen <hparveen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 10:13:16 by hparveen          #+#    #+#             */
-/*   Updated: 2025/06/10 08:27:34 by hparveen         ###   ########.fr       */
+/*   Updated: 2025/06/10 09:53:55 by hparveen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,8 +35,10 @@ static void	print_after_args(int flag, int fd)
 {
 	if (flag == NO_DIR)
 		ft_putstr_fd(": no such file or directory", fd);
-	else if (flag == NOT_FOUND)
+	if (flag == NOT_FOUND)
 		ft_putstr_fd(": command not found", fd);
+	if (flag != IGNORE)
+		ft_putchar_fd('\n', fd);
 }
 
 void	ft_print_error(char *args, int flag, int fd)
