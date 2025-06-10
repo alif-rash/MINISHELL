@@ -6,7 +6,7 @@
 /*   By: hparveen <hparveen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 09:33:06 by hparveen          #+#    #+#             */
-/*   Updated: 2025/06/10 09:22:11 by hparveen         ###   ########.fr       */
+/*   Updated: 2025/06/10 10:36:21 by hparveen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -839,4 +839,5 @@ char				*ft_strtrim_sides(char *str);
 void				external_execution(t_shell *shell, t_tree *tree);
 void				update_env_array(t_shell *shell, t_env *env_list,
 						int total_vars);
+void				signals_and_exitstatus(int status);
 #endif

@@ -6,7 +6,7 @@
 /*   By: hparveen <hparveen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/09 19:34:12 by hparveen          #+#    #+#             */
-/*   Updated: 2025/06/10 09:23:10 by hparveen         ###   ########.fr       */
+/*   Updated: 2025/06/10 10:21:44 by hparveen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,4 +109,5 @@ void	external_execution(t_shell *shell, t_tree *tree)
 		child_process(shell, tree);
 	waitpid(pid, &status, 0);
 	signal_init();
+	signals_and_exitstatus(status);
 }
