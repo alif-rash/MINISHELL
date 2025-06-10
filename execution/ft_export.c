@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_export.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hparveen <hparveen@student.42.fr>          +#+  +:+       +#+        */
+/*   By: raalifa <raalifa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 15:44:53 by raalifa           #+#    #+#             */
-/*   Updated: 2025/06/09 17:31:45 by hparveen         ###   ########.fr       */
+/*   Updated: 2025/06/10 12:36:28 by raalifa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ static void	ft_print_env(t_env *env_list, int export_flag)
 		if (export_flag || current->flag)
 		{
 			if (current->value)
-				printf("declare -x %s=\"%s\"\n", current->key, current->value);
+				printf("declare -x %s=%s\n", current->key, current->value);
 			else
 				printf("declare -x %s\n", current->key);
 		}
@@ -54,9 +54,10 @@ static void	ft_add_or_update_env(t_shell *shell, char *arg, int export_flag)
 	char	*key;
 	char	*value;
 	t_env	*curr;
-	t_env	*new_env;
 
 	key = ft_get_key(arg);
+	if (!key)
+        return;
 	value = ft_get_value(arg);
 	curr = shell->env_list;
 	while (curr)
@@ -71,18 +72,7 @@ static void	ft_add_or_update_env(t_shell *shell, char *arg, int export_flag)
 		}
 		curr = curr->next;
 	}
-	new_env = (t_env *)malloc(sizeof(t_env));
-	if (!new_env)
-	{
-		free(key);
-		free(value);
-		return ;
-	}
-	new_env->key = key;
-	new_env->value = value;
-	new_env->flag = export_flag;
-	new_env->next = shell->env_list;
-	shell->env_list = new_env;
+	new_env(shell, key, value, export_flag);
 }
 
 static int	ft_is_valid_identifier(const char *str)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_env.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hparveen <hparveen@student.42.fr>          +#+  +:+       +#+        */
+/*   By: raalifa <raalifa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 15:46:54 by raalifa           #+#    #+#             */
-/*   Updated: 2025/06/09 17:30:51 by hparveen         ###   ########.fr       */
+/*   Updated: 2025/06/10 12:33:59 by raalifa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ int	ft_env(t_env *env_list)
 		{
 			value = remove_quotes(current->value);
 			printf("%s=%s\n", current->key, value);
+			free(value);
 		}
 		current = current->next;
 	}

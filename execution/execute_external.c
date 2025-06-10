@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_external.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hparveen <hparveen@student.42.fr>          +#+  +:+       +#+        */
+/*   By: raalifa <raalifa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/09 19:34:12 by hparveen          #+#    #+#             */
-/*   Updated: 2025/06/10 10:21:44 by hparveen         ###   ########.fr       */
+/*   Updated: 2025/06/10 13:31:56 by raalifa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,7 @@ static void	child_process(t_shell *shell, t_tree *tree)
 
 	signal_dfl();
 	exit_status = run_binary(shell, tree->args[0], tree->args);
-	ft_clear(shell, 2);
+	// ft_clear(shell, 2);
 	if (exit_status != 0)
 		exit(exit_status);
 }

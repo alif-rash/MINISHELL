@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   shlvl.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hparveen <hparveen@student.42.fr>          +#+  +:+       +#+        */
+/*   By: raalifa <raalifa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 13:10:07 by hparveen          #+#    #+#             */
-/*   Updated: 2025/06/03 09:53:30 by hparveen         ###   ########.fr       */
+/*   Updated: 2025/06/10 14:49:18 by raalifa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,6 @@ static void	update_existing_value(t_env *env_node)
 		free(unquoted);
 		free(env_node->value);
 		env_node->value = updated_value;
-		free(updated_value);
 	}
 }
 

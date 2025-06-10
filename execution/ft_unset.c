@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_unset.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hparveen <hparveen@student.42.fr>          +#+  +:+       +#+        */
+/*   By: raalifa <raalifa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 15:45:56 by raalifa           #+#    #+#             */
-/*   Updated: 2025/06/10 09:28:06 by hparveen         ###   ########.fr       */
+/*   Updated: 2025/06/10 12:22:38 by raalifa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ int	ft_unset(char **args, t_shell *shell)
 		if (is_valid_identifier(args[i]))
 			remove_env_var(shell, args[i]);
 		else
-			ft_perror("unset", "invalid identifier");
+			ft_perror("unset", "not a valid identifier");
 		i++;
 	}
 	return (0);
