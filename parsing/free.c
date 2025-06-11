@@ -6,7 +6,7 @@
 /*   By: hparveen <hparveen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/23 10:57:48 by hparveen          #+#    #+#             */
-/*   Updated: 2025/06/09 17:34:32 by hparveen         ###   ########.fr       */
+/*   Updated: 2025/06/11 09:19:59 by hparveen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,16 @@ void	ft_clear(t_shell *shell, int flag)
 			ft_free_array(shell->env_array);
 		if (shell->env_list)
 			ft_free_envlist(&(shell->env_list));
+		if (shell->stdin != -1)
+		{
+			close(shell->stdin);
+			shell->stdin = -1;
+		}
+		if (shell->stdout != -1)
+		{
+			close(shell->stdout);
+			shell->stdout = -1;
+		}
 	}
 	shell->token_list = NULL;
 	shell->ast = NULL;

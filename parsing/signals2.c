@@ -6,7 +6,7 @@
 /*   By: hparveen <hparveen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/03 08:13:26 by hparveen          #+#    #+#             */
-/*   Updated: 2025/06/10 10:39:11 by hparveen         ###   ########.fr       */
+/*   Updated: 2025/06/11 09:23:31 by hparveen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ void	signals_and_exitstatus(int status)
 		{
 			if (sig == SIGQUIT)
 				write(2, "Quit: 3\n", 8);
-			else if(sig == SIGSEGV)
+			else if (sig == SIGSEGV)
 			{
 				write(2, "Segmentation fault: ", 20);
 				msg = ft_itoa(sig);
@@ -53,5 +53,39 @@ void	signals_and_exitstatus(int status)
 				write(2, "\n", 1);
 			exit_status("exit status", 128 + sig);
 		}
+	}
+}
+
+void	ft_dup(t_shell *shell)
+{
+	shell->stdin = dup(STDIN_FILENO);
+	if (shell->stdin == -1)
+	{
+		perror("dup stdin");
+		exit(EXIT_FAILURE);
+	}
+	shell->stdout = dup(STDOUT_FILENO);
+	if (shell->stdout == -1)
+	{
+		perror("dup stdout");
+		exit(EXIT_FAILURE);
+	}
+}
+
+void	close_fds(t_shell *shell)
+{
+	if (shell->stdin != -1 && dup2(shell->stdin, STDIN_FILENO) == -1)
+		perror("dup2 stdin");
+	if (shell->stdout != -1 && dup2(shell->stdout, STDOUT_FILENO) == -1)
+		perror("dup2 stdout");
+	if (shell->stdin != -1)
+	{
+		close(shell->stdin);
+		shell->stdin = -1;
+	}
+	if (shell->stdout != -1)
+	{
+		close(shell->stdout);
+		shell->stdout = -1;
 	}
 }

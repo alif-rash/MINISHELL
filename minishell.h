@@ -6,7 +6,7 @@
 /*   By: hparveen <hparveen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 09:33:06 by hparveen          #+#    #+#             */
-/*   Updated: 2025/06/10 10:36:21 by hparveen         ###   ########.fr       */
+/*   Updated: 2025/06/11 09:23:46 by hparveen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,6 +119,8 @@ typedef struct s_shell
 	char			**env_array;
 	char			*prompt;
 	int				index;
+	int				stdin;
+	int				stdout;
 	t_token			*token_list;
 	t_tree			*ast;
 }					t_shell;
@@ -840,4 +842,6 @@ void				external_execution(t_shell *shell, t_tree *tree);
 void				update_env_array(t_shell *shell, t_env *env_list,
 						int total_vars);
 void				signals_and_exitstatus(int status);
+void				ft_dup(t_shell *shell);
+void				close_fds(t_shell *shell);
 #endif

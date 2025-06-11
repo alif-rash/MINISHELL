@@ -6,7 +6,7 @@
 /*   By: hparveen <hparveen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 09:44:17 by hparveen          #+#    #+#             */
-/*   Updated: 2025/06/09 18:15:05 by hparveen         ###   ########.fr       */
+/*   Updated: 2025/06/11 09:20:43 by hparveen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ void	implement_minishell(t_shell *shell)
 	disable_echoctl();
 	while (1)
 	{
+		ft_dup(shell);
 		signal_init();
 		ft_clear(shell, 1);
 		if (isatty(0))
@@ -42,6 +43,7 @@ void	implement_minishell(t_shell *shell)
 			free(shell->prompt);
 			shell->prompt = NULL;
 			execute(shell, shell->ast);
+			close_fds(shell);
 		}
 	}
 }

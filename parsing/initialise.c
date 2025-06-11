@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   initialise.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: raalifa <raalifa@student.42.fr>            +#+  +:+       +#+        */
+/*   By: hparveen <hparveen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 13:10:19 by hparveen          #+#    #+#             */
-/*   Updated: 2025/06/02 19:06:19 by raalifa          ###   ########.fr       */
+/*   Updated: 2025/06/11 09:15:06 by hparveen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,6 +129,8 @@ void	init(t_shell *shell, char **envp)
 	shell->env_list = NULL;
 	shell->token_list = NULL;
 	shell->index = 0;
+	shell->stdin = -1;
+	shell->stdout = -1;
 	shell->token_list = NULL;
 	if (!shell->env_array)
 	{

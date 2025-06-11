@@ -6,7 +6,7 @@
 /*   By: hparveen <hparveen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/04 08:16:18 by hparveen          #+#    #+#             */
-/*   Updated: 2025/06/09 09:43:49 by hparveen         ###   ########.fr       */
+/*   Updated: 2025/06/11 09:27:07 by hparveen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,6 @@ static int	redirect_out(t_tree *tree)
 {
 	int	file;
 
-	file = 0;
 	file = open(tree->file, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	if (file == -1)
 	{
@@ -45,11 +44,7 @@ static int	redirect_out(t_tree *tree)
 		perror(tree->file);
 		return (1);
 	}
-	if (dup2(file, STDOUT_FILENO) == -1)
-	{
-		perror("dup2");
-		return (1);
-	}
+	dup2(file, STDOUT_FILENO);
 	close(file);
 	return (0);
 }
@@ -100,6 +95,8 @@ void	execute_redirections(t_shell *shell, t_tree *tree)
 {
 	int	flag;
 
+	if (!shell->ast || !tree)
+		return ;
 	flag = 0;
 	if (tree->type != T_HEREDOC)
 	{
@@ -109,8 +106,6 @@ void	execute_redirections(t_shell *shell, t_tree *tree)
 			return ;
 		}
 	}
-	if (!shell->ast || !tree)
-		return ;
 	if (tree->type == T_REDIRECT_IN)
 		flag = redirect_in(tree);
 	else if (tree->type == T_REDIRECT_OUT)
