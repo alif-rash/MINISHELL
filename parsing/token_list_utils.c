@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token_list_utils.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: raalifa <raalifa@student.42.fr>            +#+  +:+       +#+        */
+/*   By: hparveen <hparveen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 11:02:28 by hparveen          #+#    #+#             */
-/*   Updated: 2025/06/02 16:59:47 by raalifa          ###   ########.fr       */
+/*   Updated: 2025/06/11 11:20:49 by hparveen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,6 +85,8 @@ void	ft_free_envlist(t_env **env_list)
 			next = current->next;
 		else
 			next = NULL;
+		free(current->env);
+		free(current->key);
 		if (current->value)
 			free(current->value);
 		free(current);

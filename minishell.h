@@ -6,7 +6,7 @@
 /*   By: hparveen <hparveen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 09:33:06 by hparveen          #+#    #+#             */
-/*   Updated: 2025/06/11 09:23:46 by hparveen         ###   ########.fr       */
+/*   Updated: 2025/06/11 11:24:52 by hparveen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -781,7 +781,7 @@ int					ft_env(t_env *env_list);
  * @param args Array of arguments passed to the exit command.
  * @return int Returns the exit status.
  */
-int					ft_exit(char **args);
+int					ft_exit(char **args, t_shell *shell);
 
 /**
  * @brief Removes environment variables from the shell.

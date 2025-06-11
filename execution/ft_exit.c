@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   ft_exit.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: raalifa <raalifa@student.42.fr>            +#+  +:+       +#+        */
+/*   By: hparveen <hparveen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 15:47:55 by raalifa           #+#    #+#             */
-/*   Updated: 2025/06/04 15:13:35 by raalifa          ###   ########.fr       */
+/*   Updated: 2025/06/11 11:24:25 by hparveen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-int	ft_exit(char **args)
+int	ft_exit(char **args, t_shell *shell)
 {
 	int	num;
 
@@ -36,6 +36,7 @@ int	ft_exit(char **args)
 	}
 	num = ft_atoi(args[1]);
 	printf("exit\n");
+	ft_clear(shell, 2);
 	exit((unsigned char)num);
 	return (1);
 }

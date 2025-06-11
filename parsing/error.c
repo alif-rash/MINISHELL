@@ -6,7 +6,7 @@
 /*   By: hparveen <hparveen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 10:13:16 by hparveen          #+#    #+#             */
-/*   Updated: 2025/06/10 09:53:55 by hparveen         ###   ########.fr       */
+/*   Updated: 2025/06/11 11:26:04 by hparveen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,12 @@ static void	print_after_args(int flag, int fd)
 		ft_putstr_fd(": no such file or directory", fd);
 	if (flag == NOT_FOUND)
 		ft_putstr_fd(": command not found", fd);
+	if (flag == NO_HOME)
+		ft_putstr_fd(": HOME not set", fd);
+	if (flag == NO_OLDPWD)
+		ft_putstr_fd(": OLDPWD not set", fd);
+	if (flag == BAD_OPTION)
+		ft_putstr_fd(": invalid option", fd);
 	if (flag != IGNORE)
 		ft_putchar_fd('\n', fd);
 }
@@ -45,6 +51,10 @@ void	ft_print_error(char *args, int flag, int fd)
 {
 	(void)flag;
 	ft_putstr_fd("minishell: ", fd);
+	if (flag == NUM_REQUIRED)
+		ft_putstr_fd("exit: ", fd);
+	if (flag == TOO_MANY_ARGS)
+		ft_putstr_fd("exit: too many arguments", fd);
 	if (args)
 		ft_putstr_fd(args, fd);
 	print_after_args(flag, fd);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_command.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: raalifa <raalifa@student.42.fr>            +#+  +:+       +#+        */
+/*   By: hparveen <hparveen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 16:05:03 by raalifa           #+#    #+#             */
-/*   Updated: 2025/06/10 15:10:13 by raalifa          ###   ########.fr       */
+/*   Updated: 2025/06/11 11:25:28 by hparveen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,9 +28,6 @@ static int	ft_str_cmd(char *s1, const char *s2)
 
 static int	strcmp_command(t_shell *shell, char *command, char **args)
 {
-	// int	i;
-
-	// i = 1;
 	if (ft_str_cmd(command, "echo") == 0)
 		return (ft_echo(args));
 	if (ft_str_cmd(command, "cd") == 0)
@@ -44,13 +41,13 @@ static int	strcmp_command(t_shell *shell, char *command, char **args)
 	if (ft_str_cmd(command, "env") == 0)
 		return (ft_env(shell->env_list));
 	if (ft_str_cmd(command, "exit") == 0)
-		return (ft_exit(args));
+		return (ft_exit(args, shell));
 	return (5);
 }
 
 void	execute_command(t_shell *shell, t_tree *ast)
 {
-	int		command_return_type;
+	int	command_return_type;
 
 	if (!shell || !ast)
 		return ;
