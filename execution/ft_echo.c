@@ -6,7 +6,7 @@
 /*   By: hparveen <hparveen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 14:03:07 by raalifa           #+#    #+#             */
-/*   Updated: 2025/06/03 08:09:47 by hparveen         ###   ########.fr       */
+/*   Updated: 2025/06/11 10:20:21 by hparveen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,12 +42,12 @@ int	ft_echo(char **args)
 	}
 	while (args[i])
 	{
-		printf("%s", args[i]);
+		ft_putstr_fd(args[i], STDOUT_FILENO);
 		if (args[i + 1])
-			printf(" ");
+			ft_putchar_fd(' ', STDOUT_FILENO);
 		i++;
 	}
 	if (newline)
-		printf("\n");
+		ft_putchar_fd('\n', STDOUT_FILENO);
 	return (0);
 }
