@@ -6,7 +6,7 @@
 /*   By: hparveen <hparveen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/10 08:44:00 by hparveen          #+#    #+#             */
-/*   Updated: 2025/06/10 09:25:50 by hparveen         ###   ########.fr       */
+/*   Updated: 2025/06/12 13:14:42 by hparveen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,16 +23,21 @@ static char	*get_trimmed_value(t_env *env_list, int *value_len)
 	return (trimmed);
 }
 
-static void	fill_env_variable(char *env_var, t_env *env_list, char *value,
-		int key_len, int value_len)
+static void	fill_env_variable(char *env_var, char *key, char *value)
 {
 	int	i;
 	int	j;
+	int	key_len;
+	int	value_len;
 
 	i = 0;
 	j = 0;
+	key_len = ft_strlen(key);
+	value_len = 0;
+	if (value)
+		value_len = ft_strlen(value);
 	while (j < key_len)
-		env_var[i++] = env_list->key[j++];
+		env_var[i++] = key[j++];
 	env_var[i++] = '=';
 	j = 0;
 	while (j < value_len)
@@ -40,33 +45,43 @@ static void	fill_env_variable(char *env_var, t_env *env_list, char *value,
 	env_var[i] = '\0';
 }
 
-static void	initialize_lengths(int *key_len, int *value_len, t_env *env_list)
+static char	*create_new_env_entry(t_env *env_list)
 {
-	*key_len = ft_strlen(env_list->key);
-	*value_len = 0;
+	int		key_len;
+	int		value_len;
+	char	*trimmed_value;
+	char	*env_variable;
+
+	key_len = ft_strlen(env_list->key);
+	value_len = 0;
+	trimmed_value = NULL;
+	if (trimmed_value)
+		trimmed_value = get_trimmed_value(env_list, &value_len);
+	env_variable = malloc(sizeof(char) * (key_len + value_len + 2));
+	if (!env_variable)
+	{
+		if (trimmed_value)
+			free(trimmed_value);
+		return (NULL);
+	}
+	fill_env_variable(env_variable, env_list->key, trimmed_value);
+	if (trimmed_value)
+		free(trimmed_value);
+	return (env_variable);
 }
 
 static void	build_env_array(t_env *env_list, char **env_array, int count)
 {
 	int		index;
-	int		key_len;
-	int		value_len;
-	char	*trimmed_value;
+	char	*env_variable;
 
 	index = 0;
-	while (index < count)
+	while (index < count && env_list)
 	{
-		initialize_lengths(&key_len, &value_len, env_list);
-		trimmed_value = NULL;
-		if (env_list->value)
-			trimmed_value = get_trimmed_value(env_list, &value_len);
-		env_array[index] = malloc((key_len + value_len + 2) * sizeof(char));
-		if (!env_array[index])
+		env_variable = create_new_env_entry(env_list);
+		if (!env_variable)
 			return ;
-		fill_env_variable(env_array[index], env_list, trimmed_value, key_len,
-			value_len);
-		if (trimmed_value)
-			free(trimmed_value);
+		env_array[index] = env_variable;
 		env_list = env_list->next;
 		index++;
 	}
