@@ -6,7 +6,7 @@
 /*   By: hparveen <hparveen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 16:05:03 by raalifa           #+#    #+#             */
-/*   Updated: 2025/06/11 11:25:28 by hparveen         ###   ########.fr       */
+/*   Updated: 2025/06/12 13:23:06 by hparveen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,13 +34,13 @@ static int	strcmp_command(t_shell *shell, char *command, char **args)
 		return (ft_cd(args, shell));
 	if (ft_str_cmd(command, "pwd") == 0)
 		return (ft_pwd());
-	if (ft_str_cmd(command, "export") == 0)
+	if (ft_strcmp(command, "export") == 0)
 		return (ft_export(args, shell, shell->env_list->flag));
-	if (ft_str_cmd(command, "unset") == 0)
+	if (ft_strcmp(command, "unset") == 0)
 		return (ft_unset(args, shell));
 	if (ft_str_cmd(command, "env") == 0)
 		return (ft_env(shell->env_list));
-	if (ft_str_cmd(command, "exit") == 0)
+	if (ft_strcmp(command, "exit") == 0)
 		return (ft_exit(args, shell));
 	return (5);
 }
