@@ -6,7 +6,7 @@
 /*   By: raalifa <raalifa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 10:13:16 by hparveen          #+#    #+#             */
-/*   Updated: 2025/06/12 15:38:00 by raalifa          ###   ########.fr       */
+/*   Updated: 2025/06/12 16:20:06 by raalifa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ void	handle_error(t_shell *shell, char *msg, int error_type, int quote_flag)
 static void	print_after_args(int flag, int fd)
 {
 	if (flag == NO_DIR)
-		ft_putstr_fd(": no such file or directory", fd);
+		ft_putstr_fd(": No such file or directory", fd);
 	if (flag == NOT_FOUND)
 		ft_putstr_fd(": command not found", fd);
 	if (flag == NO_HOME)
