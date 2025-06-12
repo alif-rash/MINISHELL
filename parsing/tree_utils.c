@@ -6,7 +6,7 @@
 /*   By: hparveen <hparveen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/03 08:19:14 by hparveen          #+#    #+#             */
-/*   Updated: 2025/06/03 08:19:19 by hparveen         ###   ########.fr       */
+/*   Updated: 2025/06/12 09:23:13 by hparveen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,4 +50,22 @@ void	ft_free_treelist(t_tree *branch)
 		branch->args = NULL;
 	}
 	ft_free_treenode(branch);
+}
+
+void	ft_clear_subtree(t_subtree **subtree)
+{
+	t_subtree	*current;
+	t_subtree	*temp;
+
+	if (!subtree || !*subtree)
+		return ;
+	current = *subtree;
+	while (current)
+	{
+		temp = current->next;
+		ft_free_treelist(current->tree);
+		free(current);
+		current = temp;
+	}
+	*subtree = NULL;
 }

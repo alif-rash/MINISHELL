@@ -6,7 +6,7 @@
 /*   By: hparveen <hparveen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/03 08:11:44 by hparveen          #+#    #+#             */
-/*   Updated: 2025/06/09 18:26:19 by hparveen         ###   ########.fr       */
+/*   Updated: 2025/06/12 09:01:44 by hparveen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,4 +34,6 @@ void	execute(t_shell *shell, t_tree *tree)
 		execute_redirections(shell, tree);
 	else if (tree->type == T_COMMAND)
 		execute_command(shell, tree);
+	else if (tree->type == T_BRACKET)
+		execute_subshell(shell, tree);
 }

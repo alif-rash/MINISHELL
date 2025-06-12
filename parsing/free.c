@@ -6,7 +6,7 @@
 /*   By: hparveen <hparveen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/23 10:57:48 by hparveen          #+#    #+#             */
-/*   Updated: 2025/06/11 09:19:59 by hparveen         ###   ########.fr       */
+/*   Updated: 2025/06/12 09:22:55 by hparveen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,8 @@ void	ft_clear(t_shell *shell, int flag)
 		ft_free_tokenlist(&(shell->token_list));
 	if (shell->ast)
 		ft_free_treelist(shell->ast);
+	if (shell->subtree)
+		ft_clear_subtree(&(shell->subtree));
 	if (flag != 1)
 	{
 		if (shell->env_array)

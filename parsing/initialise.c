@@ -6,7 +6,7 @@
 /*   By: hparveen <hparveen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 13:10:19 by hparveen          #+#    #+#             */
-/*   Updated: 2025/06/11 09:15:06 by hparveen         ###   ########.fr       */
+/*   Updated: 2025/06/12 09:11:28 by hparveen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,6 +126,7 @@ void	init(t_shell *shell, char **envp)
 	shell->prompt = NULL;
 	shell->env_array = create_env_array(envp);
 	shell->ast = NULL;
+	shell->subtree = NULL;
 	shell->env_list = NULL;
 	shell->token_list = NULL;
 	shell->index = 0;

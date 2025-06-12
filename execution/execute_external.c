@@ -6,7 +6,7 @@
 /*   By: hparveen <hparveen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/09 19:34:12 by hparveen          #+#    #+#             */
-/*   Updated: 2025/06/11 08:04:07 by hparveen         ###   ########.fr       */
+/*   Updated: 2025/06/12 10:05:00 by hparveen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,10 +23,7 @@ static char	*find_path(char *command, t_shell *shell, int *error_flag)
 		return (NULL);
 	path_dirs = ft_split(search_in_env(shell, "PATH"), ':');
 	if (!path_dirs)
-	{
-		*error_flag = 1;
-		return (NULL);
-	}
+		return (*error_flag = 1, NULL);
 	i = 0;
 	while (path_dirs[i])
 	{
@@ -41,8 +38,7 @@ static char	*find_path(char *command, t_shell *shell, int *error_flag)
 		free(full_path);
 		i++;
 	}
-	ft_free_array(path_dirs);
-	return (NULL);
+	return (ft_free_array(path_dirs), NULL);
 }
 
 static char	*resolve_command_path(t_shell *shell, char first_char,
