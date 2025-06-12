@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hparveen <hparveen@student.42.fr>          +#+  +:+       +#+        */
+/*   By: raalifa <raalifa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 09:33:06 by hparveen          #+#    #+#             */
-/*   Updated: 2025/06/12 09:23:34 by hparveen         ###   ########.fr       */
+/*   Updated: 2025/06/12 12:20:38 by raalifa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,6 +83,7 @@ typedef enum e_error_flag
 	BAD_OPTION = 15,
 	NO_OLDPWD = 16,
 	NEED_FILE = 17,
+	INVALID_IDENTIFIER = 18,
 	IGNORE = 100
 }						t_error_flag;
 
@@ -856,4 +857,5 @@ void					ft_dup(t_shell *shell);
 void					close_fds(t_shell *shell);
 void					ft_clear_subtree(t_subtree **subtree);
 void					execute_subshell(t_shell *shell, t_tree *tree);
+
 #endif

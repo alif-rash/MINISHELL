@@ -6,7 +6,7 @@
 /*   By: raalifa <raalifa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 15:45:56 by raalifa           #+#    #+#             */
-/*   Updated: 2025/06/10 12:22:38 by raalifa          ###   ########.fr       */
+/*   Updated: 2025/06/12 14:10:23 by raalifa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,21 +30,32 @@ int	is_valid_identifier(const char *str)
 
 static void	remove_env_var(t_shell *shell, const char *name)
 {
-	t_env	*prev;
 	t_env	*curr;
+	t_env	*prev;
 
-	prev = NULL;
 	curr = shell->env_list;
+	prev = NULL;
 	while (curr)
 	{
 		if (ft_strcmp(curr->key, name) == 0)
 		{
+			if (ft_strcmp(name, "PWD") == 0 || ft_strcmp(name, "OLDPWD") == 0)
+			{
+				if (curr->value)
+				{
+					free(curr->value);
+					curr->value = NULL;
+				}
+				curr->flag = 0;
+				return ;
+			}
 			if (prev)
 				prev->next = curr->next;
 			else
 				shell->env_list = curr->next;
 			free(curr->key);
-			free(curr->value);
+			if (curr->value)
+				free(curr->value);
 			free(curr);
 			return ;
 		}
@@ -63,7 +74,8 @@ int	ft_unset(char **args, t_shell *shell)
 		if (is_valid_identifier(args[i]))
 			remove_env_var(shell, args[i]);
 		else
-			ft_perror("unset", "not a valid identifier");
+			return (handle_error(shell, args[1], ERROR_GENERIC,
+					INVALID_IDENTIFIER), 1);
 		i++;
 	}
 	return (0);

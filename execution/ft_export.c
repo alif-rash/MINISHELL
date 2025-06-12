@@ -6,7 +6,7 @@
 /*   By: raalifa <raalifa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 15:44:53 by raalifa           #+#    #+#             */
-/*   Updated: 2025/06/10 12:36:28 by raalifa          ###   ########.fr       */
+/*   Updated: 2025/06/12 14:11:25 by raalifa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ static void	ft_add_or_update_env(t_shell *shell, char *arg, int export_flag)
 
 	key = ft_get_key(arg);
 	if (!key)
-        return;
+		return ;
 	value = ft_get_value(arg);
 	curr = shell->env_list;
 	while (curr)
@@ -106,7 +106,8 @@ int	ft_export(char **args, t_shell *shell, int export_flag)
 		if (ft_is_valid_identifier(args[i]))
 			ft_add_or_update_env(shell, args[i], export_flag);
 		else
-			ft_perror("export", "not a valid identifier");
+			return (handle_error(shell, args[1], ERROR_GENERIC,
+					INVALID_IDENTIFIER), 1);
 		i++;
 	}
 	return (0);

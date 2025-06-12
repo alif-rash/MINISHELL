@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   error.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hparveen <hparveen@student.42.fr>          +#+  +:+       +#+        */
+/*   By: raalifa <raalifa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 10:13:16 by hparveen          #+#    #+#             */
-/*   Updated: 2025/06/11 11:26:04 by hparveen         ###   ########.fr       */
+/*   Updated: 2025/06/12 11:08:18 by raalifa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,8 @@ static void	print_after_args(int flag, int fd)
 		ft_putstr_fd(": OLDPWD not set", fd);
 	if (flag == BAD_OPTION)
 		ft_putstr_fd(": invalid option", fd);
+	if (flag == INVALID_IDENTIFIER)
+		ft_putstr_fd("': not a valid identifier", fd);
 	if (flag != IGNORE)
 		ft_putchar_fd('\n', fd);
 }
@@ -55,6 +57,8 @@ void	ft_print_error(char *args, int flag, int fd)
 		ft_putstr_fd("exit: ", fd);
 	if (flag == TOO_MANY_ARGS)
 		ft_putstr_fd("exit: too many arguments", fd);
+	if (flag == INVALID_IDENTIFIER)
+		ft_putstr_fd("export: `", fd);
 	if (args)
 		ft_putstr_fd(args, fd);
 	print_after_args(flag, fd);
