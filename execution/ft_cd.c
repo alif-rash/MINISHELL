@@ -6,7 +6,7 @@
 /*   By: raalifa <raalifa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 15:43:03 by raalifa           #+#    #+#             */
-/*   Updated: 2025/06/12 14:09:54 by raalifa          ###   ########.fr       */
+/*   Updated: 2025/06/12 15:49:16 by raalifa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ int	ft_cd(char **args, t_shell *shell)
 		curpwd = ft_strdup("");
 	if (chdir(new_path) == -1)
 	{
-		ft_perror("cd", strerror(errno));
+		handle_error(shell, args[1], ERROR_GENERIC, NO_DIR);
 		free(curpwd);
 		free(new_path);
 		return (1);

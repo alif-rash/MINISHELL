@@ -6,7 +6,7 @@
 /*   By: raalifa <raalifa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 10:13:16 by hparveen          #+#    #+#             */
-/*   Updated: 2025/06/12 11:08:18 by raalifa          ###   ########.fr       */
+/*   Updated: 2025/06/12 15:38:00 by raalifa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,13 @@ void	handle_error(t_shell *shell, char *msg, int error_type, int quote_flag)
 		ft_putstr_fd("minishell: syntax error near unexpected token `", 2);
 		ft_putstr_fd(msg, 2);
 		ft_putstr_fd("'\n", 2);
+	}
+	else if (error_type == ERROR_NUMERIC)
+	{
+		exit_status("exit status", 255);
+		ft_putstr_fd("minishell: exit: ", 2);
+		ft_putstr_fd(msg, 2);
+		ft_putstr_fd(": numeric argument required\n", 2);
 	}
 }
 

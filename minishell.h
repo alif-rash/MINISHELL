@@ -6,7 +6,7 @@
 /*   By: raalifa <raalifa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 09:33:06 by hparveen          #+#    #+#             */
-/*   Updated: 2025/06/12 12:20:38 by raalifa          ###   ########.fr       */
+/*   Updated: 2025/06/12 15:37:17 by raalifa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@
 # define ERR_REDIR_SYNTAX 103
 # define ERR_DOUBLEBRACKET 104
 # define ERR_INVALIDSUBSHELL 105
+# define ERROR_NUMERIC 255
 
 typedef enum e_token_type
 {
