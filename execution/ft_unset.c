@@ -6,7 +6,7 @@
 /*   By: raalifa <raalifa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 15:45:56 by raalifa           #+#    #+#             */
-/*   Updated: 2025/06/12 14:10:23 by raalifa          ###   ########.fr       */
+/*   Updated: 2025/06/13 12:04:50 by raalifa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,25 +39,15 @@ static void	remove_env_var(t_shell *shell, const char *name)
 	{
 		if (ft_strcmp(curr->key, name) == 0)
 		{
-			if (ft_strcmp(name, "PWD") == 0 || ft_strcmp(name, "OLDPWD") == 0)
-			{
-				if (curr->value)
-				{
-					free(curr->value);
-					curr->value = NULL;
-				}
-				curr->flag = 0;
-				return ;
-			}
-			if (prev)
-				prev->next = curr->next;
-			else
-				shell->env_list = curr->next;
-			free(curr->key);
-			if (curr->value)
-				free(curr->value);
-			free(curr);
-			return ;
+        	if (prev)
+        	    prev->next = curr->next;
+        	else
+        	    shell->env_list = curr->next;
+        	free(curr->key);
+        	if (curr->value)
+        	    free(curr->value);
+        	free(curr);
+        	return;
 		}
 		prev = curr;
 		curr = curr->next;

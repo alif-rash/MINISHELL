@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   error.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hparveen <hparveen@student.42.fr>          +#+  +:+       +#+        */
+/*   By: raalifa <raalifa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 10:13:16 by hparveen          #+#    #+#             */
-/*   Updated: 2025/06/13 10:49:08 by hparveen         ###   ########.fr       */
+/*   Updated: 2025/06/13 11:23:04 by raalifa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,6 @@ void	handle_error(t_shell *shell, char *msg, int error_type, int quote_flag)
 	}
 	else if (error_type == ERROR_NUMERIC)
 	{
-		exit_status("exit status", 255);
 		ft_putstr_fd("minishell: exit: ", 2);
 		ft_putstr_fd(msg, 2);
 		ft_putstr_fd(": numeric argument required\n", 2);

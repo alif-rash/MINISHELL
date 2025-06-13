@@ -6,7 +6,7 @@
 /*   By: raalifa <raalifa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 15:43:03 by raalifa           #+#    #+#             */
-/*   Updated: 2025/06/12 15:49:16 by raalifa          ###   ########.fr       */
+/*   Updated: 2025/06/13 15:04:56 by raalifa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,29 +28,45 @@ static int	handle_cd_args(char **args, t_shell *shell, char **path)
 	return (0);
 }
 
+static t_env	*find_env_var(t_shell *shell, const char *name)
+{
+    t_env	*curr;
+
+    curr = shell->env_list;
+    while (curr)
+    {
+        if (ft_strcmp(curr->key, name) == 0)
+            return (curr);
+        curr = curr->next;
+    }
+    return (NULL);
+}
+
 static int	update_pwd_vars(t_shell *shell, char *oldpwd, char *newpwd)
 {
-	char	*pwd_var;
-	char	*oldpwd_var;
+	t_env	*pwd_var;
+    t_env	*oldpwd_var;
 
-	pwd_var = search_in_env(shell, "PWD");
-	oldpwd_var = search_in_env(shell, "OLDPWD");
-	if (oldpwd_var)
-	{
-		if (oldpwd)
-			update_env(shell, "OLDPWD", oldpwd);
-		else
-			update_env(shell, "OLDPWD", "");
-	}
-	if (pwd_var)
-	{
-		if (newpwd)
-			update_env(shell, "PWD", newpwd);
-		else
-			update_env(shell, "PWD", "");
-	}
-	free(newpwd);
-	free(oldpwd);
+    if (oldpwd)
+    {
+        oldpwd_var = find_env_var(shell, "OLDPWD");
+        if (!oldpwd_var)
+            new_env(shell, ft_strdup("OLDPWD"), ft_strdup(oldpwd), 0);
+        else
+            update_env(shell, "OLDPWD", oldpwd);
+			free(oldpwd);
+			
+    }
+    if (newpwd)
+    {
+        pwd_var = find_env_var(shell, "PWD");
+        if (!pwd_var)
+            new_env(shell, ft_strdup("PWD"), ft_strdup(newpwd), 0);
+        else
+            update_env(shell, "PWD", newpwd);
+		
+			free(newpwd);
+    }
 	return (0);
 }
 
@@ -70,7 +86,8 @@ int	ft_cd(char **args, t_shell *shell)
 	if (chdir(new_path) == -1)
 	{
 		handle_error(shell, args[1], ERROR_GENERIC, NO_DIR);
-		free(curpwd);
+		if (curpwd)
+			free(curpwd);
 		free(new_path);
 		return (1);
 	}

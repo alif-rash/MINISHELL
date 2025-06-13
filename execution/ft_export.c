@@ -6,7 +6,7 @@
 /*   By: raalifa <raalifa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 15:44:53 by raalifa           #+#    #+#             */
-/*   Updated: 2025/06/12 14:11:25 by raalifa          ###   ########.fr       */
+/*   Updated: 2025/06/13 15:41:49 by raalifa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,15 +34,19 @@ char	*ft_get_value(const char *arg)
 static void	ft_print_env(t_env *env_list, int export_flag)
 {
 	t_env	*current;
-
+	char	*trimmed;
+	
 	current = env_list;
 	while (current)
 	{
 		if (export_flag || current->flag)
 		{
 			if (current->value)
-				printf("declare -x %s=%s\n", current->key, current->value);
-			else
+			{
+				trimmed = ft_strtrim(current->value, "\"");
+				printf("declare -x %s=\"%s\"\n", current->key, trimmed);
+			}
+			else if (ft_strchr(current->key, '='))
 				printf("declare -x %s\n", current->key);
 		}
 		current = current->next;
@@ -64,8 +68,11 @@ static void	ft_add_or_update_env(t_shell *shell, char *arg, int export_flag)
 	{
 		if (strcmp(curr->key, key) == 0)
 		{
-			free(curr->value);
-			curr->value = value;
+			if (value)
+			{
+				free(curr->value);
+				curr->value = value;
+			}
 			curr->flag = export_flag;
 			free(key);
 			return ;
@@ -106,7 +113,7 @@ int	ft_export(char **args, t_shell *shell, int export_flag)
 		if (ft_is_valid_identifier(args[i]))
 			ft_add_or_update_env(shell, args[i], export_flag);
 		else
-			return (handle_error(shell, args[1], ERROR_GENERIC,
+			return (handle_error(shell, args[i], ERROR_GENERIC,
 					INVALID_IDENTIFIER), 1);
 		i++;
 	}
