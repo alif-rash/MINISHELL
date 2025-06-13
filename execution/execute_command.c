@@ -6,25 +6,11 @@
 /*   By: hparveen <hparveen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 16:05:03 by raalifa           #+#    #+#             */
-/*   Updated: 2025/06/12 13:23:06 by hparveen         ###   ########.fr       */
+/*   Updated: 2025/06/13 10:24:21 by hparveen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-
-static int	ft_str_cmd(char *s1, const char *s2)
-{
-	size_t	i;
-
-	i = 0;
-	while (s1[i] || s2[i])
-	{
-		if (s1[i] != s2[i] && s1[i] + 32 != s2[i])
-			return ((unsigned char)s1[i] - (unsigned char)s2[i]);
-		i++;
-	}
-	return (0);
-}
 
 static int	strcmp_command(t_shell *shell, char *command, char **args)
 {
@@ -45,6 +31,62 @@ static int	strcmp_command(t_shell *shell, char *command, char **args)
 	return (5);
 }
 
+static void	copy_non_empty_args(char **src, char **dst)
+{
+	int	i;
+	int	j;
+
+	i = 0;
+	j = 0;
+	while (src[i])
+	{
+		if (src[i][0] != '\0')
+			dst[j++] = ft_strdup(src[i]);
+		i++;
+	}
+	dst[j] = NULL;
+}
+
+static int	count_non_empty_args(char **args)
+{
+	int	count;
+	int	i;
+
+	if (!args)
+		return (0);
+	count = 0;
+	i = 0;
+	while (args[i])
+	{
+		if (args[i][0] != '\0')
+			count++;
+		i++;
+	}
+	return (count);
+}
+
+static void	filter_empty_args(t_tree *tree)
+{
+	char	**new_args;
+	int		count;
+
+	if (!tree || !tree->args)
+		return ;
+	count = count_non_empty_args(tree->args);
+	if (count == 0)
+	{
+		ft_free_array(tree->args);
+		tree->args = NULL;
+		return ;
+	}
+	new_args = malloc(sizeof(char *) * (count + 1));
+	if (!new_args)
+		return ;
+	copy_non_empty_args(tree->args, new_args);
+	ft_free_array(tree->args);
+	tree->args = new_args;
+}
+
 void	execute_command(t_shell *shell, t_tree *ast)
 {
 	int	command_return_type;
@@ -53,7 +95,12 @@ void	execute_command(t_shell *shell, t_tree *ast)
 		return ;
 	if (!ast || !ast->args || !ast->args[0])
 		return ;
-	expand_command(shell, ast);
+	if (expand_command(shell, ast))
+	{
+		filter_empty_args(ast);
+		if (!ast->args || !ast->args[0])
+			return ;
+	}
 	command_return_type = strcmp_command(shell, ast->args[0], ast->args);
 	if (command_return_type == 0)
 		exit_status("exit status", 0);

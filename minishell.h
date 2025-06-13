@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: raalifa <raalifa@student.42.fr>            +#+  +:+       +#+        */
+/*   By: hparveen <hparveen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 09:33:06 by hparveen          #+#    #+#             */
-/*   Updated: 2025/06/12 15:37:17 by raalifa          ###   ########.fr       */
+/*   Updated: 2025/06/13 10:17:10 by hparveen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -845,7 +845,7 @@ char					*expansion_heredoc(char *line, t_shell *shell,
 							char **temp);
 void					expand_heredoc_to_file(t_shell *shell, int input_fd,
 							int output_fd, t_tree *tree);
-void					expand_command(t_shell *shell, t_tree *tree);
+int						expand_command(t_shell *shell, t_tree *tree);
 char					*clean_all_quotes(char *result);
 void					ft_tolower_str(char **str);
 int						ft_envlist_size(t_env *env_list);
@@ -858,5 +858,6 @@ void					ft_dup(t_shell *shell);
 void					close_fds(t_shell *shell);
 void					ft_clear_subtree(t_subtree **subtree);
 void					execute_subshell(t_shell *shell, t_tree *tree);
+int						ft_str_cmd(char *s1, const char *s2);
 
 #endif
