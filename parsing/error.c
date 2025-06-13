@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   error.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: raalifa <raalifa@student.42.fr>            +#+  +:+       +#+        */
+/*   By: hparveen <hparveen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 10:13:16 by hparveen          #+#    #+#             */
-/*   Updated: 2025/06/12 16:20:06 by raalifa          ###   ########.fr       */
+/*   Updated: 2025/06/13 10:49:08 by hparveen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,18 +40,26 @@ void	handle_error(t_shell *shell, char *msg, int error_type, int quote_flag)
 
 static void	print_after_args(int flag, int fd)
 {
-	if (flag == NO_DIR)
+	if (flag == NO_DIR || flag == ENV_NO_FILE || flag == NO_FILE)
 		ft_putstr_fd(": No such file or directory", fd);
 	if (flag == NOT_FOUND)
 		ft_putstr_fd(": command not found", fd);
+	if (flag == NUM_REQUIRED)
+		ft_putstr_fd(": numeric argument required", fd);
+	if (flag == DENIED)
+		ft_putstr_fd(": Permission denied", fd);
 	if (flag == NO_HOME)
 		ft_putstr_fd(": HOME not set", fd);
 	if (flag == NO_OLDPWD)
 		ft_putstr_fd(": OLDPWD not set", fd);
 	if (flag == BAD_OPTION)
 		ft_putstr_fd(": invalid option", fd);
+	if (flag == IS_DIR)
+		ft_putstr_fd(": is a directory", fd);
 	if (flag == INVALID_IDENTIFIER)
 		ft_putstr_fd("': not a valid identifier", fd);
+	if (flag == NEED_FILE)
+		ft_putstr_fd(": a file name is required", fd);
 	if (flag != IGNORE)
 		ft_putchar_fd('\n', fd);
 }
