@@ -6,7 +6,7 @@
 /*   By: raalifa <raalifa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 09:23:06 by hparveen          #+#    #+#             */
-/*   Updated: 2025/06/02 16:59:47 by raalifa          ###   ########.fr       */
+/*   Updated: 2025/06/15 13:05:31 by raalifa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,10 +19,10 @@ static t_token	*tokens_after_redirection(t_shell *shell, t_token *list,
 
 	previous_type = list->type;
 	if (!list->next)
-		return (handle_error(shell, "new line", ERROR_SYNTAX, '\0'), NULL);
+		return (handle_error(shell, "newline", ERROR_SYNTAX, '\0'), NULL);
 	if (list->next && (list->next->type >= T_REDIRECT_IN
 			&& list->next->type <= T_HEREDOC))
-		return (handle_error(shell, "new line", ERROR_SYNTAX, '\0'), NULL);
+		return (handle_error(shell, "newline", ERROR_SYNTAX, '\0'), NULL);
 	list = list->next;
 	if (list && list->type == T_WORD)
 	{

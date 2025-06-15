@@ -6,7 +6,7 @@
 /*   By: raalifa <raalifa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 10:13:16 by hparveen          #+#    #+#             */
-/*   Updated: 2025/06/13 11:23:04 by raalifa          ###   ########.fr       */
+/*   Updated: 2025/06/15 13:53:07 by raalifa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,12 @@ void	ft_print_error(char *args, int flag, int fd)
 	if (flag == TOO_MANY_ARGS)
 		ft_putstr_fd("exit: too many arguments", fd);
 	if (flag == INVALID_IDENTIFIER)
-		ft_putstr_fd("export: `", fd);
+	{
+		if (args && ft_strncmp(args, "export", 6) == 0)
+            ft_putstr_fd("export: `", fd);
+        else
+            ft_putstr_fd("unset: `", fd);
+	}
 	if (args)
 		ft_putstr_fd(args, fd);
 	print_after_args(flag, fd);
