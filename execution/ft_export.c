@@ -6,7 +6,7 @@
 /*   By: raalifa <raalifa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 15:44:53 by raalifa           #+#    #+#             */
-/*   Updated: 2025/06/13 15:41:49 by raalifa          ###   ########.fr       */
+/*   Updated: 2025/06/15 12:44:26 by raalifa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,8 @@ char	*ft_get_value(const char *arg)
 
 	if (!eq)
 		return (NULL);
+	if (*(eq + 1) == '\0')
+		return (ft_strdup(""));
 	return (ft_strdup(eq + 1));
 }
 
@@ -35,7 +37,7 @@ static void	ft_print_env(t_env *env_list, int export_flag)
 {
 	t_env	*current;
 	char	*trimmed;
-	
+
 	current = env_list;
 	while (current)
 	{
@@ -45,9 +47,15 @@ static void	ft_print_env(t_env *env_list, int export_flag)
 			{
 				trimmed = ft_strtrim(current->value, "\"");
 				printf("declare -x %s=\"%s\"\n", current->key, trimmed);
+				free(trimmed);
 			}
-			else if (ft_strchr(current->key, '='))
-				printf("declare -x %s\n", current->key);
+			else
+			{
+				if (ft_strcmp(current->key, "OLDPWD") == 0)
+					printf("declare -x %s\n", current->key);
+				else
+					printf("declare -x %s=\"\"\n", current->key);
+			}
 		}
 		current = current->next;
 	}
@@ -68,7 +76,7 @@ static void	ft_add_or_update_env(t_shell *shell, char *arg, int export_flag)
 	{
 		if (strcmp(curr->key, key) == 0)
 		{
-			if (value)
+			if (value || ft_strchr(arg, '='))
 			{
 				free(curr->value);
 				curr->value = value;

@@ -6,7 +6,7 @@
 /*   By: raalifa <raalifa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 15:43:03 by raalifa           #+#    #+#             */
-/*   Updated: 2025/06/13 15:04:56 by raalifa          ###   ########.fr       */
+/*   Updated: 2025/06/15 12:44:53 by raalifa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,43 +30,37 @@ static int	handle_cd_args(char **args, t_shell *shell, char **path)
 
 static t_env	*find_env_var(t_shell *shell, const char *name)
 {
-    t_env	*curr;
+	t_env	*curr;
 
-    curr = shell->env_list;
-    while (curr)
-    {
-        if (ft_strcmp(curr->key, name) == 0)
-            return (curr);
-        curr = curr->next;
-    }
-    return (NULL);
+	curr = shell->env_list;
+	while (curr)
+	{
+		if (ft_strcmp(curr->key, name) == 0)
+			return (curr);
+		curr = curr->next;
+	}
+	return (NULL);
 }
 
 static int	update_pwd_vars(t_shell *shell, char *oldpwd, char *newpwd)
 {
 	t_env	*pwd_var;
-    t_env	*oldpwd_var;
+	t_env	*oldpwd_var;
 
-    if (oldpwd)
-    {
-        oldpwd_var = find_env_var(shell, "OLDPWD");
-        if (!oldpwd_var)
-            new_env(shell, ft_strdup("OLDPWD"), ft_strdup(oldpwd), 0);
-        else
-            update_env(shell, "OLDPWD", oldpwd);
-			free(oldpwd);
-			
-    }
-    if (newpwd)
-    {
-        pwd_var = find_env_var(shell, "PWD");
-        if (!pwd_var)
-            new_env(shell, ft_strdup("PWD"), ft_strdup(newpwd), 0);
-        else
-            update_env(shell, "PWD", newpwd);
-		
-			free(newpwd);
-    }
+	if (oldpwd)
+	{
+		oldpwd_var = find_env_var(shell, "OLDPWD");
+		if (oldpwd_var)
+			update_env(shell, "OLDPWD", oldpwd);
+		free(oldpwd);
+	}
+	if (newpwd)
+	{
+		pwd_var = find_env_var(shell, "PWD");
+		if (pwd_var)
+			update_env(shell, "PWD", newpwd);
+		free(newpwd);
+	}
 	return (0);
 }
 
