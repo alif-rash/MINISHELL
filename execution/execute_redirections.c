@@ -6,7 +6,7 @@
 /*   By: hparveen <hparveen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/04 08:16:18 by hparveen          #+#    #+#             */
-/*   Updated: 2025/06/16 10:06:14 by hparveen         ###   ########.fr       */
+/*   Updated: 2025/06/16 13:06:26 by hparveen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,8 @@ static int	redirect_in(t_tree *tree)
 	if (file == -1)
 	{
 		ft_putstr_fd("minishell: ", 2);
-        ft_putstr_fd(tree->file, 2);
-        ft_putstr_fd(": ", 2);
+		ft_putstr_fd(tree->file, 2);
+		ft_putstr_fd(": ", 2);
 		perror(NULL);
 		exit_status("exit status", 1);
 		return (1);
@@ -44,8 +44,8 @@ static int	redirect_out(t_tree *tree)
 	if (file == -1)
 	{
 		ft_putstr_fd("minishell: ", 2);
-        ft_putstr_fd(tree->file, 2);
-        ft_putstr_fd(": ", 2);
+		ft_putstr_fd(tree->file, 2);
+		ft_putstr_fd(": ", 2);
 		perror(NULL);
 		exit_status("exit status", 1);
 		return (1);
@@ -64,8 +64,8 @@ static int	append(t_tree *tree)
 	if (file == -1)
 	{
 		ft_putstr_fd("minishell: ", 2);
-        ft_putstr_fd(tree->file, 2);
-        ft_putstr_fd(": ", 2);
+		ft_putstr_fd(tree->file, 2);
+		ft_putstr_fd(": ", 2);
 		perror(NULL);
 		exit_status("exit status", 1);
 		return (1);
