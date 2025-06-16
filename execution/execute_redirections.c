@@ -6,7 +6,7 @@
 /*   By: hparveen <hparveen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/04 08:16:18 by hparveen          #+#    #+#             */
-/*   Updated: 2025/06/11 09:27:07 by hparveen         ###   ########.fr       */
+/*   Updated: 2025/06/16 10:06:14 by hparveen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,11 @@ static int	redirect_in(t_tree *tree)
 	file = open(tree->file, O_RDONLY);
 	if (file == -1)
 	{
-		printf("minishell: ");
-		perror(tree->file);
+		ft_putstr_fd("minishell: ", 2);
+        ft_putstr_fd(tree->file, 2);
+        ft_putstr_fd(": ", 2);
+		perror(NULL);
+		exit_status("exit status", 1);
 		return (1);
 	}
 	if (dup2(file, STDIN_FILENO) == -1)
@@ -40,8 +43,11 @@ static int	redirect_out(t_tree *tree)
 	file = open(tree->file, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	if (file == -1)
 	{
-		printf("minishell: ");
-		perror(tree->file);
+		ft_putstr_fd("minishell: ", 2);
+        ft_putstr_fd(tree->file, 2);
+        ft_putstr_fd(": ", 2);
+		perror(NULL);
+		exit_status("exit status", 1);
 		return (1);
 	}
 	dup2(file, STDOUT_FILENO);
@@ -57,13 +63,18 @@ static int	append(t_tree *tree)
 	file = open(tree->file, O_WRONLY | O_CREAT | O_APPEND, 0644);
 	if (file == -1)
 	{
-		printf("minishell: ");
-		perror(tree->file);
+		ft_putstr_fd("minishell: ", 2);
+        ft_putstr_fd(tree->file, 2);
+        ft_putstr_fd(": ", 2);
+		perror(NULL);
+		exit_status("exit status", 1);
 		return (1);
 	}
 	if (dup2(file, STDOUT_FILENO) == -1)
 	{
-		perror("dup2");
+		ft_putstr_fd("minishell: dup2: ", 2);
+		perror(NULL);
+		exit_status("exit status", 1);
 		return (1);
 	}
 	close(file);
