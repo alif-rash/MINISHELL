@@ -6,7 +6,7 @@
 /*   By: hparveen <hparveen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/09 19:34:12 by hparveen          #+#    #+#             */
-/*   Updated: 2025/06/16 11:05:44 by hparveen         ###   ########.fr       */
+/*   Updated: 2025/06/16 12:56:26 by hparveen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ static char	*find_path(char *command, t_shell *shell, int *error_flag)
 		temp_path = ft_strjoin(path_dirs[i], "/");
 		full_path = ft_strjoin(temp_path, command);
 		free(temp_path);
-		if (access(full_path, F_OK | X_OK) == 0)
+		if (access(full_path, F_OK) == 0)
 		{
 			ft_free_array(path_dirs);
 			return (full_path);
