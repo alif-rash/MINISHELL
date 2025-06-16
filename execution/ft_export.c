@@ -6,7 +6,7 @@
 /*   By: raalifa <raalifa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 15:44:53 by raalifa           #+#    #+#             */
-/*   Updated: 2025/06/15 12:44:26 by raalifa          ###   ########.fr       */
+/*   Updated: 2025/06/16 12:52:15 by raalifa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,10 +30,11 @@ char	*ft_get_value(const char *arg)
 		return (NULL);
 	if (*(eq + 1) == '\0')
 		return (ft_strdup(""));
-	return (ft_strdup(eq + 1));
+	else
+		return (ft_strdup(eq + 1));
 }
 
-static void	ft_print_env(t_env *env_list, int export_flag)
+static void	ft_print_env(t_env *env_list)
 {
 	t_env	*current;
 	char	*trimmed;
@@ -41,30 +42,27 @@ static void	ft_print_env(t_env *env_list, int export_flag)
 	current = env_list;
 	while (current)
 	{
-		if (export_flag || current->flag)
-		{
 			if (current->value)
 			{
 				trimmed = ft_strtrim(current->value, "\"");
 				printf("declare -x %s=\"%s\"\n", current->key, trimmed);
 				free(trimmed);
-			}
+				}
+			else if (ft_strcmp(current->key, "OLDPWD") == 0)
+				printf("declare -x %s\n", current->key);
+			else if (!current->flag)
+				printf("declare -x %s=\"\"\n", current->key);
 			else
-			{
-				if (ft_strcmp(current->key, "OLDPWD") == 0)
-					printf("declare -x %s\n", current->key);
-				else
-					printf("declare -x %s=\"\"\n", current->key);
-			}
-		}
+				printf("declare -x %s\n", current->key);
 		current = current->next;
 	}
 }
 
-static void	ft_add_or_update_env(t_shell *shell, char *arg, int export_flag)
+static void	ft_add_or_update_env(t_shell *shell, char *arg)
 {
 	char	*key;
 	char	*value;
+	int		flag;
 	t_env	*curr;
 
 	key = ft_get_key(arg);
@@ -76,18 +74,21 @@ static void	ft_add_or_update_env(t_shell *shell, char *arg, int export_flag)
 	{
 		if (strcmp(curr->key, key) == 0)
 		{
-			if (value || ft_strchr(arg, '='))
+			if (curr->value || value || ft_strchr(arg, '='))
 			{
 				free(curr->value);
 				curr->value = value;
+				curr->flag = 1;
 			}
-			curr->flag = export_flag;
+			else
+				curr->flag = 0;
 			free(key);
 			return ;
 		}
+		flag = curr->flag;
 		curr = curr->next;
 	}
-	new_env(shell, key, value, export_flag);
+	new_env(shell, key, value, flag);
 }
 
 static int	ft_is_valid_identifier(const char *str)
@@ -106,20 +107,20 @@ static int	ft_is_valid_identifier(const char *str)
 	return (1);
 }
 
-int	ft_export(char **args, t_shell *shell, int export_flag)
+int	ft_export(char **args, t_shell *shell)
 {
 	int	i;
 
 	i = 1;
 	if (!args[1])
 	{
-		ft_print_env(shell->env_list, export_flag);
+		ft_print_env(shell->env_list);
 		return (0);
 	}
 	while (args[i])
 	{
 		if (ft_is_valid_identifier(args[i]))
-			ft_add_or_update_env(shell, args[i], export_flag);
+			ft_add_or_update_env(shell, args[i]);
 		else
 			return (handle_error(shell, args[i], ERROR_GENERIC,
 					INVALID_IDENTIFIER), 1);

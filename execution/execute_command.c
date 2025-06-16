@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_command.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hparveen <hparveen@student.42.fr>          +#+  +:+       +#+        */
+/*   By: raalifa <raalifa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 16:05:03 by raalifa           #+#    #+#             */
-/*   Updated: 2025/06/13 10:24:21 by hparveen         ###   ########.fr       */
+/*   Updated: 2025/06/16 12:01:18 by raalifa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ static int	strcmp_command(t_shell *shell, char *command, char **args)
 	if (ft_str_cmd(command, "pwd") == 0)
 		return (ft_pwd());
 	if (ft_strcmp(command, "export") == 0)
-		return (ft_export(args, shell, shell->env_list->flag));
+		return (ft_export(args, shell));
 	if (ft_strcmp(command, "unset") == 0)
 		return (ft_unset(args, shell));
 	if (ft_str_cmd(command, "env") == 0)

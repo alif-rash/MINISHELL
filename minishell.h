@@ -6,7 +6,7 @@
 /*   By: raalifa <raalifa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 09:33:06 by hparveen          #+#    #+#             */
-/*   Updated: 2025/06/15 13:53:14 by raalifa          ###   ########.fr       */
+/*   Updated: 2025/06/16 12:03:39 by raalifa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -805,7 +805,7 @@ int						is_valid_identifier(const char *str);
 
 char					*ft_get_key(const char *arg);
 char					*ft_get_value(const char *arg);
-int						ft_export(char **args, t_shell *shell, int export_flag);
+int						ft_export(char **args, t_shell *shell);
 void					execute(t_shell *shell, t_tree *tree);
 void					execute_pipe(t_shell *shell, t_tree *tree);
 void					execute_redirections(t_shell *shell, t_tree *tree);
