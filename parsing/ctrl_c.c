@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ctrl_c.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: raalifa <raalifa@student.42.fr>            +#+  +:+       +#+        */
+/*   By: hparveen <hparveen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/23 10:14:05 by hparveen          #+#    #+#             */
-/*   Updated: 2025/06/02 16:59:47 by raalifa          ###   ########.fr       */
+/*   Updated: 2025/06/16 08:49:33 by hparveen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@ void	disable_echoctl(void)
 {
 	struct termios	term;
 
+	if (!isatty(STDIN_FILENO))
+		return;
 	if (tcgetattr(STDIN_FILENO, &term) == -1)
 	{
 		perror("tcgetattr");
@@ -33,6 +35,8 @@ void	enable_echoctl(void)
 {
 	struct termios	term;
 
+	if (!isatty(STDIN_FILENO))
+		return;
 	if (tcgetattr(STDIN_FILENO, &term) == -1)
 	{
 		perror("tcgetattr");

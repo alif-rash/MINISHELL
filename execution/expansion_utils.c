@@ -6,7 +6,7 @@
 /*   By: hparveen <hparveen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/09 12:59:21 by hparveen          #+#    #+#             */
-/*   Updated: 2025/06/09 17:13:39 by hparveen         ###   ########.fr       */
+/*   Updated: 2025/06/16 09:00:24 by hparveen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,13 +84,13 @@ char	*get_quote_variable_value(char *input, int pos[2], t_shell *shell)
 	if (input[pos[0]] == '$')
 	{
 		pos[0]++;
-		return (ft_strdup(""));
+		return (ft_strdup("$"));
 	}
 	if (ft_isalnum(input[pos[0]]) || input[pos[0]] == '_')
 		return (get_var(input, &pos[0], shell->env_list));
 	else if (input[pos[0]] == '?')
 		return (expand_exit_status(input, pos));
-	return (ft_strdup(""));
+	return (ft_strdup("$"));
 }
 
 char	*handle_quotes_variable(char *input, int pos[2], char *result,

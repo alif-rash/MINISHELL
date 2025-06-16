@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: raalifa <raalifa@student.42.fr>            +#+  +:+       +#+        */
+/*   By: hparveen <hparveen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 13:10:32 by hparveen          #+#    #+#             */
-/*   Updated: 2025/06/02 16:59:47 by raalifa          ###   ########.fr       */
+/*   Updated: 2025/06/16 08:27:35 by hparveen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,8 @@ int	prompt_is_big(t_shell *shell)
 	len += ft_strlen(shell->prompt);
 	if (len > ARG_MAX)
 	{
-		printf("minishell: Argument list is too long\n");
+		if (isatty(0))
+			printf("minishell: Argument list is too long\n");
 		return (1);
 	}
 	return (0);
