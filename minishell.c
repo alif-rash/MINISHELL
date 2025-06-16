@@ -6,7 +6,7 @@
 /*   By: hparveen <hparveen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 09:44:17 by hparveen          #+#    #+#             */
-/*   Updated: 2025/06/16 08:51:12 by hparveen         ###   ########.fr       */
+/*   Updated: 2025/06/16 13:06:55 by hparveen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,6 +89,7 @@ void	implement_minishell(t_shell *shell)
 		handle_prompt_and_execute(shell, is_interactive);
 	}
 }
+
 int	main(int ac, char **av, char **envp)
 {
 	t_shell	shell;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   error.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: raalifa <raalifa@student.42.fr>            +#+  +:+       +#+        */
+/*   By: hparveen <hparveen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 10:13:16 by hparveen          #+#    #+#             */
-/*   Updated: 2025/06/15 13:53:07 by raalifa          ###   ########.fr       */
+/*   Updated: 2025/06/16 13:05:47 by hparveen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,9 +74,9 @@ void	ft_print_error(char *args, int flag, int fd)
 	if (flag == INVALID_IDENTIFIER)
 	{
 		if (args && ft_strncmp(args, "export", 6) == 0)
-            ft_putstr_fd("export: `", fd);
-        else
-            ft_putstr_fd("unset: `", fd);
+			ft_putstr_fd("export: `", fd);
+		else
+			ft_putstr_fd("unset: `", fd);
 	}
 	if (args)
 		ft_putstr_fd(args, fd);

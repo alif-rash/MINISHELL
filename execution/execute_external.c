@@ -6,7 +6,7 @@
 /*   By: hparveen <hparveen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/09 19:34:12 by hparveen          #+#    #+#             */
-/*   Updated: 2025/06/16 12:56:26 by hparveen         ###   ########.fr       */
+/*   Updated: 2025/06/16 13:16:21 by hparveen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,23 +60,17 @@ static int	run_binary(t_shell *shell, char *command, char **args)
 	exec_path = resolve_command_path(shell, command[0], args[0], &path_found);
 	if (!stat(exec_path, &file_info) && S_ISDIR(file_info.st_mode))
 		return (handle_error(shell, exec_path, ERROR_GENERIC, IS_DIR), 126);
-	if (exec_path && access(exec_path, F_OK) == 0 && access(exec_path, X_OK) ==
-		-1)
+	if (exec_path && access(exec_path, F_OK) == 0
+		&& access(exec_path, X_OK) == -1)
 		return (handle_error(shell, args[0], ERROR_GENERIC, DENIED), 126);
 	if (!exec_path || access(exec_path, X_OK) == -1)
 	{
-		if (exec_path && access(exec_path, F_OK) == 0 && access(exec_path,
-				X_OK) == -1)
-		{
-			handle_error(shell, args[0], ERROR_GENERIC, DENIED);
-			return (126);
-		}
+		if (exec_path && access(exec_path, F_OK) == 0)
+			return (handle_error(shell, args[0], ERROR_GENERIC, DENIED), 126);
 		if (!path_found && (command[0] == '/' || (command[0] == '.'
 					&& command[1] == '/')))
-			handle_error(shell, args[0], ERROR_GENERIC, NO_DIR);
-		else
-			handle_error(shell, args[0], ERROR_GENERIC, NOT_FOUND);
-		return (127);
+			return (handle_error(shell, args[0], ERROR_GENERIC, NO_DIR), 127);
+		return (handle_error(shell, args[0], ERROR_GENERIC, NOT_FOUND), 127);
 	}
 	update_env_array(shell, shell->env_list, ft_envlist_size(shell->env_list));
 	execve(exec_path, args, shell->env_array);
