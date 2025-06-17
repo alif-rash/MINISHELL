@@ -6,7 +6,7 @@
 /*   By: raalifa <raalifa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 15:44:53 by raalifa           #+#    #+#             */
-/*   Updated: 2025/06/16 12:52:15 by raalifa          ###   ########.fr       */
+/*   Updated: 2025/06/17 11:33:58 by raalifa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,18 +42,18 @@ static void	ft_print_env(t_env *env_list)
 	current = env_list;
 	while (current)
 	{
-			if (current->value)
-			{
-				trimmed = ft_strtrim(current->value, "\"");
-				printf("declare -x %s=\"%s\"\n", current->key, trimmed);
-				free(trimmed);
-				}
-			else if (ft_strcmp(current->key, "OLDPWD") == 0)
-				printf("declare -x %s\n", current->key);
-			else if (!current->flag)
-				printf("declare -x %s=\"\"\n", current->key);
-			else
-				printf("declare -x %s\n", current->key);
+		if (current->value)
+		{
+			trimmed = ft_strtrim(current->value, "\"");
+			printf("declare -x %s=\"%s\"\n", current->key, trimmed);
+			free(trimmed);
+		}
+		else if (ft_strcmp(current->key, "OLDPWD") == 0)
+			printf("declare -x %s\n", current->key);
+		else if (current->value == NULL && current->flag == 0)
+			printf("declare -x %s=\"\"\n", current->key);
+		else if (current->flag == 1)
+			printf("declare -x %s\n", current->key);
 		current = current->next;
 	}
 }
@@ -74,9 +74,10 @@ static void	ft_add_or_update_env(t_shell *shell, char *arg)
 	{
 		if (strcmp(curr->key, key) == 0)
 		{
-			if (curr->value || value || ft_strchr(arg, '='))
+			if (ft_strchr(arg, '='))
 			{
-				free(curr->value);
+				if (curr->value)
+					free(curr->value);
 				curr->value = value;
 				curr->flag = 1;
 			}
@@ -85,6 +86,8 @@ static void	ft_add_or_update_env(t_shell *shell, char *arg)
 			free(key);
 			return ;
 		}
+		else if ((ft_strchr(arg, '=') != NULL) && curr->flag == 1)
+			curr->flag = 0;
 		flag = curr->flag;
 		curr = curr->next;
 	}
