@@ -6,7 +6,7 @@
 /*   By: hparveen <hparveen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/10 08:44:00 by hparveen          #+#    #+#             */
-/*   Updated: 2025/06/12 13:14:42 by hparveen         ###   ########.fr       */
+/*   Updated: 2025/06/17 08:50:23 by hparveen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,9 +54,7 @@ static char	*create_new_env_entry(t_env *env_list)
 
 	key_len = ft_strlen(env_list->key);
 	value_len = 0;
-	trimmed_value = NULL;
-	if (trimmed_value)
-		trimmed_value = get_trimmed_value(env_list, &value_len);
+	trimmed_value = get_trimmed_value(env_list, &value_len);
 	env_variable = malloc(sizeof(char) * (key_len + value_len + 2));
 	if (!env_variable)
 	{

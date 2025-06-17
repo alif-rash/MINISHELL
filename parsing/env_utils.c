@@ -6,7 +6,7 @@
 /*   By: hparveen <hparveen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 13:10:12 by hparveen          #+#    #+#             */
-/*   Updated: 2025/06/03 08:20:33 by hparveen         ###   ########.fr       */
+/*   Updated: 2025/06/17 09:04:05 by hparveen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,13 +59,19 @@ int	parse_key_value(char *env_variable, int flag, t_env **env_node, int *index)
 				NULL), 1);
 	if (env_variable[(*index)])
 		(*index)++;
-	if (env_variable[(*index)])
+	if (env_variable[*index] == '\0')
+	{
+		(*env_node)->value = ft_strdup("");
+		if (!(*env_node)->value)
+			return (free_function((void **)&((*env_node)->key),
+					(void **)&((*env_node)->env), (void **)&(*env_node)), 1);
+		(*index)++;
+	}
+	else
 	{
 		if (assign_value(env_node, env_variable, index))
 			return (1);
 	}
-	else
-		(*env_node)->value = NULL;
 	(*env_node)->flag = flag;
 	return ((*env_node)->next = NULL, 0);
 }
