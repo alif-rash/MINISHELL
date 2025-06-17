@@ -6,7 +6,7 @@
 /*   By: raalifa <raalifa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 15:44:53 by raalifa           #+#    #+#             */
-/*   Updated: 2025/06/17 11:33:58 by raalifa          ###   ########.fr       */
+/*   Updated: 2025/06/17 12:29:03 by raalifa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ static void	ft_print_env(t_env *env_list)
 	current = env_list;
 	while (current)
 	{
-		if (current->value)
+		if (current->value && current->value[0] != '\0')
 		{
 			trimmed = ft_strtrim(current->value, "\"");
 			printf("declare -x %s=\"%s\"\n", current->key, trimmed);
@@ -50,9 +50,9 @@ static void	ft_print_env(t_env *env_list)
 		}
 		else if (ft_strcmp(current->key, "OLDPWD") == 0)
 			printf("declare -x %s\n", current->key);
-		else if (current->value == NULL && current->flag == 0)
-			printf("declare -x %s=\"\"\n", current->key);
 		else if (current->flag == 1)
+			printf("declare -x %s=\"\"\n", current->key);
+		else
 			printf("declare -x %s\n", current->key);
 		current = current->next;
 	}
@@ -62,36 +62,50 @@ static void	ft_add_or_update_env(t_shell *shell, char *arg)
 {
 	char	*key;
 	char	*value;
-	int		flag;
+	int		has_equal;
 	t_env	*curr;
 
 	key = ft_get_key(arg);
 	if (!key)
 		return ;
-	value = ft_get_value(arg);
+	if (ft_strchr(arg, '=') != NULL)
+	{
+		value = ft_get_value(arg);
+		has_equal = 1;
+	}
+	else
+	{
+		value = NULL;
+		has_equal = 0;
+	}
 	curr = shell->env_list;
 	while (curr)
 	{
 		if (strcmp(curr->key, key) == 0)
 		{
-			if (ft_strchr(arg, '='))
+			if (has_equal)
 			{
 				if (curr->value)
 					free(curr->value);
 				curr->value = value;
-				curr->flag = 1;
+				curr->flag = 0;
 			}
 			else
-				curr->flag = 0;
+			{
+				curr->flag = 1;
+			}
 			free(key);
 			return ;
 		}
-		else if ((ft_strchr(arg, '=') != NULL) && curr->flag == 1)
-			curr->flag = 0;
-		flag = curr->flag;
 		curr = curr->next;
 	}
-	new_env(shell, key, value, flag);
+	if (!has_equal)
+	{
+		new_env(shell, key, value, 0);
+	}
+	else
+		new_env(shell, key, value, 1);
+
 }
 
 static int	ft_is_valid_identifier(const char *str)
