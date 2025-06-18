@@ -6,7 +6,7 @@
 /*   By: raalifa <raalifa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 09:33:06 by hparveen          #+#    #+#             */
-/*   Updated: 2025/06/17 11:43:58 by raalifa          ###   ########.fr       */
+/*   Updated: 2025/06/18 16:00:27 by raalifa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -751,14 +751,6 @@ void					execute_command(t_shell *shell, t_tree *ast);
  * @return int Returns 0 on success, or a non-zero value on failure.
  */
 int						ft_cd(char **args, t_shell *shell);
-
-/**
- * @brief Prints an error message to standard error.
- *
- * @param cmd The command or context where the error occurred.
- * @param msg The error message to display.
- */
-void					ft_perror(char *cmd, char *msg);
 
 /**
  * @brief Updates or adds an environment variable in the shell.

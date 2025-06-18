@@ -6,7 +6,7 @@
 /*   By: hparveen <hparveen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/03 12:29:11 by hparveen          #+#    #+#             */
-/*   Updated: 2025/06/16 07:56:03 by hparveen         ###   ########.fr       */
+/*   Updated: 2025/06/18 08:44:37 by hparveen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,8 @@ static pid_t	right_pipe(t_shell *shell, t_tree *tree, int fd[2])
 	if (pid == 0)
 	{
 		signal_dfl();
+		if (isatty(STDIN_FILENO))
+			enable_echoctl();
 		close(fd[1]);
 		dup2(fd[0], STDIN_FILENO);
 		close(fd[0]);
@@ -55,6 +57,8 @@ static pid_t	left_pipe(t_shell *shell, t_tree *tree, int fd[2])
 	if (pid == 0)
 	{
 		signal_dfl();
+		if (isatty(STDIN_FILENO))
+			enable_echoctl();
 		close(fd[0]);
 		dup2(fd[1], STDOUT_FILENO);
 		close(fd[1]);
@@ -88,6 +92,8 @@ void	execute_pipe(t_shell *shell, t_tree *tree)
 	waitpid(pid_left, &status_left, 0);
 	waitpid(pid_right, &status_right, 0);
 	signal_init();
+	if (isatty(STDIN_FILENO))
+		disable_echoctl();
 	if (WIFEXITED(status_right))
 		exit_status("exit status", WEXITSTATUS(status_right));
 }
