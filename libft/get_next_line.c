@@ -3,84 +3,141 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hparveen <hparveen@student.42.fr>          +#+  +:+       +#+        */
+/*   By: raalifa <raalifa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/07 08:15:55 by hparveen          #+#    #+#             */
-/*   Updated: 2025/06/04 09:24:19 by hparveen         ###   ########.fr       */
+/*   Updated: 2025/06/18 10:11:20 by raalifa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-static char	*read_accumulate(int fd, char *buffer, char *backup)
+static char	*ft_get_rest(char *str)
 {
-	int		read_line;
-	char	*temp;
+	char	*rest;
+	int		i;
 
-	read_line = 1;
-	while (read_line > 0)
+	i = 0;
+	if (!str || !*str)
+		return (NULL);
+	while (str[i] && str[i] != '\n')
+		i++;
+	if (str[i] == '\n')
+		i++;
+	if (str[i] == '\0')
 	{
-		read_line = read(fd, buffer, BUFFER_SIZE);
-		if (read_line == -1)
-			return (NULL);
-		else if (read_line == 0)
-			break ;
-		buffer[read_line] = '\0';
-		if (!backup)
-			backup = ft_strdup("");
-		temp = backup;
-		backup = ft_strjoin(temp, buffer);
-		free(temp);
-		if (!backup)
-			return (NULL);
-		if (ft_strchr(buffer, '\n'))
-			break ;
+		free(str);
+		return (NULL);
 	}
-	return (backup);
+	rest = ft_gnl_strdup(str + i);
+	if (!rest)
+	{
+		free(str);
+		return (NULL);
+	}
+	free(str);
+	return (rest);
 }
 
-static char	*ft_extract(char *line)
+static char	*ft_get_line(char *str)
 {
-	char	*backup;
-	int		count;
+	char	*line;
+	int		i;
 
+	i = 0;
+	if (!str || !*str)
+		return (NULL);
+	while (str[i] && str[i] != '\n')
+		i++;
+	if (str[i] == '\n')
+		i++;
+	line = malloc(i + 1);
 	if (!line)
 		return (NULL);
-	count = 0;
-	while (line[count] != '\n' && line[count] != '\0')
-		count++;
-	if (line[count] == '\0' || line[count + 1] == '\0')
-		return (NULL);
-	backup = ft_substr(line, count + 1, ft_strlen(line) - count - 1);
-	if (*backup == '\0')
+	line[i] = '\0';
+	i = 0;
+	while (str[i] && str[i] != '\n')
 	{
-		free(backup);
-		backup = NULL;
+		line[i] = str[i];
+		i++;
 	}
-	line[count + 1] = '\0';
-	return (backup);
+	if (str[i] == '\n')
+		line[i] = '\n';
+	return (line);
+}
+
+static char	*ft_readbuff(int fd, char *str, char *buffer)
+{
+	char	*temp;
+	ssize_t	size;
+
+	size = 1;
+	if (str == NULL || buffer == NULL)
+		return (NULL);
+	while (size > 0 && (!ft_gnl_strchr(str, '\n')))
+	{
+		size = read(fd, buffer, BUFFER_SIZE);
+		if (size == 0)
+			return (free(buffer), str);
+		if (size < 0)
+		{
+			free(str);
+			free(buffer);
+			return (NULL);
+		}
+		buffer[size] = '\0';
+		temp = str;
+		str = ft_gnl_strjoin(str, buffer);
+		free(temp);
+	}
+	free(buffer);
+	return (str);
+}
+
+static char	*ft_read(int fd, char *str)
+{
+	char	*buffer;
+
+	buffer = malloc(BUFFER_SIZE + 1);
+	if (!buffer)
+	{
+		if (str)
+			free(str);
+		return (NULL);
+	}
+	if (!str)
+		str = ft_gnl_strdup("");
+	if (!str)
+	{
+		free(buffer);
+		return (NULL);
+	}
+	str = ft_readbuff(fd, str, buffer);
+	return (str);
 }
 
 char	*get_next_line(int fd)
 {
-	char		*buffer;
+	static char	*str;
 	char		*line;
-	static char	*backup;
 
-	if (fd < 0 || BUFFER_SIZE <= 0 || BUFFER_SIZE > 2147483647)
+	if (fd == -42)
+		return (free(str), str = NULL, NULL);
+	if (fd < 0 || BUFFER_SIZE <= 0 || BUFFER_SIZE >= INT_MAX)
 		return (NULL);
-	buffer = (char *)malloc(sizeof(char) * ((size_t)BUFFER_SIZE + 1));
-	if (!buffer)
-		return (NULL);
-	line = read_accumulate(fd, buffer, backup);
-	free(buffer);
-	buffer = NULL;
-	if (!line)
+	str = ft_read(fd, str);
+	if (!str)
 	{
-		free(backup);
-		backup = NULL;
+		str = ft_gnl_strdup("");
 		return (NULL);
 	}
-	backup = ft_extract(line);
+	if (str[0] == '\0')
+	{
+		free(str);
+		str = NULL;
+		return (NULL);
+	}
+	line = ft_get_line(str);
+	str = ft_get_rest(str);
 	return (line);
 }

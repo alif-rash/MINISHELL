@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hparveen <hparveen@student.42.fr>          +#+  +:+       +#+        */
+/*   By: raalifa <raalifa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 18:29:07 by hparveen          #+#    #+#             */
-/*   Updated: 2025/06/04 09:29:40 by hparveen         ###   ########.fr       */
+/*   Updated: 2025/06/18 10:12:41 by raalifa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,12 @@ void				ft_lstclear(t_list **lst, void (*del)(void *));
 void				ft_lstiter(t_list *lst, void (*f)(void *));
 t_list				*ft_lstmap(t_list *lst, void *(*f)(void *),
 						void (*del)(void *));
+
+size_t	ft_gnl_strlen(const char *str);
+						void	*ft_gnl_memcpy(void *dst, const void *src, size_t n);
+char	*ft_gnl_strjoin(char const *s1, char const *s2);						
+char	*ft_gnl_strdup(const char *s1);
+char	*ft_gnl_strchr(const char *s, int c);
 char				*get_next_line(int fd);
 
 #endif
