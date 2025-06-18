@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_pwd.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: raalifa <raalifa@student.42.fr>            +#+  +:+       +#+        */
+/*   By: hparveen <hparveen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 15:43:57 by raalifa           #+#    #+#             */
-/*   Updated: 2025/06/12 15:46:31 by raalifa          ###   ########.fr       */
+/*   Updated: 2025/06/18 08:00:49 by hparveen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,8 @@ int	ft_pwd(void)
 	}
 	else
 	{
-		handle_error(NULL, "pwd: error retrieving current directory", 
-            ERROR_PERROR, IGNORE);
+		handle_error(NULL, "pwd: error retrieving current directory",
+			ERROR_PERROR, IGNORE);
 		return (1);
 	}
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_unset.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: raalifa <raalifa@student.42.fr>            +#+  +:+       +#+        */
+/*   By: hparveen <hparveen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 15:45:56 by raalifa           #+#    #+#             */
-/*   Updated: 2025/06/16 16:54:58 by raalifa          ###   ########.fr       */
+/*   Updated: 2025/06/18 08:00:37 by hparveen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,15 +39,15 @@ static void	remove_env_var(t_shell *shell, const char *name)
 	{
 		if (ft_strcmp(curr->key, name) == 0)
 		{
-        	if (prev)
-        	    prev->next = curr->next;
-        	else
-        	    shell->env_list = curr->next;
-        	free(curr->key);
-        	if (curr->value)
-        	    free(curr->value);
-        	free(curr);
-        	return;
+			if (prev)
+				prev->next = curr->next;
+			else
+				shell->env_list = curr->next;
+			free(curr->key);
+			if (curr->value)
+				free(curr->value);
+			free(curr);
+			return ;
 		}
 		prev = curr;
 		curr = curr->next;

@@ -6,7 +6,7 @@
 /*   By: hparveen <hparveen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/03 08:12:16 by hparveen          #+#    #+#             */
-/*   Updated: 2025/06/17 10:24:21 by hparveen         ###   ########.fr       */
+/*   Updated: 2025/06/18 08:00:12 by hparveen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,11 +112,6 @@ void	heredoc(t_shell *shell, t_token *tokens)
 		{
 			current->fd = handle_one_heredoc(shell, current->next->value,
 					current);
-			// if (current->next->next && multiple_heredocs(current->next->next))
-			// {
-			// 	close(current->fd);
-			// 	current->fd = -1;
-			// }
 		}
 		current = current->next;
 	}

@@ -6,7 +6,7 @@
 /*   By: hparveen <hparveen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/09 19:34:12 by hparveen          #+#    #+#             */
-/*   Updated: 2025/06/16 13:16:21 by hparveen         ###   ########.fr       */
+/*   Updated: 2025/06/18 08:02:10 by hparveen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ static int	run_binary(t_shell *shell, char *command, char **args)
 		return (handle_error(shell, exec_path, ERROR_GENERIC, IS_DIR), 126);
 	if (exec_path && access(exec_path, F_OK) == 0
 		&& access(exec_path, X_OK) == -1)
-		return (handle_error(shell, args[0], ERROR_GENERIC, DENIED), 126);
+		return (handle_error(shell, exec_path, ERROR_GENERIC, DENIED), 126);
 	if (!exec_path || access(exec_path, X_OK) == -1)
 	{
 		if (exec_path && access(exec_path, F_OK) == 0)
