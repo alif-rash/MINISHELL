@@ -6,7 +6,7 @@
 /*   By: raalifa <raalifa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 15:44:53 by raalifa           #+#    #+#             */
-/*   Updated: 2025/06/17 12:29:03 by raalifa          ###   ########.fr       */
+/*   Updated: 2025/06/18 16:27:48 by raalifa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,7 +105,6 @@ static void	ft_add_or_update_env(t_shell *shell, char *arg)
 	}
 	else
 		new_env(shell, key, value, 1);
-
 }
 
 static int	ft_is_valid_identifier(const char *str)
