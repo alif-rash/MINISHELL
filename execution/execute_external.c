@@ -6,7 +6,7 @@
 /*   By: hparveen <hparveen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/09 19:34:12 by hparveen          #+#    #+#             */
-/*   Updated: 2025/06/18 08:02:10 by hparveen         ###   ########.fr       */
+/*   Updated: 2025/06/18 12:40:04 by hparveen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,11 +55,17 @@ static int	run_binary(t_shell *shell, char *command, char **args)
 	struct stat	file_info;
 	char		*exec_path;
 	int			path_found;
+	char 		*argv[3];
 
+	if (command[0] == '.' && command[1] == '\0')
+	{
+		if (!args[1])
+			return (handle_error(shell, args[0], ERROR_GENERIC, NEED_FILE),2);
+		if (args[1][0] == '\0' || is_all_space(args[1]))
+			return (handle_error(shell, args[1], ERROR_GENERIC, NO_FILE),1);
+	}
 	path_found = 0;
 	exec_path = resolve_command_path(shell, command[0], args[0], &path_found);
-	if (!stat(exec_path, &file_info) && S_ISDIR(file_info.st_mode))
-		return (handle_error(shell, exec_path, ERROR_GENERIC, IS_DIR), 126);
 	if (exec_path && access(exec_path, F_OK) == 0
 		&& access(exec_path, X_OK) == -1)
 		return (handle_error(shell, exec_path, ERROR_GENERIC, DENIED), 126);
@@ -74,8 +80,16 @@ static int	run_binary(t_shell *shell, char *command, char **args)
 	}
 	update_env_array(shell, shell->env_list, ft_envlist_size(shell->env_list));
 	execve(exec_path, args, shell->env_array);
-	if (command[0] == '.' && command[1] == '\0')
-		return (handle_error(shell, args[0], ERROR_GENERIC, NEED_FILE), 2);
+	argv[0] = "/bin/sh";
+	argv[1] = exec_path;
+	argv[2] = NULL;
+	if (errno == ENOEXEC)
+	{
+		execve("/bin/sh", argv, shell->env_array);
+		return (handle_error(shell, args[0], ERROR_GENERIC, NOT_FOUND), 127);
+	}
+	if (!stat(exec_path, &file_info) && S_ISDIR(file_info.st_mode))
+		return (handle_error(shell, exec_path, ERROR_GENERIC, IS_DIR), 126);
 	return (1);
 }
 

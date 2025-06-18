@@ -6,7 +6,7 @@
 /*   By: hparveen <hparveen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 10:13:16 by hparveen          #+#    #+#             */
-/*   Updated: 2025/06/16 13:05:47 by hparveen         ###   ########.fr       */
+/*   Updated: 2025/06/18 09:12:47 by hparveen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,10 @@ static void	print_after_args(int flag, int fd)
 	if (flag == INVALID_IDENTIFIER)
 		ft_putstr_fd("': not a valid identifier", fd);
 	if (flag == NEED_FILE)
-		ft_putstr_fd(": a file name is required", fd);
+	{
+		ft_putstr_fd(": filename argument required\n", fd);
+		ft_putstr_fd(".: usage: . filename [arguments]", fd);
+	}
 	if (flag != IGNORE)
 		ft_putchar_fd('\n', fd);
 }
