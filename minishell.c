@@ -6,7 +6,7 @@
 /*   By: hparveen <hparveen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 09:44:17 by hparveen          #+#    #+#             */
-/*   Updated: 2025/06/19 10:27:23 by hparveen         ###   ########.fr       */
+/*   Updated: 2025/06/19 13:22:31 by hparveen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,5 +110,4 @@ int	main(int ac, char **av, char **envp)
 	ft_free_envlist(&shell.env_list);
 	if (isatty(0))
 		enable_echoctl();
-	return (0);
 }

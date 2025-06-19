@@ -6,7 +6,7 @@
 /*   By: hparveen <hparveen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/03 08:13:26 by hparveen          #+#    #+#             */
-/*   Updated: 2025/06/19 10:13:53 by hparveen         ###   ########.fr       */
+/*   Updated: 2025/06/19 12:23:25 by hparveen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,16 +61,10 @@ void	ft_dup(t_shell *shell)
 {
 	shell->stdin = dup(STDIN_FILENO);
 	if (shell->stdin < 0)
-	{
 		perror("dup stdin");
-		exit(EXIT_FAILURE);
-	}
 	shell->stdout = dup(STDOUT_FILENO);
 	if (shell->stdout < 0)
-	{
 		perror("dup stdout");
-		exit(EXIT_FAILURE);
-	}
 }
 
 void	close_fds(t_shell *shell)

@@ -6,7 +6,7 @@
 /*   By: hparveen <hparveen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/03 12:29:11 by hparveen          #+#    #+#             */
-/*   Updated: 2025/06/18 08:44:37 by hparveen         ###   ########.fr       */
+/*   Updated: 2025/06/19 13:06:00 by hparveen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,8 +87,8 @@ void	execute_pipe(t_shell *shell, t_tree *tree)
 	}
 	pid_left = left_pipe(shell, tree, pipe_fd);
 	pid_right = right_pipe(shell, tree, pipe_fd);
-	close(pipe_fd[0]);
 	close(pipe_fd[1]);
+	close(pipe_fd[0]);
 	waitpid(pid_left, &status_left, 0);
 	waitpid(pid_right, &status_right, 0);
 	signal_init();
