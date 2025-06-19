@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_exit.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hparveen <hparveen@student.42.fr>          +#+  +:+       +#+        */
+/*   By: raalifa <raalifa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 15:47:55 by raalifa           #+#    #+#             */
-/*   Updated: 2025/06/19 10:26:58 by hparveen         ###   ########.fr       */
+/*   Updated: 2025/06/19 12:10:24 by raalifa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,11 +19,13 @@ int	ft_exit(char **args, t_shell *shell)
 	if (!args[1])
 	{
 		printf("exit\n");
+		ft_clear(shell, 2);
 		exit(exit_status("exit status", 0));
 	}
 	if (args[1] && args[2])
 	{
 		printf("exit\n");
+		ft_clear(shell, 2);
 		return (handle_error(shell, NULL, ERROR_GENERIC, TOO_MANY_ARGS), 1);
 	}
 	if (args[1])
@@ -31,6 +33,7 @@ int	ft_exit(char **args, t_shell *shell)
 		if (!ft_isnumeric(args[1]))
 		{
 			printf("exit\n");
+			ft_clear(shell, 2);
 			handle_error(shell, args[1], ERROR_NUMERIC, NUM_REQUIRED);
 			exit(exit_status("exit status", 255));
 		}

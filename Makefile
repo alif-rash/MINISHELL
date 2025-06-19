@@ -1,5 +1,5 @@
 NAME = minishell
-CC = cc 
+CC = cc -g3
 CFLAG = -Wall -Werror -Wextra
 RM = rm -f
 SRCS = minishell.c \
@@ -65,21 +65,41 @@ $(OBJDIR)/%.o: %.c
 
 ${NAME}: ${OBJS} ${LIBFT}
 	@${CC} ${CFLAG} -o $@ $^ ${RLDIR} ${RLFLAGS} -L${LIBFT_DIR} -lft
-	@echo "${GREEN}${NAME} created✅$(DEFAULT)"
+	@clear
+	@for i in 1 2 3 4 5 6 7 8 9 10; do \
+		printf "\n"; \
+	done
+	@printf "$(B_BLUE)"
+	@sleep 0.1
+	@printf "%*s\n" $$(($$(tput cols)/2+35)) "███╗   ███╗██╗███╗   ██╗██╗███████╗██╗  ██╗███████╗██╗     ██╗"
+	@sleep 0.1
+	@printf "%*s\n" $$(($$(tput cols)/2+35)) "████╗ ████║██║████╗  ██║██║██╔════╝██║  ██║██╔════╝██║     ██║"
+	@sleep 0.1
+	@printf "%*s\n" $$(($$(tput cols)/2+35)) "██╔████╔██║██║██╔██╗ ██║██║███████╗███████║█████╗  ██║     ██║"
+	@sleep 0.1
+	@printf "%*s\n" $$(($$(tput cols)/2+35)) "██║╚██╔╝██║██║██║╚██╗██║██║╚════██║██╔══██║██╔══╝  ██║     ██║"
+	@sleep 0.1
+	@printf "%*s\n" $$(($$(tput cols)/2+35)) "██║ ╚═╝ ██║██║██║ ╚████║██║███████║██║  ██║███████╗███████╗███████╗"
+	@sleep 0.1
+	@printf "%*s\n" $$(($$(tput cols)/2+35)) "╚═╝     ╚═╝╚═╝╚═╝  ╚═══╝╚═╝╚══════╝╚═╝  ╚═╝╚══════╝╚══════╝╚══════╝"
+	@printf "$(DEFAULT)"
+	@printf "\n\n"
 
 ${LIBFT}:
-	@make -C ${LIBFT_DIR} bonus
+	@printf "$(CYAN)Building libft...$(DEFAULT)\r"
+	@$(MAKE) -C ${LIBFT_DIR} bonus --no-print-directory
+	@printf "                      \r"
 
 all: ${NAME}
 
 clean:
+	@$(MAKE) -C ${LIBFT_DIR} clean --no-print-directory
 	@${RM} -r ${OBJDIR}
-	@make clean -C ${LIBFT_DIR}
 	@echo "$(YELLOW)Object files cleaned 🧹$(DEFAULT)"
 
 fclean: clean
+	@$(MAKE) -C ${LIBFT_DIR} fclean --no-print-directory
 	@${RM} ${NAME}
-	@make fclean -C ${LIBFT_DIR}
 	@echo "$(RED)All files wiped away 🧼$(DEFAULT)"
 
 re: fclean all
@@ -89,4 +109,5 @@ re: fclean all
 RED = \033[1;31m
 GREEN = \033[1;32m
 YELLOW = \033[1;33m
+B_BLUE =\033[1;36m
 DEFAULT = \033[0m
