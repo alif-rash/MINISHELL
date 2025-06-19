@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: raalifa <raalifa@student.42.fr>            +#+  +:+       +#+        */
+/*   By: hparveen <hparveen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 09:33:06 by hparveen          #+#    #+#             */
-/*   Updated: 2025/06/18 16:00:27 by raalifa          ###   ########.fr       */
+/*   Updated: 2025/06/19 11:46:38 by hparveen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,6 +129,7 @@ typedef struct s_shell
 	int					index;
 	int					stdin;
 	int					stdout;
+	int					heredoc_failed;
 	t_token				*token_list;
 	t_tree				*ast;
 	t_subtree			*subtree;
@@ -851,5 +852,9 @@ void					close_fds(t_shell *shell);
 void					ft_clear_subtree(t_subtree **subtree);
 void					execute_subshell(t_shell *shell, t_tree *tree);
 int						ft_str_cmd(char *s1, const char *s2);
+int						handle_noexec(t_shell *shell, char *exec_path,
+							char *cmd);
+int						handle_exec_errors(t_shell *shell, char *exec_path,
+							char *cmd, int found);
 
 #endif

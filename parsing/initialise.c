@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   initialise.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: raalifa <raalifa@student.42.fr>            +#+  +:+       +#+        */
+/*   By: hparveen <hparveen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 13:10:19 by hparveen          #+#    #+#             */
-/*   Updated: 2025/06/12 12:20:27 by raalifa          ###   ########.fr       */
+/*   Updated: 2025/06/19 08:26:13 by hparveen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,6 +130,7 @@ void	init(t_shell *shell, char **envp)
 	shell->env_list = NULL;
 	shell->token_list = NULL;
 	shell->index = 0;
+	shell->heredoc_failed = 0;
 	shell->stdin = -1;
 	shell->stdout = -1;
 	shell->token_list = NULL;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_exit.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: raalifa <raalifa@student.42.fr>            +#+  +:+       +#+        */
+/*   By: hparveen <hparveen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 15:47:55 by raalifa           #+#    #+#             */
-/*   Updated: 2025/06/18 16:23:59 by raalifa          ###   ########.fr       */
+/*   Updated: 2025/06/19 10:26:58 by hparveen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ int	ft_exit(char **args, t_shell *shell)
 	if (args[1] && args[2])
 	{
 		printf("exit\n");
-		return(handle_error(shell, NULL, ERROR_GENERIC, TOO_MANY_ARGS), 1);
+		return (handle_error(shell, NULL, ERROR_GENERIC, TOO_MANY_ARGS), 1);
 	}
 	if (args[1])
 	{
@@ -38,5 +38,5 @@ int	ft_exit(char **args, t_shell *shell)
 	num = ft_atoi(args[1]);
 	printf("exit\n");
 	ft_clear(shell, 2);
-	return(exit((unsigned char)num), 1);
+	return (exit((unsigned char)num), 1);
 }

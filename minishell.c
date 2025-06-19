@@ -6,7 +6,7 @@
 /*   By: hparveen <hparveen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 09:44:17 by hparveen          #+#    #+#             */
-/*   Updated: 2025/06/16 13:06:55 by hparveen         ###   ########.fr       */
+/*   Updated: 2025/06/19 10:27:23 by hparveen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,6 +87,14 @@ void	implement_minishell(t_shell *shell)
 		ft_clear(shell, 1);
 		read_line_and_set_prompt(shell, is_interactive);
 		handle_prompt_and_execute(shell, is_interactive);
+		if (shell->heredoc_failed)
+		{
+			close_fds(shell);
+			if (is_interactive)
+				write(1, "\n", 1);
+			shell->heredoc_failed = 0;
+			continue ;
+		}
 	}
 }
 

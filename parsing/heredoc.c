@@ -6,7 +6,7 @@
 /*   By: hparveen <hparveen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/03 08:12:16 by hparveen          #+#    #+#             */
-/*   Updated: 2025/06/18 08:00:12 by hparveen         ###   ########.fr       */
+/*   Updated: 2025/06/19 10:26:00 by hparveen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,6 +83,7 @@ static int	handle_one_heredoc(t_shell *shell, char *delimiter,
 	int		status;
 	int		pipe_heredoc[2];
 
+	(void)current;
 	if (pipe(pipe_heredoc) == -1)
 		return (1);
 	signal_heredoc();
@@ -93,8 +94,10 @@ static int	handle_one_heredoc(t_shell *shell, char *delimiter,
 	if (WIFEXITED(status) && WEXITSTATUS(status) == 1)
 	{
 		exit_status("exit status", 1);
-		close(current->fd);
-		return (0);
+		shell->heredoc_failed = 1;
+		close(pipe_heredoc[0]);
+		close(pipe_heredoc[1]);
+		return (-3);
 	}
 	close(pipe_heredoc[1]);
 	return (pipe_heredoc[0]);
@@ -103,8 +106,10 @@ static int	handle_one_heredoc(t_shell *shell, char *delimiter,
 void	heredoc(t_shell *shell, t_token *tokens)
 {
 	t_token	*current;
+	int		heredoc_interrupted;
 
 	current = tokens;
+	heredoc_interrupted = 0;
 	while (current)
 	{
 		if (current->type == T_HEREDOC && current->next
@@ -113,6 +118,13 @@ void	heredoc(t_shell *shell, t_token *tokens)
 			current->fd = handle_one_heredoc(shell, current->next->value,
 					current);
 		}
+		if (current->fd == -3)
+		{
+			heredoc_interrupted = 1;
+			break ;
+		}
 		current = current->next;
 	}
+	if (heredoc_interrupted)
+		shell->heredoc_failed = 1;
 }
