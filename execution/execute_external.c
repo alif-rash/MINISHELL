@@ -6,7 +6,7 @@
 /*   By: hparveen <hparveen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/09 19:34:12 by hparveen          #+#    #+#             */
-/*   Updated: 2025/06/19 12:58:38 by hparveen         ###   ########.fr       */
+/*   Updated: 2025/06/19 13:29:06 by hparveen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,8 +65,8 @@ static int	run_binary(t_shell *shell, char *command, char **args)
 	}
 	path_found = 0;
 	exec_path = resolve_command_path(shell, command[0], args[0], &path_found);
-	if (exec_path && access(exec_path, F_OK) == 0 && access(exec_path, X_OK) ==
-		-1)
+	if (exec_path && access(exec_path, F_OK) == 0
+		&& access(exec_path, X_OK) == -1)
 		return (handle_error(shell, exec_path, ERROR_GENERIC, DENIED), 126);
 	if (!exec_path || access(exec_path, X_OK) == -1)
 		return (handle_exec_errors(shell, exec_path, args[0], path_found));
