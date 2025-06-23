@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_command.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: raalifa <raalifa@student.42.fr>            +#+  +:+       +#+        */
+/*   By: hparveen <hparveen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 16:05:03 by raalifa           #+#    #+#             */
-/*   Updated: 2025/06/16 12:01:18 by raalifa          ###   ########.fr       */
+/*   Updated: 2025/06/23 13:28:47 by hparveen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ static int	strcmp_command(t_shell *shell, char *command, char **args)
 {
 	if (ft_str_cmd(command, "echo") == 0)
 		return (ft_echo(args));
-	if (ft_str_cmd(command, "cd") == 0)
+	if (ft_strcmp(command, "cd") == 0)
 		return (ft_cd(args, shell));
 	if (ft_str_cmd(command, "pwd") == 0)
 		return (ft_pwd());
