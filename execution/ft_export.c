@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_export.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: raalifa <raalifa@student.42.fr>            +#+  +:+       +#+        */
+/*   By: hparveen <hparveen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 15:44:53 by raalifa           #+#    #+#             */
-/*   Updated: 2025/06/19 16:51:52 by raalifa          ###   ########.fr       */
+/*   Updated: 2025/06/23 08:38:24 by hparveen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ char	*ft_get_value(const char *arg)
 		return (ft_strdup(""));
 	else
 		return (ft_strdup(eq + 1));
-}          
+}
 
 static void	ft_print_env(t_env *env_list)
 {
@@ -58,30 +58,31 @@ static void	ft_print_env(t_env *env_list)
 	}
 }
 
-static void	ft_process_env_key(t_shell *shell, char *key, char *value, int has_equal)
+static void	ft_process_env_key(t_shell *shell, char *key, char *value,
+		int has_equal)
 {
-    t_env	*curr;
+	t_env	*curr;
 
-    curr = shell->env_list;
-    while (curr)
-    {
-        if (strcmp(curr->key, key) == 0)
-        {
-            if (has_equal)
-            {
-                if (curr->value)
-                    free(curr->value);
-                curr->value = value;
-                curr->flag = 0;
-            }
-            else
-                curr->flag = 1;
-            free(key);
-            return ;
-        }
-        curr = curr->next;
-    }
-    new_env(shell, key, value, has_equal);
+	curr = shell->env_list;
+	while (curr)
+	{
+		if (strcmp(curr->key, key) == 0)
+		{
+			if (has_equal)
+			{
+				if (curr->value)
+					free(curr->value);
+				curr->value = value;
+				curr->flag = 0;
+			}
+			else
+				curr->flag = 1;
+			free(key);
+			return ;
+		}
+		curr = curr->next;
+	}
+	new_env(shell, key, value, has_equal);
 }
 
 static void	ft_add_or_update_env(t_shell *shell, char *arg)
@@ -89,7 +90,7 @@ static void	ft_add_or_update_env(t_shell *shell, char *arg)
 	char	*key;
 	char	*value;
 	int		has_equal;
-	t_env	*curr;
+	// t_env	*curr;
 
 	key = ft_get_key(arg);
 	if (!key)
@@ -104,7 +105,7 @@ static void	ft_add_or_update_env(t_shell *shell, char *arg)
 		value = NULL;
 		has_equal = 0;
 	}
-	curr = shell->env_list;
+	// curr = shell->env_list;
 	ft_process_env_key(shell, key, value, has_equal);
 }
 

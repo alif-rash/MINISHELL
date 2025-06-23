@@ -6,7 +6,7 @@
 /*   By: hparveen <hparveen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/09 19:34:12 by hparveen          #+#    #+#             */
-/*   Updated: 2025/06/19 13:29:06 by hparveen         ###   ########.fr       */
+/*   Updated: 2025/06/23 08:31:35 by hparveen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,12 +83,12 @@ static void	child_process(t_shell *shell, t_tree *tree)
 {
 	int	exit_status;
 
-	if (shell->stdout != -1)
+	if (shell->stdout >= 0)
 	{
 		close(shell->stdout);
 		shell->stdout = -1;
 	}
-	if (shell->stdin != -1)
+	if (shell->stdin >= 0)
 	{
 		close(shell->stdin);
 		shell->stdin = -1;

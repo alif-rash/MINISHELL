@@ -6,7 +6,7 @@
 /*   By: hparveen <hparveen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 09:33:06 by hparveen          #+#    #+#             */
-/*   Updated: 2025/06/19 11:46:38 by hparveen         ###   ########.fr       */
+/*   Updated: 2025/06/23 08:34:26 by hparveen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -137,9 +137,11 @@ typedef struct s_shell
 
 /**
 
-	* @brief Replaces the current line in the readline buffer with the specified text.
+	* @brief Replaces the current line in the readline buffer
+		with the specified text.
 
-	* @param text The new text to replace the current line. Must be a null-terminated string.
+	* @param text The new text to replace the current line.
+	Must be a null-terminated string.
  * @param clear_undo If non-zero,
 	the undo information for the current line is cleared.
  */
@@ -170,13 +172,15 @@ void					implement_minishell(t_shell *shell);
 /**
  * @brief
 
-	* This function iterates through the input string and identifies tokens based on their type:
+	* This function iterates through the input string
+	and identifies tokens based on their type:
  * spaces, operators, brackets,
 	or words. It creates corresponding token objects and appends them
  * to the shell's token list. If an error occurs during token creation,
 	the function returns an error code.
 
-	* @param shell A pointer to the shell structure containing the token list and index.
+	* @param shell A pointer to the shell structure containing 
+	the token list and index.
  * @param str The input string to be tokenized.
  * @return Returns 0 on success, or 1 if an error occurs during tokenization.
  */
@@ -303,7 +307,8 @@ void					ft_free_tokenlist(t_token **token_list);
  * - Builds the abstract syntax tree (AST) from the tokens.
  * - Frees the token list after AST creation.
 
-	* @param shell A pointer to the shell structure containing the input prompt and other data.
+	* @param shell A pointer to the shell structure containing
+	the input prompt and other data.
  * @return Returns 0 on success, or 1 on failure due to tokenization,
 	syntax errors, or AST creation issues.
  */
@@ -313,7 +318,8 @@ int						ft_parsing(t_shell *shell);
  * @brief Checks the syntax of the shell input for errors.
  *
 
-	* @param shell Pointer to the shell structure containing input and state information.
+	* @param shell Pointer to the shell structure 
+	containing input and state information.
  * @return int Returns 0 if the syntax is valid, or an error code if invalid.
  */
 int						check_syntax(t_shell *shell);
@@ -376,9 +382,11 @@ char					**create_new_env_array(void);
 
 /**
 
-	* @brief This function allocates memory for a new `t_env` node and initializes its fields.
+	* @brief This function allocates memory for a 
+	new `t_env` node and initializes its fields.
 
-	* It duplicates the provided environment variable string and parses its key-value pair
+	* It duplicates the provided environment variable 
+	string and parses its key-value pair
  * based on the given flag.
  * @param env_variable The environment variable string (key=value format).
  * @param flag Flag indicating specific behavior or properties of the node.
@@ -443,7 +451,8 @@ void					env_lstadd_back(t_env **env_list, t_env *new_node);
 
 /**
 
-	* @brief This function ensures that the PWD and OLDPWD environment variables are properly initialized
+	* @brief This function ensures that the PWD and
+	 OLDPWD environment variables are properly initialized
  * and updated in the shell's environment list. If PWD is not found,
 	it is created with the
  * current working directory. If OLDPWD is not found,
@@ -533,7 +542,8 @@ t_tree					*build_ast_pipe(t_token **tokens);
  *
  * @param tokens Pointer to the list of tokens.
 
-	* @return Pointer to the root of the constructed AST for redirection operations.
+	* @return Pointer to the root of the constructed 
+	AST for redirection operations.
  */
 t_tree					*build_ast_redirections(t_token **tokens);
 
@@ -736,7 +746,8 @@ int						ft_isnumeric(const char *str);
 
 /**
 
-	* @brief Executes a command represented by the AST node within the given shell context.
+	* @brief Executes a command represented by the 
+	AST node within the given shell context.
  *
  * @param shell Pointer to the shell context structure.
  * @param ast Pointer to the abstract syntax tree node representing the command.
