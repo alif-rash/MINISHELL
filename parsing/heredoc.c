@@ -6,7 +6,7 @@
 /*   By: hparveen <hparveen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/03 08:12:16 by hparveen          #+#    #+#             */
-/*   Updated: 2025/06/23 09:31:55 by hparveen         ###   ########.fr       */
+/*   Updated: 2025/06/23 09:54:08 by hparveen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,14 +22,19 @@ static void	loop(char *end, int write_end, char *delimiter)
 		line = readline("> ");
 		if (!line)
 			break ;
-		if (!ft_strncmp(line, end, ft_strlen(delimiter) + 1))
+		if(line)
 		{
-			free(line);
-			break ;
+			if (!ft_strncmp(line, end, ft_strlen(delimiter) + 1))
+			{
+				free(line);
+				line = NULL;
+				break ;
+			}
 		}
 		new_line = ft_strjoin(line, "\n");
 		write(write_end, new_line, ft_strlen(new_line));
 		free(new_line);
+		new_line = NULL;
 		free(line);
 	}
 }
@@ -48,8 +53,10 @@ static void	read_from_stdin(char *delimiter, int write_end)
 		limiter = ft_substr(delimiter, 1, len - 2);
 		if (!limiter)
 			limiter = ft_strdup("");
-		end = limiter;
 	}
+	end = delimiter;
+	if(limiter)
+		end = limiter;
 	loop(end, write_end, delimiter);
 	close(write_end);
 }
