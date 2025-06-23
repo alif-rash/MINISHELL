@@ -6,7 +6,7 @@
 /*   By: hparveen <hparveen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/03 08:12:16 by hparveen          #+#    #+#             */
-/*   Updated: 2025/06/23 08:31:46 by hparveen         ###   ########.fr       */
+/*   Updated: 2025/06/23 09:31:55 by hparveen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,6 @@ static int	handle_one_heredoc(t_shell *shell, char *delimiter,
 	int		status;
 	int		pipe_heredoc[2];
 
-	(void)current;
 	if (pipe(pipe_heredoc) == -1)
 		return (1);
 	signal_heredoc();
@@ -96,6 +95,7 @@ static int	handle_one_heredoc(t_shell *shell, char *delimiter,
 		shell->heredoc_failed = 1;
 		close(pipe_heredoc[0]);
 		close(pipe_heredoc[1]);
+		current->fd = -1;
 		return (-3);
 	}
 	close(pipe_heredoc[1]);
