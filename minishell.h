@@ -85,6 +85,8 @@ typedef enum e_error_flag
 	NO_OLDPWD = 16,
 	NEED_FILE = 17,
 	INVALID_IDENTIFIER = 18,
+	INVALID_IDENTIFIER_E = 19,
+	NO_DIR_CD = 20,
 	IGNORE = 100
 }						t_error_flag;
 

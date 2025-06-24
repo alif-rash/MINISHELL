@@ -79,7 +79,7 @@ int	ft_cd(char **args, t_shell *shell)
 		curpwd = ft_strdup("");
 	if (chdir(new_path) == -1)
 	{
-		handle_error(shell, args[1], ERROR_GENERIC, NO_DIR);
+		handle_error(shell, args[1], ERROR_GENERIC, NO_DIR_CD);
 		if (curpwd)
 			free(curpwd);
 		free(new_path);
