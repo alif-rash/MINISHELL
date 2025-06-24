@@ -6,7 +6,7 @@
 /*   By: hparveen <hparveen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 10:49:04 by hparveen          #+#    #+#             */
-/*   Updated: 2025/06/24 11:05:39 by hparveen         ###   ########.fr       */
+/*   Updated: 2025/06/24 11:38:15 by hparveen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ int	syntax_check_redirections(t_token *current)
 	if (current->type != T_HEREDOC && current->next->type != T_FILENAME)
 		return (ERR_REDIR_SYNTAX);
 	if (current->next && current->next->type == T_FILENAME
-		&& ft_strchr(current->next->value, '*'))
+		&& current->next->value[0] == '*' && current->next->value[1] == '\0')
 		return (ERR_AMBIGOUS_REDIRECT);
 	return (0);
 }
