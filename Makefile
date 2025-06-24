@@ -50,7 +50,8 @@ SRCS = minishell.c \
 	execution/execute_external.c \
 	execution/update_env_array.c \
 	execution/execute_subshell.c \
-	execution/utils.c
+	execution/utils.c \
+	execution/export_utils.c
 OBJDIR = obj
 OBJS = $(addprefix $(OBJDIR)/, ${SRCS:.c=.o})
 LIBFT_DIR = libft
