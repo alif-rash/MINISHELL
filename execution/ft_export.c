@@ -125,8 +125,10 @@ static int	ft_is_valid_identifier(const char *str)
 int	ft_export(char **args, t_shell *shell)
 {
 	int	i;
+	int	ret;
 
 	i = 1;
+	ret = 0;
 	if (!args[1])
 	{
 		ft_print_env(shell->env_list);
@@ -137,9 +139,12 @@ int	ft_export(char **args, t_shell *shell)
 		if (ft_is_valid_identifier(args[i]))
 			ft_add_or_update_env(shell, args[i]);
 		else
-			return (handle_error(shell, args[i], ERROR_GENERIC,
-					INVALID_IDENTIFIER_E), 1);
+		{
+			handle_error(shell, args[i], ERROR_GENERIC,
+					INVALID_IDENTIFIER_E);
+				ret = 1;
+			}
 		i++;
 	}
-	return (0);
+	return (ret);
 }
