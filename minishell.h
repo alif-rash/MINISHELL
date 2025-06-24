@@ -87,6 +87,7 @@ typedef enum e_error_flag
 	INVALID_IDENTIFIER = 18,
 	INVALID_IDENTIFIER_E = 19,
 	NO_DIR_CD = 20,
+	ERR_AMBIGOUS_REDIRECT = 21,
 	IGNORE = 100
 }						t_error_flag;
 

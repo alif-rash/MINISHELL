@@ -52,7 +52,7 @@ static void	print_helper(int flag, int fd)
 
 static void	print_after_args(int flag, int fd)
 {
-	if (flag == AMBIGOUS_REDIRECT)
+	if (flag == ERR_AMBIGOUS_REDIRECT)
 		ft_putstr_fd(": ambiguous redirect", fd);
 	if (flag == NO_DIR || flag == NO_DIR_CD || flag == ENV_NO_FILE || flag == NO_FILE)
 		ft_putstr_fd(": No such file or directory", fd);

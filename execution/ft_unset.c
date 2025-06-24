@@ -58,16 +58,21 @@ static void	remove_env_var(t_shell *shell, const char *name)
 int	ft_unset(char **args, t_shell *shell)
 {
 	int	i;
+	int	ret;
 
 	i = 1;
+	ret = 0;
 	while (args[i])
 	{
 		if (is_valid_identifier(args[i]))
 			remove_env_var(shell, args[i]);
 		else
-			return (handle_error(shell, args[1], ERROR_GENERIC,
-					INVALID_IDENTIFIER), 1);
+		{
+			handle_error(shell, args[i], ERROR_GENERIC,
+					INVALID_IDENTIFIER);
+			ret = 1;
+		}
 		i++;
 	}
-	return (0);
+	return (ret);
 }

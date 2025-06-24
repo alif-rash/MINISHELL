@@ -119,10 +119,6 @@ int	ft_export(char **args, t_shell *shell)
 			ft_add_or_update_env(shell, args[i]);
 		else
 		{
-			handle_error(shell, args[i], ERROR_GENERIC, INVALID_IDENTIFIER);
-			ret = 1;
-		}
-		{
 			handle_error(shell, args[i], ERROR_GENERIC,
 					INVALID_IDENTIFIER_E);
 				ret = 1;
