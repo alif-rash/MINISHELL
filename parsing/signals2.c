@@ -6,19 +6,20 @@
 /*   By: hparveen <hparveen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/03 08:13:26 by hparveen          #+#    #+#             */
-/*   Updated: 2025/06/19 12:23:25 by hparveen         ###   ########.fr       */
+/*   Updated: 2025/06/24 08:11:02 by hparveen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+volatile sig_atomic_t	g_heredoc_sigint = 0;
+
 void	handle_heredoc(int signal)
 {
 	if (signal == SIGINT)
 	{
-		exit_status("exit status", 1);
 		close(STDIN_FILENO);
-		exit(1);
+		g_heredoc_sigint = 1;
 	}
 }
 

@@ -3,14 +3,22 @@
 /*                                                        :::      ::::::::   */
 /*   ft_exit.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: raalifa <raalifa@student.42.fr>            +#+  +:+       +#+        */
+/*   By: hparveen <hparveen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 15:47:55 by raalifa           #+#    #+#             */
-/*   Updated: 2025/06/19 12:10:24 by raalifa          ###   ########.fr       */
+/*   Updated: 2025/06/24 08:22:12 by hparveen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+static void	exit_non_numeric_arg(char *arg, t_shell *shell)
+{
+	printf("exit\n");
+	ft_clear(shell, 2);
+	handle_error(shell, arg, ERROR_NUMERIC, NUM_REQUIRED);
+	exit(exit_status("exit status", 255));
+}
 
 int	ft_exit(char **args, t_shell *shell)
 {
@@ -31,12 +39,7 @@ int	ft_exit(char **args, t_shell *shell)
 	if (args[1])
 	{
 		if (!ft_isnumeric(args[1]))
-		{
-			printf("exit\n");
-			ft_clear(shell, 2);
-			handle_error(shell, args[1], ERROR_NUMERIC, NUM_REQUIRED);
-			exit(exit_status("exit status", 255));
-		}
+			exit_non_numeric_arg(args[1], shell);
 	}
 	num = ft_atoi(args[1]);
 	printf("exit\n");

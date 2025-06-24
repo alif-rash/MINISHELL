@@ -6,7 +6,7 @@
 /*   By: hparveen <hparveen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/09 10:31:42 by hparveen          #+#    #+#             */
-/*   Updated: 2025/06/09 18:59:30 by hparveen         ###   ########.fr       */
+/*   Updated: 2025/06/24 08:03:04 by hparveen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,6 @@ static char	*expand_s_quotes(char *input, int *pos)
 	int		i;
 
 	i = *pos + 1;
-	result = ft_strdup("");
 	while (input[i] && input[i] != '\'')
 		i++;
 	result = ft_substr(input, *pos, i - *pos + 1);

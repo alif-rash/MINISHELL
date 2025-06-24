@@ -6,33 +6,11 @@
 /*   By: hparveen <hparveen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 15:44:53 by raalifa           #+#    #+#             */
-/*   Updated: 2025/06/23 08:38:24 by hparveen         ###   ########.fr       */
+/*   Updated: 2025/06/24 08:17:48 by hparveen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-
-char	*ft_get_key(const char *arg)
-{
-	int	i;
-
-	i = 0;
-	while (arg[i] && arg[i] != '=')
-		i++;
-	return (ft_strndup(arg, i));
-}
-
-char	*ft_get_value(const char *arg)
-{
-	const char	*eq = ft_strchr(arg, '=');
-
-	if (!eq)
-		return (NULL);
-	if (*(eq + 1) == '\0')
-		return (ft_strdup(""));
-	else
-		return (ft_strdup(eq + 1));
-}
 
 static void	ft_print_env(t_env *env_list)
 {
@@ -90,7 +68,6 @@ static void	ft_add_or_update_env(t_shell *shell, char *arg)
 	char	*key;
 	char	*value;
 	int		has_equal;
-	// t_env	*curr;
 
 	key = ft_get_key(arg);
 	if (!key)
@@ -105,7 +82,6 @@ static void	ft_add_or_update_env(t_shell *shell, char *arg)
 		value = NULL;
 		has_equal = 0;
 	}
-	// curr = shell->env_list;
 	ft_process_env_key(shell, key, value, has_equal);
 }
 

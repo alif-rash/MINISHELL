@@ -6,7 +6,7 @@
 /*   By: hparveen <hparveen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 09:33:06 by hparveen          #+#    #+#             */
-/*   Updated: 2025/06/23 08:34:26 by hparveen         ###   ########.fr       */
+/*   Updated: 2025/06/24 08:05:13 by hparveen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,10 @@
 # include <errno.h>
 # include <fcntl.h>
 # include <limits.h>
+# include <stdio.h>
 # include <readline/history.h>
 # include <readline/readline.h>
 # include <signal.h>
-# include <stdio.h>
 # include <stdlib.h>
 # include <string.h>
 # include <sys/stat.h>
@@ -134,6 +134,8 @@ typedef struct s_shell
 	t_tree				*ast;
 	t_subtree			*subtree;
 }						t_shell;
+
+extern volatile sig_atomic_t	g_heredoc_sigint;
 
 /**
 
