@@ -6,7 +6,7 @@
 /*   By: hparveen <hparveen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/03 08:13:26 by hparveen          #+#    #+#             */
-/*   Updated: 2025/06/24 08:11:02 by hparveen         ###   ########.fr       */
+/*   Updated: 2025/06/24 10:24:58 by hparveen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,9 +60,13 @@ void	signals_and_exitstatus(int status)
 
 void	ft_dup(t_shell *shell)
 {
+	if (shell->stdin != -1)
+		close(shell->stdin);
 	shell->stdin = dup(STDIN_FILENO);
 	if (shell->stdin < 0)
 		perror("dup stdin");
+	if (shell->stdout != -1)
+		close(shell->stdout);
 	shell->stdout = dup(STDOUT_FILENO);
 	if (shell->stdout < 0)
 		perror("dup stdout");
