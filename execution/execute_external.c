@@ -6,7 +6,7 @@
 /*   By: hparveen <hparveen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/09 19:34:12 by hparveen          #+#    #+#             */
-/*   Updated: 2025/06/19 13:29:06 by hparveen         ###   ########.fr       */
+/*   Updated: 2025/06/24 11:41:08 by hparveen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,8 +72,6 @@ static int	run_binary(t_shell *shell, char *command, char **args)
 		return (handle_exec_errors(shell, exec_path, args[0], path_found));
 	update_env_array(shell, shell->env_list, ft_envlist_size(shell->env_list));
 	execve(exec_path, args, shell->env_array);
-	if (errno == ENOEXEC)
-		return (handle_noexec(shell, exec_path, args[0]));
 	if (exec_path && !stat(exec_path, &file_info) && S_ISDIR(file_info.st_mode))
 		return (handle_error(shell, exec_path, ERROR_GENERIC, IS_DIR), 126);
 	return (1);
@@ -83,12 +81,12 @@ static void	child_process(t_shell *shell, t_tree *tree)
 {
 	int	exit_status;
 
-	if (shell->stdout != -1)
+	if (shell->stdout >= 0)
 	{
 		close(shell->stdout);
 		shell->stdout = -1;
 	}
-	if (shell->stdin != -1)
+	if (shell->stdin >= 0)
 	{
 		close(shell->stdin);
 		shell->stdin = -1;

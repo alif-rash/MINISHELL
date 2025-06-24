@@ -6,7 +6,7 @@
 /*   By: hparveen <hparveen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/03 08:12:16 by hparveen          #+#    #+#             */
-/*   Updated: 2025/06/19 10:26:00 by hparveen         ###   ########.fr       */
+/*   Updated: 2025/06/24 08:12:56 by hparveen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,22 +19,30 @@ static void	loop(char *end, int write_end, char *delimiter)
 
 	while (1)
 	{
+		if (g_heredoc_sigint)
+			break ;
 		line = readline("> ");
 		if (!line)
 			break ;
-		if (!ft_strncmp(line, end, ft_strlen(delimiter) + 1))
+		if (line)
 		{
-			free(line);
-			break ;
+			if (!ft_strncmp(line, end, ft_strlen(delimiter) + 1))
+			{
+				free(line);
+				line = NULL;
+				break ;
+			}
 		}
 		new_line = ft_strjoin(line, "\n");
 		write(write_end, new_line, ft_strlen(new_line));
 		free(new_line);
+		new_line = NULL;
 		free(line);
 	}
 }
 
-static void	read_from_stdin(char *delimiter, int write_end)
+static void	read_from_stdin(char *delimiter, int write_end, t_shell *shell,
+		int read_end)
 {
 	char	*limiter;
 	char	*end;
@@ -48,10 +56,18 @@ static void	read_from_stdin(char *delimiter, int write_end)
 		limiter = ft_substr(delimiter, 1, len - 2);
 		if (!limiter)
 			limiter = ft_strdup("");
-		end = limiter;
 	}
+	end = delimiter;
+	if (limiter)
+		end = limiter;
 	loop(end, write_end, delimiter);
 	close(write_end);
+	if (g_heredoc_sigint)
+	{
+		close(read_end);
+		ft_clear(shell, 2);
+		exit(1);
+	}
 }
 
 static int	fork_heredoc(t_shell *shell, pid_t *pid, int fd[2], char *delimiter)
@@ -67,9 +83,8 @@ static int	fork_heredoc(t_shell *shell, pid_t *pid, int fd[2], char *delimiter)
 	{
 		signal(SIGINT, handle_heredoc);
 		signal(SIGQUIT, SIG_IGN);
-		read_from_stdin(delimiter, fd[1]);
+		read_from_stdin(delimiter, fd[1], shell, fd[0]);
 		close(fd[0]);
-		exit(0);
 		ft_clear(shell, 2);
 		exit(0);
 	}
@@ -83,7 +98,6 @@ static int	handle_one_heredoc(t_shell *shell, char *delimiter,
 	int		status;
 	int		pipe_heredoc[2];
 
-	(void)current;
 	if (pipe(pipe_heredoc) == -1)
 		return (1);
 	signal_heredoc();
@@ -97,6 +111,7 @@ static int	handle_one_heredoc(t_shell *shell, char *delimiter,
 		shell->heredoc_failed = 1;
 		close(pipe_heredoc[0]);
 		close(pipe_heredoc[1]);
+		current->fd = -1;
 		return (-3);
 	}
 	close(pipe_heredoc[1]);

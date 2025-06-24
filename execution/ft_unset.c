@@ -6,7 +6,7 @@
 /*   By: hparveen <hparveen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 15:45:56 by raalifa           #+#    #+#             */
-/*   Updated: 2025/06/18 08:00:37 by hparveen         ###   ########.fr       */
+/*   Updated: 2025/06/24 09:17:56 by hparveen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ static void	remove_env_var(t_shell *shell, const char *name)
 				prev->next = curr->next;
 			else
 				shell->env_list = curr->next;
+			free(curr->env);
 			free(curr->key);
 			if (curr->value)
 				free(curr->value);

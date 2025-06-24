@@ -3,36 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   ft_export.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: raalifa <raalifa@student.42.fr>            +#+  +:+       +#+        */
+/*   By: hparveen <hparveen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 15:44:53 by raalifa           #+#    #+#             */
-/*   Updated: 2025/06/19 16:51:52 by raalifa          ###   ########.fr       */
+/*   Updated: 2025/06/24 12:52:48 by hparveen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-
-char	*ft_get_key(const char *arg)
-{
-	int	i;
-
-	i = 0;
-	while (arg[i] && arg[i] != '=')
-		i++;
-	return (ft_strndup(arg, i));
-}
-
-char	*ft_get_value(const char *arg)
-{
-	const char	*eq = ft_strchr(arg, '=');
-
-	if (!eq)
-		return (NULL);
-	if (*(eq + 1) == '\0')
-		return (ft_strdup(""));
-	else
-		return (ft_strdup(eq + 1));
-}          
 
 static void	ft_print_env(t_env *env_list)
 {
@@ -58,30 +36,31 @@ static void	ft_print_env(t_env *env_list)
 	}
 }
 
-static void	ft_process_env_key(t_shell *shell, char *key, char *value, int has_equal)
+static void	ft_process_env_key(t_shell *shell, char *key, char *value,
+		int has_equal)
 {
-    t_env	*curr;
+	t_env	*curr;
 
-    curr = shell->env_list;
-    while (curr)
-    {
-        if (strcmp(curr->key, key) == 0)
-        {
-            if (has_equal)
-            {
-                if (curr->value)
-                    free(curr->value);
-                curr->value = value;
-                curr->flag = 0;
-            }
-            else
-                curr->flag = 1;
-            free(key);
-            return ;
-        }
-        curr = curr->next;
-    }
-    new_env(shell, key, value, has_equal);
+	curr = shell->env_list;
+	while (curr)
+	{
+		if (strcmp(curr->key, key) == 0)
+		{
+			if (has_equal)
+			{
+				if (curr->value)
+					free(curr->value);
+				curr->value = value;
+				curr->flag = 0;
+			}
+			else
+				curr->flag = 1;
+			free(key);
+			return ;
+		}
+		curr = curr->next;
+	}
+	new_env(shell, key, value, has_equal);
 }
 
 static void	ft_add_or_update_env(t_shell *shell, char *arg)
@@ -125,7 +104,7 @@ static int	ft_is_valid_identifier(const char *str)
 int	ft_export(char **args, t_shell *shell)
 {
 	int	i;
-	int	ret;
+	int ret;
 
 	i = 1;
 	ret = 0;
@@ -139,6 +118,10 @@ int	ft_export(char **args, t_shell *shell)
 		if (ft_is_valid_identifier(args[i]))
 			ft_add_or_update_env(shell, args[i]);
 		else
+		{
+			handle_error(shell, args[i], ERROR_GENERIC, INVALID_IDENTIFIER);
+			ret = 1;
+		}
 		{
 			handle_error(shell, args[i], ERROR_GENERIC,
 					INVALID_IDENTIFIER_E);
