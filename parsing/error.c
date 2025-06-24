@@ -39,7 +39,7 @@ void	handle_error(t_shell *shell, char *msg, int error_type, int quote_flag)
 
 static void	print_after_args(int flag, int fd)
 {
-	if (flag == NO_DIR || flag == ENV_NO_FILE || flag == NO_FILE)
+	if (flag == NO_DIR || flag == NO_DIR_CD || flag == ENV_NO_FILE || flag == NO_FILE)
 		ft_putstr_fd(": No such file or directory", fd);
 	if (flag == NOT_FOUND)
 		ft_putstr_fd(": command not found", fd);
@@ -55,7 +55,7 @@ static void	print_after_args(int flag, int fd)
 		ft_putstr_fd(": invalid option", fd);
 	if (flag == IS_DIR)
 		ft_putstr_fd(": is a directory", fd);
-	if (flag == INVALID_IDENTIFIER)
+	if (flag == INVALID_IDENTIFIER || flag == INVALID_IDENTIFIER_E)
 		ft_putstr_fd("': not a valid identifier", fd);
 	if (flag == NEED_FILE)
 	{
@@ -72,15 +72,14 @@ void	ft_print_error(char *args, int flag, int fd)
 	ft_putstr_fd("minishell: ", fd);
 	if (flag == NUM_REQUIRED)
 		ft_putstr_fd("exit: ", fd);
+	if (flag == NO_DIR_CD)
+		ft_putstr_fd("cd: ", fd);
 	if (flag == TOO_MANY_ARGS)
 		ft_putstr_fd("exit: too many arguments", fd);
+	if (flag == INVALID_IDENTIFIER_E)
+		ft_putstr_fd("export: `", fd);
 	if (flag == INVALID_IDENTIFIER)
-	{
-		if (args && ft_strncmp(args, "export", 6) == 0)
-			ft_putstr_fd("export: `", fd);
-		else
 			ft_putstr_fd("unset: `", fd);
-	}
 	if (args)
 		ft_putstr_fd(args, fd);
 	print_after_args(flag, fd);

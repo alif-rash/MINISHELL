@@ -89,7 +89,6 @@ static void	ft_add_or_update_env(t_shell *shell, char *arg)
 	char	*key;
 	char	*value;
 	int		has_equal;
-	t_env	*curr;
 
 	key = ft_get_key(arg);
 	if (!key)
@@ -104,7 +103,6 @@ static void	ft_add_or_update_env(t_shell *shell, char *arg)
 		value = NULL;
 		has_equal = 0;
 	}
-	curr = shell->env_list;
 	ft_process_env_key(shell, key, value, has_equal);
 }
 
@@ -140,7 +138,7 @@ int	ft_export(char **args, t_shell *shell)
 			ft_add_or_update_env(shell, args[i]);
 		else
 			return (handle_error(shell, args[i], ERROR_GENERIC,
-					INVALID_IDENTIFIER), 1);
+					INVALID_IDENTIFIER_E), 1);
 		i++;
 	}
 	return (0);
