@@ -6,7 +6,7 @@
 /*   By: hparveen <hparveen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 09:33:06 by hparveen          #+#    #+#             */
-/*   Updated: 2025/06/24 08:05:13 by hparveen         ###   ########.fr       */
+/*   Updated: 2025/06/24 10:57:02 by hparveen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,6 +85,7 @@ typedef enum e_error_flag
 	NO_OLDPWD = 16,
 	NEED_FILE = 17,
 	INVALID_IDENTIFIER = 18,
+	ERR_AMBIGOUS_REDIRECT = 19,
 	IGNORE = 100
 }						t_error_flag;
 

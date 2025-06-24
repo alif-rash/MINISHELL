@@ -6,7 +6,7 @@
 /*   By: hparveen <hparveen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 10:13:16 by hparveen          #+#    #+#             */
-/*   Updated: 2025/06/18 09:12:47 by hparveen         ###   ########.fr       */
+/*   Updated: 2025/06/24 11:05:16 by hparveen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,8 +37,23 @@ void	handle_error(t_shell *shell, char *msg, int error_type, int quote_flag)
 	}
 }
 
+static void	print_helper(int flag, int fd)
+{
+	if (flag == INVALID_IDENTIFIER)
+		ft_putstr_fd("': not a valid identifier", fd);
+	if (flag == NEED_FILE)
+	{
+		ft_putstr_fd(": filename argument required\n", fd);
+		ft_putstr_fd(".: usage: . filename [arguments]", fd);
+	}
+	if (flag != IGNORE)
+		ft_putchar_fd('\n', fd);
+}
+
 static void	print_after_args(int flag, int fd)
 {
+	if (flag == ERR_AMBIGOUS_REDIRECT)
+		ft_putstr_fd(": ambiguous redirect", fd);
 	if (flag == NO_DIR || flag == ENV_NO_FILE || flag == NO_FILE)
 		ft_putstr_fd(": No such file or directory", fd);
 	if (flag == NOT_FOUND)
@@ -55,15 +70,7 @@ static void	print_after_args(int flag, int fd)
 		ft_putstr_fd(": invalid option", fd);
 	if (flag == IS_DIR)
 		ft_putstr_fd(": is a directory", fd);
-	if (flag == INVALID_IDENTIFIER)
-		ft_putstr_fd("': not a valid identifier", fd);
-	if (flag == NEED_FILE)
-	{
-		ft_putstr_fd(": filename argument required\n", fd);
-		ft_putstr_fd(".: usage: . filename [arguments]", fd);
-	}
-	if (flag != IGNORE)
-		ft_putchar_fd('\n', fd);
+	print_helper(flag, fd);
 }
 
 void	ft_print_error(char *args, int flag, int fd)
@@ -108,5 +115,8 @@ int	print_error(t_shell *shell, int error_code, t_token *current)
 	if (error_code == ERR_INVALIDSUBSHELL)
 		return (handle_error(shell, current->next->value, ERROR_SYNTAX, '\0'),
 			1);
+	if (error_code == ERR_AMBIGOUS_REDIRECT)
+		return (handle_error(shell, current->next->value, ERROR_GENERIC,
+				ERR_AMBIGOUS_REDIRECT), 1);
 	return (0);
 }
