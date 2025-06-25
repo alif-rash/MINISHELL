@@ -51,7 +51,7 @@ static void	ft_process_env_key(t_shell *shell, char *key, char *value,
 				if (curr->value)
 					free(curr->value);
 				curr->value = value;
-				curr->flag = 0;
+				curr->flag = 1;
 			}
 			else
 				curr->flag = 1;
