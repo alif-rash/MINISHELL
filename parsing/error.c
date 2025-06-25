@@ -6,7 +6,7 @@
 /*   By: hparveen <hparveen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 10:13:16 by hparveen          #+#    #+#             */
-/*   Updated: 2025/06/24 11:05:16 by hparveen         ###   ########.fr       */
+/*   Updated: 2025/06/25 10:18:57 by hparveen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,8 @@ static void	print_after_args(int flag, int fd)
 {
 	if (flag == ERR_AMBIGOUS_REDIRECT)
 		ft_putstr_fd(": ambiguous redirect", fd);
-	if (flag == NO_DIR || flag == NO_DIR_CD || flag == ENV_NO_FILE || flag == NO_FILE)
+	if (flag == NO_DIR || flag == NO_DIR_CD || flag == ENV_NO_FILE
+		|| flag == NO_FILE)
 		ft_putstr_fd(": No such file or directory", fd);
 	if (flag == NOT_FOUND)
 		ft_putstr_fd(": command not found", fd);
@@ -86,7 +87,7 @@ void	ft_print_error(char *args, int flag, int fd)
 	if (flag == INVALID_IDENTIFIER_E)
 		ft_putstr_fd("export: `", fd);
 	if (flag == INVALID_IDENTIFIER)
-			ft_putstr_fd("unset: `", fd);
+		ft_putstr_fd("unset: `", fd);
 	if (args)
 		ft_putstr_fd(args, fd);
 	print_after_args(flag, fd);

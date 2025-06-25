@@ -6,7 +6,7 @@
 /*   By: hparveen <hparveen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 15:44:53 by raalifa           #+#    #+#             */
-/*   Updated: 2025/06/24 12:52:48 by hparveen         ###   ########.fr       */
+/*   Updated: 2025/06/25 10:19:27 by hparveen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,7 +104,7 @@ static int	ft_is_valid_identifier(const char *str)
 int	ft_export(char **args, t_shell *shell)
 {
 	int	i;
-	int ret;
+	int	ret;
 
 	i = 1;
 	ret = 0;
@@ -119,10 +119,9 @@ int	ft_export(char **args, t_shell *shell)
 			ft_add_or_update_env(shell, args[i]);
 		else
 		{
-			handle_error(shell, args[i], ERROR_GENERIC,
-					INVALID_IDENTIFIER_E);
-				ret = 1;
-			}
+			handle_error(shell, args[i], ERROR_GENERIC, INVALID_IDENTIFIER_E);
+			ret = 1;
+		}
 		i++;
 	}
 	return (ret);

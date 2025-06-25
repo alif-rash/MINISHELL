@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   shlvl.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: raalifa <raalifa@student.42.fr>            +#+  +:+       +#+        */
+/*   By: hparveen <hparveen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 13:10:07 by hparveen          #+#    #+#             */
-/*   Updated: 2025/06/10 14:49:18 by raalifa          ###   ########.fr       */
+/*   Updated: 2025/06/25 10:14:57 by hparveen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,14 +45,14 @@ char	*ft_return_shlvl(char *value)
 	{
 		number = number * 10 + (value[index] - '0');
 		if (shlvl_overflow(sign, number))
-			return (ft_strdup("1"));
+			return (ft_strdup("\"1\""));
 		index++;
 	}
 	if (sign == 1 && number == 9223372036854775807ULL)
-		return (ft_strdup("0"));
+		return (ft_strdup("\"0\""));
 	number++;
 	if (shlvl_overflow(sign, number))
-		return (ft_strdup("1"));
+		return (ft_strdup("\"1\""));
 	return (shlvl_str(sign, number));
 }
 
