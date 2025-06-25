@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   shlvlutils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: raalifa <raalifa@student.42.fr>            +#+  +:+       +#+        */
+/*   By: hparveen <hparveen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 08:03:47 by hparveen          #+#    #+#             */
-/*   Updated: 2025/06/02 16:59:47 by raalifa          ###   ########.fr       */
+/*   Updated: 2025/06/25 12:17:02 by hparveen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,8 @@ char	*shlvl_value(char *value)
 	int	i;
 
 	i = 0;
+	if (!value || value[0] == '\0')
+		return (ft_strdup("\"1\""));
 	while (value[i])
 	{
 		if (!((value[i] >= '0' && value[i] <= '9') || (value[0] == '-')

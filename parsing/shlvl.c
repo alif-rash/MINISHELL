@@ -6,7 +6,7 @@
 /*   By: hparveen <hparveen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 13:10:07 by hparveen          #+#    #+#             */
-/*   Updated: 2025/06/25 10:14:57 by hparveen         ###   ########.fr       */
+/*   Updated: 2025/06/25 12:17:11 by hparveen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,7 @@
 
 static int	shlvl_overflow(int sign, unsigned long long number)
 {
-	if ((sign == 1 && number > 9223372036854775807ULL) || (sign == -1
-			&& number > 9223372036854775808ULL))
+	if ((sign == 1 && number > 999))
 		return (1);
 	return (0);
 }
@@ -41,18 +40,21 @@ char	*ft_return_shlvl(char *value)
 	sign = 1;
 	number = 0;
 	skip_spaces(&value, &index, &sign);
-	while (value[index] >= '0' && value[index] <= '9')
+	while (value[index])
 	{
-		number = number * 10 + (value[index] - '0');
+		if (ft_isdigit(value[index]))
+			number = number * 10 + (value[index] - '0');
+		else
+			return (ft_strdup("\"1\""));
 		if (shlvl_overflow(sign, number))
 			return (ft_strdup("\"1\""));
 		index++;
 	}
-	if (sign == 1 && number == 9223372036854775807ULL)
+	if (sign == -1)
 		return (ft_strdup("\"0\""));
+	if (sign == 1 && number == 999)
+		return (ft_strdup("\"\""));
 	number++;
-	if (shlvl_overflow(sign, number))
-		return (ft_strdup("\"1\""));
 	return (shlvl_str(sign, number));
 }
 
