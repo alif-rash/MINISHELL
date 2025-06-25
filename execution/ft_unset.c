@@ -6,7 +6,7 @@
 /*   By: hparveen <hparveen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 15:45:56 by raalifa           #+#    #+#             */
-/*   Updated: 2025/06/24 09:17:56 by hparveen         ###   ########.fr       */
+/*   Updated: 2025/06/25 10:19:15 by hparveen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,8 +68,7 @@ int	ft_unset(char **args, t_shell *shell)
 			remove_env_var(shell, args[i]);
 		else
 		{
-			handle_error(shell, args[i], ERROR_GENERIC,
-					INVALID_IDENTIFIER);
+			handle_error(shell, args[i], ERROR_GENERIC, INVALID_IDENTIFIER);
 			ret = 1;
 		}
 		i++;

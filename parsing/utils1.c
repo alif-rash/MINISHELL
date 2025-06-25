@@ -6,7 +6,7 @@
 /*   By: hparveen <hparveen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/29 11:04:20 by hparveen          #+#    #+#             */
-/*   Updated: 2025/06/10 09:13:03 by hparveen         ###   ########.fr       */
+/*   Updated: 2025/06/25 12:16:49 by hparveen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,10 +66,13 @@ int	ft_envlist_size(t_env *env_list)
 
 char	*ft_strtrim_sides(char *str)
 {
-	char	*trimmed;
+	size_t	len;
 
-	if (ft_strlen(str) == 2)
-		return (ft_strdup(""));
-	trimmed = ft_substr(str, 1, ft_strlen(str) - 2);
-	return (trimmed);
+	len = 0;
+	if (!str)
+		return (NULL);
+	len = ft_strlen(str);
+	if (len >= 2 && str[0] == '"' && str[len - 1] == '"')
+		return (ft_substr(str, 1, len - 2));
+	return (ft_strdup(str));
 }
