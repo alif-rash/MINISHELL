@@ -14,6 +14,8 @@
 
 static int	handle_cd_args(char **args, t_shell *shell, char **path)
 {
+	char	*unquoted_path;
+
 	if (!args[1])
 	{
 		*path = search_in_env(shell, "HOME");
@@ -27,10 +29,10 @@ static int	handle_cd_args(char **args, t_shell *shell, char **path)
 	{
 		*path = search_in_env(shell, "OLDPWD");
 		if (!*path)
-		{
-			handle_error(shell, args[0], ERROR_GENERIC, NO_OLDPWD);
-			return (1);
-		}
+			return (handle_error(shell, args[0], ERROR_GENERIC, NO_OLDPWD),1);
+		unquoted_path = ft_strtrim(*path, "\"");
+		printf("%s\n", 	unquoted_path);
+		free(unquoted_path);
 	}
 	else
 		*path = args[1];
