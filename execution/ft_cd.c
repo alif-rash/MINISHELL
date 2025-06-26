@@ -23,6 +23,15 @@ static int	handle_cd_args(char **args, t_shell *shell, char **path)
 			return (1);
 		}
 	}
+	else if (args[1][0] == '-' && args[1][1] == '\0')
+	{
+		*path = search_in_env(shell, "OLDPWD");
+		if (!*path)
+		{
+			handle_error(shell, args[0], ERROR_GENERIC, NO_OLDPWD);
+			return (1);
+		}
+	}
 	else
 		*path = args[1];
 	return (0);
