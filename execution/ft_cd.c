@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_cd.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: raalifa <raalifa@student.42.fr>            +#+  +:+       +#+        */
+/*   By: hparveen <hparveen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 15:43:03 by raalifa           #+#    #+#             */
-/*   Updated: 2025/06/15 12:44:53 by raalifa          ###   ########.fr       */
+/*   Updated: 2025/06/30 21:12:52 by hparveen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,9 +29,9 @@ static int	handle_cd_args(char **args, t_shell *shell, char **path)
 	{
 		*path = search_in_env(shell, "OLDPWD");
 		if (!*path)
-			return (handle_error(shell, args[0], ERROR_GENERIC, NO_OLDPWD),1);
+			return (handle_error(shell, args[0], ERROR_GENERIC, NO_OLDPWD), 1);
 		unquoted_path = ft_strtrim(*path, "\"");
-		printf("%s\n", 	unquoted_path);
+		printf("%s\n", unquoted_path);
 		free(unquoted_path);
 	}
 	else

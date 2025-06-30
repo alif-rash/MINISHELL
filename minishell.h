@@ -6,7 +6,7 @@
 /*   By: hparveen <hparveen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 09:33:06 by hparveen          #+#    #+#             */
-/*   Updated: 2025/06/24 10:57:02 by hparveen         ###   ########.fr       */
+/*   Updated: 2025/06/30 20:32:12 by hparveen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,7 @@ typedef enum e_error_flag
 	TOO_MANY_ARGS = 4,
 	NUM_REQUIRED = 5,
 	IS_DIR = 6,
+	NOT_DIR = 7,
 	ENV_NO_FILE = 10,
 	NO_HOME = 11,
 	NO_DIR = 12,
