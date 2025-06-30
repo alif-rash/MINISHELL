@@ -1,5 +1,5 @@
 NAME = minishell
-CC = cc -g3
+CC = cc
 CFLAG = -Wall -Werror -Wextra
 RM = rm -f
 SRCS = minishell.c \
