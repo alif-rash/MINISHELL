@@ -6,7 +6,7 @@
 /*   By: hparveen <hparveen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 10:13:16 by hparveen          #+#    #+#             */
-/*   Updated: 2025/06/25 10:18:57 by hparveen         ###   ########.fr       */
+/*   Updated: 2025/06/30 21:12:37 by hparveen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,8 @@ static void	print_helper(int flag, int fd)
 		ft_putstr_fd(": filename argument required\n", fd);
 		ft_putstr_fd(".: usage: . filename [arguments]", fd);
 	}
+	if (flag == NOT_DIR)
+		ft_putstr_fd(": Not a directory", fd);
 	if (flag != IGNORE)
 		ft_putchar_fd('\n', fd);
 }
