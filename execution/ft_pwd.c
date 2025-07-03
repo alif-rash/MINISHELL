@@ -12,19 +12,28 @@
 
 #include "../minishell.h"
 
-int	ft_pwd(void)
+int	ft_pwd(t_shell *shell)
 {
-	char	cwd[1024];
+	char	*cwd;
+	char	*pwd_from_env;
+	char	*unquoted_pwd;
 
-	if (getcwd(cwd, sizeof(cwd)) != NULL)
+	cwd = getcwd(NULL, 0);
+	if (cwd)
 	{
 		printf("%s\n", cwd);
+		free(cwd);
 		return (0);
 	}
-	else
+	pwd_from_env = search_in_env(shell, "PWD");
+	if (pwd_from_env)
 	{
-		handle_error(NULL, "pwd: error retrieving current directory",
-			ERROR_PERROR, IGNORE);
-		return (1);
+		unquoted_pwd = ft_strtrim(pwd_from_env, "\"");
+		printf("%s\n", unquoted_pwd);
+		free(unquoted_pwd);
+		return (0);
 	}
+	handle_error(NULL, "pwd: error retrieving current directory",
+		ERROR_PERROR, IGNORE);
+	return (1);
 }

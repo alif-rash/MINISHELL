@@ -19,7 +19,7 @@ static int	strcmp_command(t_shell *shell, char *command, char **args)
 	if (ft_strcmp(command, "cd") == 0)
 		return (ft_cd(args, shell));
 	if (ft_str_cmd(command, "pwd") == 0)
-		return (ft_pwd());
+		return (ft_pwd(shell));
 	if (ft_strcmp(command, "export") == 0)
 		return (ft_export(args, shell));
 	if (ft_strcmp(command, "unset") == 0)

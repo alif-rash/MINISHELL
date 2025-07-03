@@ -36,6 +36,7 @@
 # define ERROR_PERROR 1
 # define ERROR_SYNTAX 2
 # define ERROR_MALLOC 3
+# define ERROR_WARNING 4
 # define ERR_OP_SYNTAX 101
 # define ERR_OP_START 102
 # define ERR_REDIR_SYNTAX 103
@@ -89,6 +90,7 @@ typedef enum e_error_flag
 	INVALID_IDENTIFIER_E = 19,
 	NO_DIR_CD = 20,
 	ERR_AMBIGOUS_REDIRECT = 21,
+	CD_GETCWD_WARNING = 22,
 	IGNORE = 100
 }						t_error_flag;
 
@@ -784,7 +786,7 @@ void					update_env(t_shell *shell, char *key, char *value);
  *
  * @return int Returns 0 on success, or a non-zero value on failure.
  */
-int						ft_pwd(void);
+int						ft_pwd(t_shell *shell);
 
 /**
  * @brief Prints the environment variables.

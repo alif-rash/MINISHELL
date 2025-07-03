@@ -25,13 +25,15 @@ void	update_env(t_shell *shell, char *key, char *value)
 		if (ft_strcmp(current->key, key) == 0)
 		{
 			current->flag = 1;
-			new_val = add_quote(value);
+			if (ft_strcmp(key, "PWD") == 0 || ft_strcmp(key, "OLDPWD") == 0)
+				new_val = ft_strdup(value);
+			else
+				new_val = add_quote(value);
 			free(current->value);
 			current->value = ft_strdup(new_val);
 			if (!current->value)
 				perror("Error updating environment variable");
-			free(new_val);
-			return ;
+			return (free(new_val), (void)0);
 		}
 		current = current->next;
 	}

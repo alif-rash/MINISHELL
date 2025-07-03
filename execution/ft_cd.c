@@ -75,6 +75,54 @@ static int	update_pwd_vars(t_shell *shell, char *oldpwd, char *newpwd)
 	return (0);
 }
 
+static char	*get_current_pwd(t_shell *shell, char *new_path)
+{
+	char	*curpwd;
+	char	*pwd_from_env;
+
+	curpwd = getcwd(NULL, 0);
+	if (!curpwd)
+	{
+		pwd_from_env = search_in_env(shell, "PWD");
+		if (pwd_from_env)
+			curpwd = ft_strdup(pwd_from_env);
+		else
+			curpwd = ft_strdup("");
+		if (ft_strcmp(new_path, "..") == 0)
+			handle_error(shell, "cd", ERROR_WARNING, CD_GETCWD_WARNING);
+	}
+	return (curpwd);
+}
+
+static char	*construct_new_pwd(char *curpwd, char *new_path)
+{
+	char	*newpwd;
+	char	*unquoted_curpwd;
+
+	if (ft_strcmp(new_path, "..") == 0)
+	{
+		unquoted_curpwd = ft_strtrim(curpwd, "\"");
+		newpwd = ft_strjoin(unquoted_curpwd, "/..");
+		free(unquoted_curpwd);
+	}
+	else if (new_path[0] == '/')
+		newpwd = ft_strdup(new_path);
+	else
+	{
+		unquoted_curpwd = ft_strtrim(curpwd, "\"");
+		if (ft_strlen(unquoted_curpwd) > 0 && unquoted_curpwd[ft_strlen(unquoted_curpwd) - 1] != '/')
+		{
+			char *temp = ft_strjoin(unquoted_curpwd, "/");
+			newpwd = ft_strjoin(temp, new_path);
+			free(temp);
+		}
+		else
+			newpwd = ft_strjoin(unquoted_curpwd, new_path);
+		free(unquoted_curpwd);
+	}
+	return (newpwd);
+}
+
 int	ft_cd(char **args, t_shell *shell)
 {
 	char	*path;
@@ -85,9 +133,7 @@ int	ft_cd(char **args, t_shell *shell)
 	if (handle_cd_args(args, shell, &path))
 		return (1);
 	new_path = ft_strtrim(path, "\"");
-	curpwd = getcwd(NULL, 0);
-	if (!curpwd)
-		curpwd = ft_strdup("");
+	curpwd = get_current_pwd(shell, new_path);
 	if (chdir(new_path) == -1)
 	{
 		handle_error(shell, args[1], ERROR_GENERIC, NO_DIR_CD);
@@ -98,7 +144,7 @@ int	ft_cd(char **args, t_shell *shell)
 	}
 	newpwd = getcwd(NULL, 0);
 	if (!newpwd)
-		newpwd = ft_strdup("");
+		newpwd = construct_new_pwd(curpwd, new_path);
 	free(new_path);
 	return (update_pwd_vars(shell, curpwd, newpwd));
 }

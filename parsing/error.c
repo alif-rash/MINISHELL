@@ -22,6 +22,8 @@ void	handle_error(t_shell *shell, char *msg, int error_type, int quote_flag)
 	}
 	else if (error_type == ERROR_PERROR)
 		perror("minishell$");
+	else if (error_type == ERROR_WARNING)
+		ft_print_error(msg, quote_flag, 2);
 	else if (error_type == ERROR_SYNTAX)
 	{
 		exit_status("exit status", 258);
@@ -69,6 +71,8 @@ static void	print_after_args(int flag, int fd)
 		ft_putstr_fd(": HOME not set", fd);
 	if (flag == NO_OLDPWD)
 		ft_putstr_fd(": OLDPWD not set", fd);
+	if (flag == CD_GETCWD_WARNING)
+		ft_putstr_fd(": error retrieving current directory: getcwd: cannot access parent directories: No such file or directory", fd);
 	if (flag == BAD_OPTION)
 		ft_putstr_fd(": invalid option", fd);
 	if (flag == IS_DIR)
