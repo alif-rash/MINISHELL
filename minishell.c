@@ -21,6 +21,12 @@ void	check_args(int ac, char **av)
 	}
 }
 
+/**
+ * @brief Read user input line and handle prompt setting
+ * @param shell Shell structure
+ * @param is_interactive Whether shell is in interactive mode
+ * @return 1 if line was read successfully, 0 otherwise
+ */
 static int	read_line_and_set_prompt(t_shell *shell, int is_interactive)
 {
 	char	*line;
@@ -47,6 +53,11 @@ static int	read_line_and_set_prompt(t_shell *shell, int is_interactive)
 	return (0);
 }
 
+/**
+ * @brief Handle prompt reading and command execution loop
+ * @param shell Shell structure
+ * @param is_interactive Whether shell is in interactive mode
+ */
 static void	handle_prompt_and_execute(t_shell *shell, int is_interactive)
 {
 	if (prompt_is_big(shell))

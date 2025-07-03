@@ -28,6 +28,11 @@ int	is_valid_identifier(const char *str)
 	return (1);
 }
 
+/**
+ * @brief Remove environment variable from shell environment list
+ * @param shell Shell structure containing environment list
+ * @param name Name of environment variable to remove
+ */
 static void	remove_env_var(t_shell *shell, const char *name)
 {
 	t_env	*curr;

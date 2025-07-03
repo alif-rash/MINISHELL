@@ -12,6 +12,13 @@
 
 #include "../minishell.h"
 
+/**
+ * @brief Handle tokens that follow redirection operators
+ * @param shell Shell structure for error handling
+ * @param list Current token in the list
+ * @param is_command Pointer to command flag
+ * @return Next token to process or NULL on error
+ */
 static t_token	*tokens_after_redirection(t_shell *shell, t_token *list,
 		int *is_command)
 {
@@ -39,6 +46,13 @@ static t_token	*tokens_after_redirection(t_shell *shell, t_token *list,
 	return (list);
 }
 
+/**
+ * @brief Process individual token and update categorization state
+ * @param shell Shell structure for error handling
+ * @param list Pointer to current token
+ * @param index Pointer to token index
+ * @param is_command Pointer to command flag
+ */
 static void	process_token(t_shell *shell, t_token **list, int *index,
 		int *is_command)
 {

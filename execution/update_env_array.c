@@ -12,6 +12,12 @@
 
 #include "minishell.h"
 
+/**
+ * @brief Get trimmed value from environment variable
+ * @param env_list Environment variable node
+ * @param value_len Pointer to store value length
+ * @return Trimmed value string
+ */
 static char	*get_trimmed_value(t_env *env_list, int *value_len)
 {
 	char	*trimmed;
@@ -23,6 +29,12 @@ static char	*get_trimmed_value(t_env *env_list, int *value_len)
 	return (trimmed);
 }
 
+/**
+ * @brief Fill environment variable string with key=value format
+ * @param env_var Destination environment variable string
+ * @param key Environment variable key
+ * @param value Environment variable value
+ */
 static void	fill_env_variable(char *env_var, char *key, char *value)
 {
 	int	i;
@@ -45,6 +57,11 @@ static void	fill_env_variable(char *env_var, char *key, char *value)
 	env_var[i] = '\0';
 }
 
+/**
+ * @brief Create new environment entry string from environment node
+ * @param env_list Environment variable node
+ * @return Newly allocated environment string in "key=value" format
+ */
 static char	*create_new_env_entry(t_env *env_list)
 {
 	int		key_len;
@@ -68,6 +85,12 @@ static char	*create_new_env_entry(t_env *env_list)
 	return (env_variable);
 }
 
+/**
+ * @brief Build environment array from environment list
+ * @param env_list Environment variable list
+ * @param env_array Array to fill with environment strings
+ * @param count Number of environment variables
+ */
 static void	build_env_array(t_env *env_list, char **env_array, int count)
 {
 	int		index;

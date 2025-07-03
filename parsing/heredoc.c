@@ -12,6 +12,12 @@
 
 #include "minishell.h"
 
+/**
+ * @brief Main heredoc reading loop
+ * @param end Delimiter to stop reading
+ * @param write_end Write end of pipe
+ * @param delimiter Original delimiter string
+ */
 static void	loop(char *end, int write_end, char *delimiter)
 {
 	char	*line;
@@ -41,6 +47,13 @@ static void	loop(char *end, int write_end, char *delimiter)
 	}
 }
 
+/**
+ * @brief Read heredoc input from stdin and write to pipe
+ * @param delimiter Heredoc delimiter
+ * @param write_end Write end of pipe
+ * @param shell Shell structure
+ * @param read_end Read end of pipe
+ */
 static void	read_from_stdin(char *delimiter, int write_end, t_shell *shell,
 		int read_end)
 {
@@ -70,6 +83,14 @@ static void	read_from_stdin(char *delimiter, int write_end, t_shell *shell,
 	}
 }
 
+/**
+ * @brief Fork process for heredoc handling
+ * @param shell Shell structure
+ * @param pid Pointer to store process ID
+ * @param fd Pipe file descriptors
+ * @param delimiter Heredoc delimiter
+ * @return 0 on success, 1 on error
+ */
 static int	fork_heredoc(t_shell *shell, pid_t *pid, int fd[2], char *delimiter)
 {
 	*pid = fork();
@@ -91,6 +112,13 @@ static int	fork_heredoc(t_shell *shell, pid_t *pid, int fd[2], char *delimiter)
 	return (0);
 }
 
+/**
+ * @brief Handle single heredoc operation
+ * @param shell Shell structure
+ * @param delimiter Heredoc delimiter
+ * @param current Current token
+ * @return File descriptor or error code
+ */
 static int	handle_one_heredoc(t_shell *shell, char *delimiter,
 		t_token *current)
 {

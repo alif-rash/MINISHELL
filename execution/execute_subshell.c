@@ -12,6 +12,10 @@
 
 #include "minishell.h"
 
+/**
+ * @brief Free pointer and set it to NULL
+ * @param ptr Pointer to free and nullify
+ */
 static void	free_and_null(char **ptr)
 {
 	if (ptr && *ptr)
@@ -21,6 +25,11 @@ static void	free_and_null(char **ptr)
 	}
 }
 
+/**
+ * @brief Add subtree to shell structure's subtree list
+ * @param shell Shell structure
+ * @param subtree Subtree to add
+ */
 static void	add_subtree_to_struct(t_shell *shell, t_tree *subtree)
 {
 	t_subtree	*new_subtree;
@@ -44,6 +53,11 @@ static void	add_subtree_to_struct(t_shell *shell, t_tree *subtree)
 	current->next = new_subtree;
 }
 
+/**
+ * @brief Parse subshell content and build subtree
+ * @param shell Shell structure
+ * @param subtree Pointer to subtree to build
+ */
 static void	ft_parsing_subshell(t_shell *shell, t_tree **subtree)
 {
 	char	*trimmed;

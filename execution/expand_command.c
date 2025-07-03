@@ -12,6 +12,11 @@
 
 #include "minishell.h"
 
+/**
+ * @brief Check if string contains only whitespace characters
+ * @param str String to check
+ * @return 1 if only whitespace, 0 otherwise
+ */
 static int	is_only_space(char *str)
 {
 	int	i;
@@ -26,6 +31,12 @@ static int	is_only_space(char *str)
 	return (1);
 }
 
+/**
+ * @brief Check if expansion should be marked for removal
+ * @param original Original string before expansion
+ * @param expanded Expanded string after processing
+ * @return 1 if should be marked, 0 otherwise
+ */
 static int	should_mark_expanded(char *original, char *expanded)
 {
 	if (!expanded || ft_strcmp(original, expanded) == 0)

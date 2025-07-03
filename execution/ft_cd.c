@@ -12,6 +12,13 @@
 
 #include "../minishell.h"
 
+/**
+ * @brief Handle cd command arguments and determine target path
+ * @param args Command arguments
+ * @param shell Shell structure
+ * @param path Pointer to store target path
+ * @return 0 on success, 1 on error
+ */
 static int	handle_cd_args(char **args, t_shell *shell, char **path)
 {
 	char	*unquoted_path;
@@ -39,6 +46,12 @@ static int	handle_cd_args(char **args, t_shell *shell, char **path)
 	return (0);
 }
 
+/**
+ * @brief Find environment variable by name
+ * @param shell Shell structure
+ * @param name Environment variable name
+ * @return Pointer to environment variable node or NULL if not found
+ */
 static t_env	*find_env_var(t_shell *shell, const char *name)
 {
 	t_env	*curr;
@@ -53,6 +66,13 @@ static t_env	*find_env_var(t_shell *shell, const char *name)
 	return (NULL);
 }
 
+/**
+ * @brief Update PWD and OLDPWD environment variables
+ * @param shell Shell structure
+ * @param oldpwd Previous working directory
+ * @param newpwd New working directory
+ * @return 0 on success
+ */
 static int	update_pwd_vars(t_shell *shell, char *oldpwd, char *newpwd)
 {
 	t_env	*pwd_var;
@@ -75,6 +95,12 @@ static int	update_pwd_vars(t_shell *shell, char *oldpwd, char *newpwd)
 	return (0);
 }
 
+/**
+ * @brief Get current working directory with fallback to PWD
+ * @param shell Shell structure
+ * @param new_path Target path for error handling
+ * @return Current working directory string
+ */
 static char	*get_current_pwd(t_shell *shell, char *new_path)
 {
 	char	*curpwd;
@@ -94,6 +120,12 @@ static char	*get_current_pwd(t_shell *shell, char *new_path)
 	return (curpwd);
 }
 
+/**
+ * @brief Construct new PWD path based on current directory and target
+ * @param curpwd Current working directory
+ * @param new_path Target path
+ * @return Constructed new PWD path
+ */
 static char	*construct_new_pwd(char *curpwd, char *new_path)
 {
 	char	*newpwd;

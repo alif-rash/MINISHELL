@@ -12,6 +12,13 @@
 
 #include "minishell.h"
 
+/**
+ * @brief Get home directory or PWD/OLDPWD for tilde expansion
+ * @param shell Shell structure for environment access
+ * @param input Input string
+ * @param skip_len Pointer to skip length for special cases
+ * @return Home directory path or NULL
+ */
 static char	*get_home(t_shell *shell, char *input, int *skip_len)
 {
 	char	*home;
@@ -31,6 +38,13 @@ static char	*get_home(t_shell *shell, char *input, int *skip_len)
 	return (home);
 }
 
+/**
+ * @brief Extract suffix after tilde expansion
+ * @param input Input string
+ * @param pos Position array [current, start]
+ * @param skip_len Length to skip
+ * @return Suffix string after tilde
+ */
 static char	*suffix_after_tilda(char *input, int pos[2], int skip_len)
 {
 	char	*suffix;
@@ -45,6 +59,13 @@ static char	*suffix_after_tilda(char *input, int pos[2], int skip_len)
 	return (suffix);
 }
 
+/**
+ * @brief Search for user directory in tilde expansion
+ * @param input Input string
+ * @param pos Position array [current, start]
+ * @param result Current result string
+ * @return User directory path or original substring if not found
+ */
 static char	*search_user(char *input, int pos[2], char *result)
 {
 	char	*user;
