@@ -49,7 +49,7 @@ static void	ft_parsing_subshell(t_shell *shell, t_tree **subtree)
 	char	*trimmed;
 	t_token	*tokens;
 
-	trimmed = ft_strtrim_sides(shell->prompt);
+	trimmed = trim_brackets(shell->prompt);
 	if (trimmed[0] == '\0')
 		return (free(trimmed), free(shell->prompt));
 	free_and_null(&shell->prompt);

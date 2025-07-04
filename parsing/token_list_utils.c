@@ -65,6 +65,11 @@ void	ft_free_tokenlist(t_token **token_list)
 			next = NULL;
 		if (current->value)
 			free(current->value);
+		if (current->fd > 0)
+		{
+			close(current->fd);
+			current->fd = -1;
+		}	
 		free(current);
 		current = next;
 	}

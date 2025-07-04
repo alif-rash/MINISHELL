@@ -875,5 +875,6 @@ int						handle_noexec(t_shell *shell, char *exec_path,
 							char *cmd);
 int						handle_exec_errors(t_shell *shell, char *exec_path,
 							char *cmd, int found);
+char 					*trim_brackets(char *str);
 
 #endif
