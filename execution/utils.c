@@ -45,3 +45,13 @@ int	handle_exec_errors(t_shell *shell, char *exec_path, char *cmd, int found)
 		return (handle_error(shell, cmd, ERROR_GENERIC, NO_DIR), 127);
 	return (handle_error(shell, cmd, ERROR_GENERIC, NOT_FOUND), 127);
 }
+
+char *trim_brackets(char *str)
+{
+	char	*trimmed;
+
+	if (ft_strlen(str) == 2)
+		return (ft_strdup(""));
+	trimmed = ft_substr(str, 1, ft_strlen(str) - 2);
+	return (trimmed);
+}

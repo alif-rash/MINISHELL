@@ -111,6 +111,7 @@ static int	setup_heredoc_input(int fd, t_tree *tree, t_shell *shell)
 	{
 		temp_fd = open(".heredoc_file", O_WRONLY | O_CREAT | O_TRUNC, 0644);
 		expand_heredoc_to_file(shell, fd, temp_fd, tree);
+		get_next_line(-42);
 		close(temp_fd);
 		close(fd);
 		temp_fd = open(".heredoc_file", O_RDONLY, 0777);
