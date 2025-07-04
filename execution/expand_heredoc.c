@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include"../minishell.h"
 
 char	*append_data(char *line, int index[2], char *result, int flag)
 {

@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
 char	*handle_double_variable(char *input, int pos[2], char *result,
 		t_shell *shell)
