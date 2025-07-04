@@ -884,65 +884,422 @@ int								ft_unset(char **args, t_shell *shell);
  */
 int								is_valid_identifier(const char *str);
 
-char					*ft_get_key(const char *arg);
-char					*ft_get_value(const char *arg);
-int						ft_export(char **args, t_shell *shell);
-void					execute(t_shell *shell, t_tree *tree);
-void					execute_pipe(t_shell *shell, t_tree *tree);
-void					execute_redirections(t_shell *shell, t_tree *tree);
-int						expand_redirection(t_shell *shell, t_tree *tree);
-char					*expand_special_characters(char *input, int pos[2],
-							char *result, t_shell *shell);
-char					*handle_tilda(char *input, int pos[2], char *result,
-							t_shell *shell);
-char					*get_username(char *input, int pos[2]);
-char					*ft_get_variable_value(char *input, int pos[2],
-							t_shell *shell);
-char					*handle_variable(char *input, int pos[2], char *result,
-							t_shell *shell);
-char					*get_quote_variable_value(char *input, int pos[2],
-							t_shell *shell);
-char					*handle_quotes_variable(char *input, int pos[2],
-							char *result, t_shell *shell);
-char					*handle_double_variable(char *input, int pos[2],
-							char *result, t_shell *shell);
-char					*expand_variables(char *input, int *pos,
-							t_shell *shell);
-char					*process_expansion(char *input, t_shell *shell);
-char					*expand_exit_status(char *line, int index[2]);
-char					*get_env_value(t_env *env_list, const char *var_name);
-char					*get_var(char *line, int *index, t_env *env_list);
-char					*get_variable_value(char *line, int pos[2],
-							t_shell *shell);
-char					*handle_variable_heredoc(char *line, int index[2],
-							char *result, t_shell *shell);
-char					*append_data(char *line, int index[2], char *result,
-							int flag);
-char					*expand_quotes_heredoc(char *str, int *cursor,
-							t_shell *shell);
-char					*expand_variables_heredoc(char *line, int *index,
-							t_shell *shell);
-char					*expansion_heredoc(char *line, t_shell *shell,
-							char **temp);
-void					expand_heredoc_to_file(t_shell *shell, int input_fd,
-							int output_fd, t_tree *tree);
-int						expand_command(t_shell *shell, t_tree *tree);
-char					*clean_all_quotes(char *result);
-void					ft_tolower_str(char **str);
-int						ft_envlist_size(t_env *env_list);
-char					*ft_strtrim_sides(char *str);
-void					external_execution(t_shell *shell, t_tree *tree);
-void					update_env_array(t_shell *shell, t_env *env_list,
-							int total_vars);
-void					signals_and_exitstatus(int status);
-void					ft_dup(t_shell *shell);
-void					close_fds(t_shell *shell);
-void					ft_clear_subtree(t_subtree **subtree);
-void					execute_subshell(t_shell *shell, t_tree *tree);
-int						ft_str_cmd(char *s1, const char *s2);
-int						handle_noexec(t_shell *shell, char *exec_path,
-							char *cmd);
-int						handle_exec_errors(t_shell *shell, char *exec_path,
-							char *cmd, int found);
+/**
+ * @brief Extracts the key (variable name) from a key=value assignment string.
+ *
+ * @param arg The assignment string in format "key=value"
+ * @return Newly allocated string containing the key, or NULL on failure
+ */
+char							*ft_get_key(const char *arg);
+
+/**
+ * @brief Extracts the value from a key=value assignment string.
+ *
+ * @param arg The assignment string in format "key=value"
+ * @return Newly allocated string containing the value, or NULL if no '=' found
+ */
+char							*ft_get_value(const char *arg);
+
+/**
+ * @brief Implements the export command to set and display environment 
+ * variables.
+ *
+ * With no arguments, displays all exported variables. With arguments, sets or
+ * updates environment variables and marks them for export to child processes.
+ *
+ * @param args Array of command arguments where args[0] is "export"
+ * @param shell Pointer to the shell structure
+ * @return 0 on success, 1 if any invalid identifiers were encountered
+ */
+int								ft_export(char **args, t_shell *shell);
+
+/**
+ * @brief Main execution dispatcher that handles different AST node types.
+ *
+ * This function examines the AST node type and dispatches to the appropriate
+ * execution handler (pipe, redirection, command, logical operators, subshell).
+ *
+ * @param shell Pointer to the shell structure
+ * @param tree Pointer to the AST node to execute
+ */
+void							execute(t_shell *shell, t_tree *tree);
+
+/**
+ * @brief Executes pipe operations by setting up pipes and forking processes.
+ *
+ * @param shell Pointer to the shell structure
+ * @param tree Pointer to the pipe AST node
+ */
+void							execute_pipe(t_shell *shell, t_tree *tree);
+
+/**
+ * @brief Executes redirection operations by setting up file descriptors.
+ *
+ * @param shell Pointer to the shell structure
+ * @param tree Pointer to the redirection AST node
+ */
+void							execute_redirections(t_shell *shell,
+									t_tree *tree);
+
+/**
+ * @brief Expands variables and special characters in redirection file names.
+ *
+ * @param shell Pointer to the shell structure
+ * @param tree Pointer to the redirection AST node
+ * @return 0 on success, 1 on failure (e.g., ambiguous redirect)
+ */
+int								expand_redirection(t_shell *shell,
+									t_tree *tree);
+
+/**
+ * @brief Expands special characters like ~ and $ in input strings.
+ *
+ * @param input The input string to expand
+ * @param pos Array containing current and start positions in the string
+ * @param result The result string being built
+ * @param shell Pointer to the shell structure for environment access
+ * @return Updated result string with expansions applied
+ */
+char							*expand_special_characters(char *input,
+									int pos[2], char *result, t_shell *shell);
+
+/**
+ * @brief Handles tilde expansion (~, ~/path, ~user, etc.).
+ *
+ * @param input The input string containing tilde
+ * @param pos Array containing current and start positions
+ * @param result The result string being built
+ * @param shell Pointer to the shell structure
+ * @return Updated result string with tilde expanded
+ */
+char							*handle_tilda(char *input, int pos[2],
+									char *result, t_shell *shell);
+
+/**
+ * @brief Extracts username from ~username pattern for tilde expansion.
+ *
+ * @param input The input string containing ~username
+ * @param pos Array containing current and start positions
+ * @return Newly allocated string containing the username
+ */
+char							*get_username(char *input, int pos[2]);
+
+/**
+ * @brief Gets the value of a variable from the environment.
+ *
+ * @param input The input string containing variable reference
+ * @param pos Array containing current and start positions
+ * @param shell Pointer to the shell structure
+ * @return Newly allocated string containing the variable value
+ */
+char							*ft_get_variable_value(char *input, int pos[2],
+									t_shell *shell);
+
+/**
+ * @brief Handles variable expansion outside of quotes.
+ *
+ * @param input The input string containing variable
+ * @param pos Array containing current and start positions
+ * @param result The result string being built
+ * @param shell Pointer to the shell structure
+ * @return Updated result string with variable expanded
+ */
+char							*handle_variable(char *input, int pos[2],
+									char *result, t_shell *shell);
+
+/**
+ * @brief Gets variable value when inside quotes (handles special cases).
+ *
+ * @param input The input string containing variable
+ * @param pos Array containing current and start positions
+ * @param shell Pointer to the shell structure
+ * @return Newly allocated string containing the variable value
+ */
+char							*get_quote_variable_value(char *input,
+									int pos[2], t_shell *shell);
+
+/**
+ * @brief Handles variable expansion inside double quotes.
+ *
+ * @param input The input string containing variable
+ * @param pos Array containing current and start positions
+ * @param result The result string being built
+ * @param shell Pointer to the shell structure
+ * @return Updated result string with variable expanded
+ */
+char							*handle_quotes_variable(char *input, int pos[2],
+									char *result, t_shell *shell);
+
+/**
+ * @brief Handles double variable patterns (like $$).
+ *
+ * @param input The input string containing double variable
+ * @param pos Array containing current and start positions
+ * @param result The result string being built
+ * @param shell Pointer to the shell structure
+ * @return Updated result string with double variable expanded
+ */
+char							*handle_double_variable(char *input, int pos[2],
+									char *result, t_shell *shell);
+
+/**
+ * @brief Expands variables in a string outside of single quotes.
+ *
+ * @param input The input string to expand
+ * @param pos Pointer to current position in string
+ * @param shell Pointer to the shell structure
+ * @return Newly allocated string with variables expanded
+ */
+char							*expand_variables(char *input, int *pos,
+									t_shell *shell);
+
+/**
+ * @brief Main expansion function that processes all types of expansions 
+ * in input.
+ *
+ * @param input The input string to expand
+ * @param shell Pointer to the shell structure
+ * @return Newly allocated string with all expansions applied
+ */
+char							*process_expansion(char *input, t_shell *shell);
+
+/**
+ * @brief Expands $? to the current exit status.
+ *
+ * @param line The input line containing $?
+ * @param index Array containing current and start positions
+ * @return Newly allocated string containing the exit status
+ */
+char							*expand_exit_status(char *line, int index[2]);
+
+/**
+ * @brief Gets the value of an environment variable by name.
+ *
+ * @param env_list The environment variable list to search
+ * @param var_name The name of the variable to find
+ * @return Newly allocated string containing the value,
+	or empty string if not found
+ */
+char							*get_env_value(t_env *env_list,
+									const char *var_name);
+
+/**
+ * @brief Extracts and returns the value of a variable from a line.
+ *
+ * @param line The input line containing variable reference
+ * @param index Pointer to current position in line
+ * @param env_list The environment variable list to search
+ * @return Newly allocated string containing the variable value
+ */
+char							*get_var(char *line, int *index,
+									t_env *env_list);
+
+/**
+ * @brief Gets the value of a variable for heredoc expansion.
+ *
+ * @param line The input line containing variable
+ * @param pos Array containing current and start positions
+ * @param shell Pointer to the shell structure
+ * @return Newly allocated string containing the variable value
+ */
+char							*get_variable_value(char *line, int pos[2],
+									t_shell *shell);
+
+/**
+ * @brief Handles variable expansion specifically within heredoc contexts.
+ *
+ * @param line The input line containing variable
+ * @param index Array containing current and start positions
+ * @param result The result string being built
+ * @param shell Pointer to the shell structure
+ * @return Updated result string with variable expanded
+ */
+char							*handle_variable_heredoc(char *line,
+									int index[2], char *result, t_shell *shell);
+
+/**
+ * @brief Appends data from input to result string with optional flag handling.
+ *
+ * @param line The input line to extract data from
+ * @param index Array containing start and end positions
+ * @param result The result string to append to
+ * @param flag Additional flag for processing
+ * @return Updated result string with data appended
+ */
+char							*append_data(char *line, int index[2],
+									char *result, int flag);
+
+/**
+ * @brief Expands variables within quotes in heredoc contexts.
+ *
+ * @param str The input string with quotes
+ * @param cursor Pointer to current position in string
+ * @param shell Pointer to the shell structure
+ * @return Newly allocated string with variables expanded
+ */
+char							*expand_quotes_heredoc(char *str, int *cursor,
+									t_shell *shell);
+
+/**
+ * @brief Expands variables in heredoc input lines.
+ *
+ * @param line The input line to expand
+ * @param index Pointer to current position in line
+ * @param shell Pointer to the shell structure
+ * @return Newly allocated string with variables expanded
+ */
+char							*expand_variables_heredoc(char *line,
+									int *index, t_shell *shell);
+
+/**
+ * @brief Main heredoc expansion function for processing entire lines.
+ *
+ * @param line The input line to expand
+ * @param shell Pointer to the shell structure
+ * @param temp Pointer to temporary string for processing
+ * @return Newly allocated string with all heredoc expansions applied
+ */
+char							*expansion_heredoc(char *line, t_shell *shell,
+									char **temp);
+
+/**
+ * @brief Expands heredoc content and writes it to output file descriptor.
+ *
+ * @param shell Pointer to the shell structure
+ * @param input_fd File descriptor to read heredoc content from
+ * @param output_fd File descriptor to write expanded content to
+ * @param tree AST node containing heredoc information
+ */
+void							expand_heredoc_to_file(t_shell *shell,
+									int input_fd, int output_fd, t_tree *tree);
+
+/**
+ * @brief Expands all arguments in a command AST node.
+ *
+ * @param shell Pointer to the shell structure
+ * @param tree Command AST node containing arguments to expand
+ * @return 0 on success, 1 on failure
+ */
+int								expand_command(t_shell *shell, t_tree *tree);
+
+/**
+ * @brief Removes all quote characters from a string.
+ *
+ * @param result The string to remove quotes from
+ * @return Newly allocated string with quotes removed
+ */
+char							*clean_all_quotes(char *result);
+
+/**
+ * @brief Converts all uppercase letters in a string to lowercase.
+ *
+ * @param str Pointer to string pointer to convert (modifies in place)
+ */
+void							ft_tolower_str(char **str);
+
+/**
+ * @brief Counts the number of environment variables in the list.
+ *
+ * @param env_list The environment variable list to count
+ * @return The number of environment variables
+ */
+int								ft_envlist_size(t_env *env_list);
+
+/**
+ * @brief Trims quotes from both sides of a string if present.
+ *
+ * @param str The string to trim quotes from
+ * @return Newly allocated string with outer quotes removed
+ */
+char							*ft_strtrim_sides(char *str);
+
+/**
+ * @brief Executes external commands by finding and running executables.
+ *
+ * @param shell Pointer to the shell structure
+ * @param tree Command AST node containing executable and arguments
+ */
+void							external_execution(t_shell *shell,
+									t_tree *tree);
+
+/**
+ * @brief Updates the shell's environment array from the environment list.
+ *
+ * @param shell Pointer to the shell structure
+ * @param env_list The environment variable list to convert
+ * @param total_vars Total number of variables to include
+ */
+void							update_env_array(t_shell *shell,
+									t_env *env_list, int total_vars);
+
+/**
+ * @brief Handles signals and sets appropriate exit status based on process 
+ * termination.
+ *
+ * @param status The wait status from a child process
+ */
+void							signals_and_exitstatus(int status);
+
+/**
+ * @brief Duplicates stdin and stdout file descriptors for backup.
+ *
+ * @param shell Pointer to the shell structure to store backup descriptors
+ */
+void							ft_dup(t_shell *shell);
+
+/**
+ * @brief Closes and resets shell's backup file descriptors.
+ *
+ * @param shell Pointer to the shell structure containing descriptors to close
+ */
+void							close_fds(t_shell *shell);
+
+/**
+ * @brief Frees memory allocated for the subtree linked list.
+ *
+ * @param subtree Pointer to the subtree list to free
+ */
+void							ft_clear_subtree(t_subtree **subtree);
+
+/**
+ * @brief Executes a subshell by parsing and running commands in parentheses.
+ *
+ * @param shell Pointer to the shell structure
+ * @param tree AST node containing subshell content
+ */
+void							execute_subshell(t_shell *shell, t_tree *tree);
+
+/**
+ * @brief Case-insensitive string comparison function for commands.
+ *
+ * @param s1 First string to compare
+ * @param s2 Second string to compare
+ * @return 0 if strings match (case-insensitive), difference otherwise
+ */
+int								ft_str_cmd(char *s1, const char *s2);
+
+/**
+ * @brief Handles execution of non-executable files by running them through 
+ * /bin/sh.
+ *
+ * @param shell Pointer to the shell structure
+ * @param exec_path Path to the file to execute
+ * @param cmd Command name for error reporting
+ * @return Exit status 127 with error handling
+ */
+int								handle_noexec(t_shell *shell, char *exec_path,
+									char *cmd);
+
+/**
+ * @brief Handles various execution errors and reports appropriate messages.
+ *
+ * @param shell Pointer to the shell structure
+ * @param exec_path Path that failed to execute
+ * @param cmd Command name for error reporting
+ * @param found Whether the command was found in PATH
+ * @return Appropriate exit status (126 or 127) based on error type
+ */
+int								handle_exec_errors(t_shell *shell,
+									char *exec_path, char *cmd, int found);
 
 #endif
