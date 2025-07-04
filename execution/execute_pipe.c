@@ -12,6 +12,13 @@
 
 #include "minishell.h"
 
+/**
+ * @brief Fork and execute right side of pipe
+ * @param shell Shell structure
+ * @param tree Pipe tree node
+ * @param fd Pipe file descriptors
+ * @return Process ID of forked child
+ */
 static pid_t	right_pipe(t_shell *shell, t_tree *tree, int fd[2])
 {
 	pid_t	pid;
@@ -41,6 +48,13 @@ static pid_t	right_pipe(t_shell *shell, t_tree *tree, int fd[2])
 	return (pid);
 }
 
+/**
+ * @brief Fork and execute left side of pipe
+ * @param shell Shell structure
+ * @param tree Pipe tree node
+ * @param fd Pipe file descriptors
+ * @return Process ID of forked child
+ */
 static pid_t	left_pipe(t_shell *shell, t_tree *tree, int fd[2])
 {
 	pid_t	pid;

@@ -12,6 +12,11 @@
 
 #include "../minishell.h"
 
+/**
+ * @brief Clear parsing data and return error status
+ * @param shell Shell structure to clean up
+ * @return Always returns 1 (error status)
+ */
 static int	ft_clear_and_exit(t_shell *shell)
 {
 	ft_free_tokenlist(&shell->token_list);

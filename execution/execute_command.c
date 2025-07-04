@@ -12,6 +12,13 @@
 
 #include "../minishell.h"
 
+/**
+ * @brief Compare command string and execute if it matches a builtin
+ * @param shell Shell structure
+ * @param command Command name
+ * @param args Command arguments
+ * @return 1 if builtin executed, 5 if not a builtin
+ */
 static int	strcmp_command(t_shell *shell, char *command, char **args)
 {
 	if (ft_str_cmd(command, "echo") == 0)
@@ -31,6 +38,11 @@ static int	strcmp_command(t_shell *shell, char *command, char **args)
 	return (5);
 }
 
+/**
+ * @brief Copy non-empty arguments from source to destination array
+ * @param src Source argument array
+ * @param dst Destination argument array
+ */
 static void	copy_non_empty_args(char **src, char **dst)
 {
 	int	i;
@@ -47,6 +59,11 @@ static void	copy_non_empty_args(char **src, char **dst)
 	dst[j] = NULL;
 }
 
+/**
+ * @brief Count number of non-empty arguments in array
+ * @param args Argument array to count
+ * @return Number of non-empty arguments
+ */
 static int	count_non_empty_args(char **args)
 {
 	int	count;
@@ -65,6 +82,10 @@ static int	count_non_empty_args(char **args)
 	return (count);
 }
 
+/**
+ * @brief Filter out empty arguments from command tree
+ * @param tree Command tree to filter
+ */
 static void	filter_empty_args(t_tree *tree)
 {
 	char	**new_args;

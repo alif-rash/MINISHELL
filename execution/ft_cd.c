@@ -12,6 +12,13 @@
 
 #include "../minishell.h"
 
+/**
+ * @brief Handle cd command arguments and determine target path
+ * @param args Command arguments
+ * @param shell Shell structure
+ * @param path Pointer to store target path
+ * @return 0 on success, 1 on error
+ */
 static int	handle_cd_args(char **args, t_shell *shell, char **path)
 {
 	char	*unquoted_path;
@@ -39,42 +46,12 @@ static int	handle_cd_args(char **args, t_shell *shell, char **path)
 	return (0);
 }
 
-static t_env	*find_env_var(t_shell *shell, const char *name)
-{
-	t_env	*curr;
-
-	curr = shell->env_list;
-	while (curr)
-	{
-		if (ft_strcmp(curr->key, name) == 0)
-			return (curr);
-		curr = curr->next;
-	}
-	return (NULL);
-}
-
-static int	update_pwd_vars(t_shell *shell, char *oldpwd, char *newpwd)
-{
-	t_env	*pwd_var;
-	t_env	*oldpwd_var;
-
-	if (oldpwd)
-	{
-		oldpwd_var = find_env_var(shell, "OLDPWD");
-		if (oldpwd_var)
-			update_env(shell, "OLDPWD", oldpwd);
-		free(oldpwd);
-	}
-	if (newpwd)
-	{
-		pwd_var = find_env_var(shell, "PWD");
-		if (pwd_var)
-			update_env(shell, "PWD", newpwd);
-		free(newpwd);
-	}
-	return (0);
-}
-
+/**
+ * @brief Get current working directory with fallback to PWD
+ * @param shell Shell structure
+ * @param new_path Target path for error handling
+ * @return Current working directory string
+ */
 static char	*get_current_pwd(t_shell *shell, char *new_path)
 {
 	char	*curpwd;
@@ -94,6 +71,38 @@ static char	*get_current_pwd(t_shell *shell, char *new_path)
 	return (curpwd);
 }
 
+/**
+ * @brief Handle relative path construction
+ * @param curpwd Current working directory
+ * @param new_path Target path
+ * @return New PWD path for relative directory
+ */
+static char	*handle_relative_path(char *curpwd, char *new_path)
+{
+	char	*newpwd;
+	char	*unquoted_curpwd;
+	char	*temp;
+
+	unquoted_curpwd = ft_strtrim(curpwd, "\"");
+	if (ft_strlen(unquoted_curpwd) > 0
+		&& unquoted_curpwd[ft_strlen(unquoted_curpwd) - 1] != '/')
+	{
+		temp = ft_strjoin(unquoted_curpwd, "/");
+		newpwd = ft_strjoin(temp, new_path);
+		free(temp);
+	}
+	else
+		newpwd = ft_strjoin(unquoted_curpwd, new_path);
+	free(unquoted_curpwd);
+	return (newpwd);
+}
+
+/**
+ * @brief Construct new PWD path based on current directory and target
+ * @param curpwd Current working directory
+ * @param new_path Target path
+ * @return Constructed new PWD path
+ */
 static char	*construct_new_pwd(char *curpwd, char *new_path)
 {
 	char	*newpwd;
@@ -108,18 +117,7 @@ static char	*construct_new_pwd(char *curpwd, char *new_path)
 	else if (new_path[0] == '/')
 		newpwd = ft_strdup(new_path);
 	else
-	{
-		unquoted_curpwd = ft_strtrim(curpwd, "\"");
-		if (ft_strlen(unquoted_curpwd) > 0 && unquoted_curpwd[ft_strlen(unquoted_curpwd) - 1] != '/')
-		{
-			char *temp = ft_strjoin(unquoted_curpwd, "/");
-			newpwd = ft_strjoin(temp, new_path);
-			free(temp);
-		}
-		else
-			newpwd = ft_strjoin(unquoted_curpwd, new_path);
-		free(unquoted_curpwd);
-	}
+		newpwd = handle_relative_path(curpwd, new_path);
 	return (newpwd);
 }
 

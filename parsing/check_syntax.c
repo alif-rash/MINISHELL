@@ -12,6 +12,11 @@
 
 #include "../minishell.h"
 
+/**
+ * @brief Check syntax inside bracket subshell
+ * @param subshell_str Subshell string to check
+ * @return 0 if syntax is valid, error code otherwise
+ */
 static int	check_syntax_in_brackets(const char *subshell_str)
 {
 	t_shell	temp_shell;

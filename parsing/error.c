@@ -39,6 +39,11 @@ void	handle_error(t_shell *shell, char *msg, int error_type, int quote_flag)
 	}
 }
 
+/**
+ * @brief Print specific error suffixes based on flag type
+ * @param flag Error flag indicating type of error message
+ * @param fd File descriptor to write to
+ */
 static void	print_helper(int flag, int fd)
 {
 	if (flag == INVALID_IDENTIFIER || flag == INVALID_IDENTIFIER_E)
@@ -54,6 +59,11 @@ static void	print_helper(int flag, int fd)
 		ft_putchar_fd('\n', fd);
 }
 
+/**
+ * @brief Print error messages for specific error types after arguments
+ * @param flag Error flag indicating type of error message
+ * @param fd File descriptor to write to
+ */
 static void	print_after_args(int flag, int fd)
 {
 	if (flag == ERR_AMBIGOUS_REDIRECT)
@@ -72,7 +82,9 @@ static void	print_after_args(int flag, int fd)
 	if (flag == NO_OLDPWD)
 		ft_putstr_fd(": OLDPWD not set", fd);
 	if (flag == CD_GETCWD_WARNING)
-		ft_putstr_fd(": error retrieving current directory: getcwd: cannot access parent directories: No such file or directory", fd);
+		ft_putstr_fd(": error retrieving current directory: getcwd: "
+			"cannot access parent directories: No such file or directory",
+			fd);
 	if (flag == BAD_OPTION)
 		ft_putstr_fd(": invalid option", fd);
 	if (flag == IS_DIR)

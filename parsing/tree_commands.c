@@ -12,6 +12,11 @@
 
 #include "../minishell.h"
 
+/**
+ * @brief Count number of command and argument tokens
+ * @param token Starting token to count from
+ * @return Number of command/argument tokens
+ */
 static int	count_command_args(t_token *token)
 {
 	int	count;
@@ -39,6 +44,11 @@ void	skip_and_init(t_tree *node, t_token **tokens)
 	node->rhs = NULL;
 }
 
+/**
+ * @brief Fill command node with arguments from tokens
+ * @param node Command tree node to fill
+ * @param tokens Pointer to current token list
+ */
 static void	fill_command_node(t_tree *node, t_token **tokens)
 {
 	t_token	*temp;

@@ -12,6 +12,12 @@
 
 #include "../minishell.h"
 
+/**
+ * @brief Build redirection tree node from token
+ * @param redir_node Pointer to store created redirection node
+ * @param tokens Pointer to current token
+ * @param has_prev_redir Pointer to previous redirection flag
+ */
 static void	build_redirection_node(t_tree **redir_node, t_token **tokens,
 		int *has_prev_redir)
 {
@@ -30,6 +36,12 @@ static void	build_redirection_node(t_tree **redir_node, t_token **tokens,
 		(*redir_node)->file = ft_strdup((*tokens)->value);
 }
 
+/**
+ * @brief Append redirection node to redirection chain
+ * @param prev_redir Pointer to previous redirection node
+ * @param new_node Pointer to new redirection node
+ * @param head Pointer to head of redirection chain
+ */
 static void	append_redirection_to_chain(t_tree **prev_redir, t_tree **new_node,
 		t_tree **head)
 {
@@ -43,6 +55,12 @@ static void	append_redirection_to_chain(t_tree **prev_redir, t_tree **new_node,
 	*prev_redir = *new_node;
 }
 
+/**
+ * @brief Skip filename tokens and process command arguments
+ * @param cmd_node Pointer to command node
+ * @param tokens Pointer to current token
+ * @param redir_node Pointer to redirection node
+ */
 static void	skip_filename_and_args(t_tree **cmd_node, t_token **tokens,
 		t_tree **redir_node)
 {

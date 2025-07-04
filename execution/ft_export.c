@@ -12,6 +12,10 @@
 
 #include "../minishell.h"
 
+/**
+ * @brief Print environment variables in export format
+ * @param env_list Environment list to print
+ */
 static void	ft_print_env(t_env *env_list)
 {
 	t_env	*current;
@@ -36,6 +40,13 @@ static void	ft_print_env(t_env *env_list)
 	}
 }
 
+/**
+ * @brief Process environment variable key-value pair
+ * @param shell Shell structure
+ * @param key Environment variable key
+ * @param value Environment variable value
+ * @param has_equal Whether assignment has equal sign
+ */
 static void	ft_process_env_key(t_shell *shell, char *key, char *value,
 		int has_equal)
 {
@@ -63,6 +74,11 @@ static void	ft_process_env_key(t_shell *shell, char *key, char *value,
 	new_env(shell, key, value, has_equal);
 }
 
+/**
+ * @brief Add or update environment variable from argument
+ * @param shell Shell structure
+ * @param arg Argument string in format "key=value"
+ */
 static void	ft_add_or_update_env(t_shell *shell, char *arg)
 {
 	char	*key;
@@ -85,6 +101,11 @@ static void	ft_add_or_update_env(t_shell *shell, char *arg)
 	ft_process_env_key(shell, key, value, has_equal);
 }
 
+/**
+ * @brief Check if string is valid shell identifier
+ * @param str String to validate
+ * @return 1 if valid identifier, 0 otherwise
+ */
 static int	ft_is_valid_identifier(const char *str)
 {
 	int	i;

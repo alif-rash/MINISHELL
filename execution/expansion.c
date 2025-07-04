@@ -36,6 +36,13 @@ char	*handle_double_variable(char *input, int pos[2], char *result,
 	return (result);
 }
 
+/**
+ * @brief Expand variables within double quotes
+ * @param input Input string
+ * @param pos Position pointer in input
+ * @param shell Shell structure for variable expansion
+ * @return Expanded string
+ */
 static char	*expand_d_quotes(char *input, int *pos, t_shell *shell)
 {
 	char	*result;
@@ -60,6 +67,12 @@ static char	*expand_d_quotes(char *input, int *pos, t_shell *shell)
 	return (result);
 }
 
+/**
+ * @brief Expand single-quoted string (no variable expansion)
+ * @param input Input string
+ * @param pos Position pointer in input
+ * @return Substring including the quotes
+ */
 static char	*expand_s_quotes(char *input, int *pos)
 {
 	char	*result;

@@ -12,6 +12,12 @@
 
 #include "minishell.h"
 
+/**
+ * @brief Create substring with quotes removed
+ * @param result Original string containing quotes
+ * @param count Length of string without quotes
+ * @return New string with quotes removed
+ */
 static char	*substring_without_quotes(char *result, int count)
 {
 	char	*new_result;
@@ -40,6 +46,11 @@ static char	*substring_without_quotes(char *result, int count)
 	return (new_result);
 }
 
+/**
+ * @brief Count characters in string excluding quotes
+ * @param result String to count
+ * @param count Pointer to store character count
+ */
 static void	ft_count_without_quotes(char *result, int *count)
 {
 	char	quote;

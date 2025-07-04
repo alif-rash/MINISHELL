@@ -12,6 +12,10 @@
 
 #include "minishell.h"
 
+/**
+ * @brief Free individual tree node and its resources
+ * @param branch Tree node to free
+ */
 static void	ft_free_treenode(t_tree *branch)
 {
 	if (!branch)

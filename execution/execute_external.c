@@ -12,6 +12,13 @@
 
 #include "minishell.h"
 
+/**
+ * @brief Find executable path by searching through PATH directories
+ * @param command Command name to search for
+ * @param shell Shell structure containing environment
+ * @param error_flag Pointer to error flag (set to 1 on error)
+ * @return Full path to executable or NULL if not found
+ */
 static char	*find_path(char *command, t_shell *shell, int *error_flag)
 {
 	char	**path_dirs;
@@ -41,6 +48,14 @@ static char	*find_path(char *command, t_shell *shell, int *error_flag)
 	return (ft_free_array(path_dirs), NULL);
 }
 
+/**
+ * @brief Resolve command path based on first character
+ * @param shell Shell structure containing environment
+ * @param first_char First character of command
+ * @param command Command string
+ * @param path_found Pointer to path found flag
+ * @return Resolved command path
+ */
 static char	*resolve_command_path(t_shell *shell, char first_char,
 		char *command, int *path_found)
 {
@@ -50,6 +65,13 @@ static char	*resolve_command_path(t_shell *shell, char first_char,
 		return (command);
 }
 
+/**
+ * @brief Execute binary with proper error handling and permissions checking
+ * @param shell Shell structure
+ * @param command Command name
+ * @param args Array of command arguments
+ * @return Exit status code
+ */
 static int	run_binary(t_shell *shell, char *command, char **args)
 {
 	struct stat	file_info;
@@ -77,6 +99,11 @@ static int	run_binary(t_shell *shell, char *command, char **args)
 	return (1);
 }
 
+/**
+ * @brief Handle child process execution and cleanup
+ * @param shell Shell structure
+ * @param tree Command tree node containing arguments
+ */
 static void	child_process(t_shell *shell, t_tree *tree)
 {
 	int	exit_status;

@@ -40,3 +40,52 @@ void	update_env(t_shell *shell, char *key, char *value)
 	if (current->flag == 0)
 		new_env(shell, ft_strdup(key), ft_strdup(value), current->flag == 1);
 }
+
+/**
+ * @brief Update PWD and OLDPWD environment variables
+ * @param shell Shell structure
+ * @param oldpwd Previous working directory
+ * @param newpwd New working directory
+ * @return 0 on success
+ */
+static int	update_pwd_vars(t_shell *shell, char *oldpwd, char *newpwd)
+{
+	t_env	*pwd_var;
+	t_env	*oldpwd_var;
+
+	if (oldpwd)
+	{
+		oldpwd_var = find_env_var(shell, "OLDPWD");
+		if (oldpwd_var)
+			update_env(shell, "OLDPWD", oldpwd);
+		free(oldpwd);
+	}
+	if (newpwd)
+	{
+		pwd_var = find_env_var(shell, "PWD");
+		if (pwd_var)
+			update_env(shell, "PWD", newpwd);
+		free(newpwd);
+	}
+	return (0);
+}
+
+/**
+ * @brief Find environment variable by name
+ * @param shell Shell structure
+ * @param name Environment variable name
+ * @return Pointer to environment variable node or NULL if not found
+ */
+static t_env	*find_env_var(t_shell *shell, const char *name)
+{
+	t_env	*curr;
+
+	curr = shell->env_list;
+	while (curr)
+	{
+		if (ft_strcmp(curr->key, name) == 0)
+			return (curr);
+		curr = curr->next;
+	}
+	return (NULL);
+}

@@ -12,6 +12,11 @@
 
 #include "minishell.h"
 
+/**
+ * @brief Execute logical AND operation
+ * @param shell Shell structure
+ * @param tree AND tree node
+ */
 static void	execute_and(t_shell *shell, t_tree *tree)
 {
 	ft_dup(shell);

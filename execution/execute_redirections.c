@@ -12,6 +12,11 @@
 
 #include "minishell.h"
 
+/**
+ * @brief Setup input redirection from file
+ * @param tree Redirection tree node
+ * @return 0 on success, 1 on failure
+ */
 static int	redirect_in(t_tree *tree)
 {
 	int	file;
@@ -36,6 +41,11 @@ static int	redirect_in(t_tree *tree)
 	return (0);
 }
 
+/**
+ * @brief Setup output redirection to file (truncating)
+ * @param tree Redirection tree node
+ * @return 0 on success, 1 on failure
+ */
 static int	redirect_out(t_tree *tree)
 {
 	int	file;
@@ -55,6 +65,11 @@ static int	redirect_out(t_tree *tree)
 	return (0);
 }
 
+/**
+ * @brief Setup append redirection to file
+ * @param tree Redirection tree node
+ * @return 0 on success, 1 on failure
+ */
 static int	append(t_tree *tree)
 {
 	int	file;
@@ -81,6 +96,13 @@ static int	append(t_tree *tree)
 	return (0);
 }
 
+/**
+ * @brief Setup heredoc input by expanding variables and redirecting
+ * @param fd File descriptor for heredoc input
+ * @param tree Redirection tree node
+ * @param shell Shell structure for variable expansion
+ * @return 0 on success, 1 on failure
+ */
 static int	setup_heredoc_input(int fd, t_tree *tree, t_shell *shell)
 {
 	int	temp_fd;

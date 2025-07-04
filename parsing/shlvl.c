@@ -12,6 +12,12 @@
 
 #include "../minishell.h"
 
+/**
+ * @brief Check if SHLVL value would overflow
+ * @param sign Sign of the number
+ * @param number Numeric value
+ * @return 1 if overflow, 0 otherwise
+ */
 static int	shlvl_overflow(int sign, unsigned long long number)
 {
 	if ((sign == 1 && number > 999))
@@ -19,6 +25,12 @@ static int	shlvl_overflow(int sign, unsigned long long number)
 	return (0);
 }
 
+/**
+ * @brief Convert SHLVL number to quoted string
+ * @param sign Sign of the number
+ * @param number Numeric value
+ * @return Quoted string representation
+ */
 static char	*shlvl_str(int sign, unsigned long long number)
 {
 	char	*str;
@@ -58,6 +70,10 @@ char	*ft_return_shlvl(char *value)
 	return (shlvl_str(sign, number));
 }
 
+/**
+ * @brief Update existing SHLVL environment variable value
+ * @param env_node Environment node to update
+ */
 static void	update_existing_value(t_env *env_node)
 {
 	char	*updated_value;

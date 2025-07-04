@@ -12,6 +12,11 @@
 
 #include "../minishell.h"
 
+/**
+ * @brief Handle exit with non-numeric argument error
+ * @param arg The non-numeric argument passed to exit
+ * @param shell Shell structure for cleanup
+ */
 static void	exit_non_numeric_arg(char *arg, t_shell *shell)
 {
 	printf("exit\n");
