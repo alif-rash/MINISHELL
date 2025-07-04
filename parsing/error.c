@@ -82,7 +82,9 @@ static void	print_after_args(int flag, int fd)
 	if (flag == NO_OLDPWD)
 		ft_putstr_fd(": OLDPWD not set", fd);
 	if (flag == CD_GETCWD_WARNING)
-		ft_putstr_fd(": error retrieving current directory: getcwd: cannot access parent directories: No such file or directory", fd);
+		ft_putstr_fd(": error retrieving current directory: getcwd: "
+			"cannot access parent directories: No such file or directory",
+			fd);
 	if (flag == BAD_OPTION)
 		ft_putstr_fd(": invalid option", fd);
 	if (flag == IS_DIR)
