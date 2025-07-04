@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
 void	update_env(t_shell *shell, char *key, char *value)
 {
@@ -42,6 +42,26 @@ void	update_env(t_shell *shell, char *key, char *value)
 }
 
 /**
+ * @brief Find environment variable by name
+ * @param shell Shell structure
+ * @param name Environment variable name
+ * @return Pointer to environment variable node or NULL if not found
+ */
+static t_env	*find_env_var(t_shell *shell, const char *name)
+{
+	t_env	*curr;
+
+	curr = shell->env_list;
+	while (curr)
+	{
+		if (ft_strcmp(curr->key, name) == 0)
+			return (curr);
+		curr = curr->next;
+	}
+	return (NULL);
+}
+
+/**
  * @brief Update PWD and OLDPWD environment variables
  * @param shell Shell structure
  * @param oldpwd Previous working directory
@@ -68,24 +88,4 @@ static int	update_pwd_vars(t_shell *shell, char *oldpwd, char *newpwd)
 		free(newpwd);
 	}
 	return (0);
-}
-
-/**
- * @brief Find environment variable by name
- * @param shell Shell structure
- * @param name Environment variable name
- * @return Pointer to environment variable node or NULL if not found
- */
-static t_env	*find_env_var(t_shell *shell, const char *name)
-{
-	t_env	*curr;
-
-	curr = shell->env_list;
-	while (curr)
-	{
-		if (ft_strcmp(curr->key, name) == 0)
-			return (curr);
-		curr = curr->next;
-	}
-	return (NULL);
 }
