@@ -1302,4 +1302,13 @@ int								handle_noexec(t_shell *shell, char *exec_path,
 int								handle_exec_errors(t_shell *shell,
 									char *exec_path, char *cmd, int found);
 
+/**
+ * @brief Update PWD and OLDPWD environment variables
+ * @param shell Shell structure
+ * @param oldpwd Previous working directory
+ * @param newpwd New working directory
+ * @return 0 on success
+ */
+int	update_pwd_vars(t_shell *shell, char *oldpwd, char *newpwd);
+
 #endif
