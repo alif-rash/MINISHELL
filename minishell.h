@@ -1309,8 +1309,9 @@ int								handle_exec_errors(t_shell *shell,
  * @param newpwd New working directory
  * @return 0 on success
  */
-int								update_pwd_vars(t_shell *shell, char *oldpwd, char *newpwd);
+int								update_pwd_vars(t_shell *shell,
+									char *oldpwd, char *newpwd);
 
-char 							*trim_brackets(char *str);
+char							*trim_brackets(char *str);
 
 #endif

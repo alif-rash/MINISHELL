@@ -46,7 +46,7 @@ int	handle_exec_errors(t_shell *shell, char *exec_path, char *cmd, int found)
 	return (handle_error(shell, cmd, ERROR_GENERIC, NOT_FOUND), 127);
 }
 
-char *trim_brackets(char *str)
+char	*trim_brackets(char *str)
 {
 	char	*trimmed;
 

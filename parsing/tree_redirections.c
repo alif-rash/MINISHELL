@@ -28,7 +28,7 @@ static void	build_redirection_node(t_tree **redir_node, t_token **tokens,
 	(*redir_node)->args = NULL;
 	(*redir_node)->fd = (*tokens)->fd;
 	(*tokens)->fd = -1;
-	(*redir_node)->file = NULL;	
+	(*redir_node)->file = NULL;
 	(*redir_node)->type = (*tokens)->type;
 	*tokens = (*tokens)->next;
 	if (*tokens && ((*tokens)->type == T_FILENAME

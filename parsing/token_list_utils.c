@@ -69,7 +69,7 @@ void	ft_free_tokenlist(t_token **token_list)
 		{
 			close(current->fd);
 			current->fd = -1;
-		}	
+		}
 		free(current);
 		current = next;
 	}
